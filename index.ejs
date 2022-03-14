@@ -260,7 +260,9 @@
                 }
             }
 
-            
+            setTimeout(function(){ //30초에 한번씩 reload
+                location.reload();
+            }, 30000);
         })
 
         $('.black-background').click(function(e){
