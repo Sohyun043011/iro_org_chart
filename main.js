@@ -50,13 +50,6 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     /*갱신 종료 */
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('query is not executed.');
-<<<<<<< HEAD
-        else{
-            console.log(rows);
-            response.render('index.ejs', {list:rows});
-
-        } 
-=======
         else {
             console.log(rows);
             response.render('index.ejs', {list:rows});
@@ -70,7 +63,6 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
             console.log(rows);
             response.render('index.ejs', {list:rows});
         }
->>>>>>> f0f2269b43e674ed802fd103b0a74c45dd5f6cc5
     })
     
 });
