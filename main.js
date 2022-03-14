@@ -21,8 +21,6 @@ app.use(express.static(path.join(__dirname+'/css')));
 app.use(express.static(path.join(__dirname+'/node_modules')));
 app.use(express.static(path.join(__dirname+'/img')));
 
-
-
 app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나올 페이지
     var sql=`select * from good.emp_info A left join good.seat_info B on A.emp_id=B.emp_id`;
     conn.query(sql, function(err, rows, fileds){
