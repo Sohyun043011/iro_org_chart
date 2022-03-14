@@ -14,10 +14,11 @@ p,h4,h3,h2,h1,span{
     position:relative;
     background-color: rgb(25, 25, 49);
 }
+
 .main{
     display: flex;
     background-color:white; 
-    padding:20px;
+    
     width:100%; 
     height:80%;
     position:absolute;
@@ -58,10 +59,15 @@ p,h4,h3,h2,h1,span{
     height: 90%;
 }
 .department{
-    float:left;
     /* width = 100 / 팀 갯수 */
     text-align: center;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
+
 .department>span{
     letter-spacing: 4px;
     display: inline-block;
@@ -73,6 +79,7 @@ p,h4,h3,h2,h1,span{
     border-right: 1px solid gray;
 }
 #first-office>.dept-container>.department>.dept-name{
+    display: block;
     padding: 10px;
     border-bottom: 5px solid rgb(16, 16, 153);
 }
@@ -86,7 +93,6 @@ p,h4,h3,h2,h1,span{
 }
 .cell{
 
-    width: 61.98px;
     height: 80px;
     margin: 0px;
     
@@ -97,13 +103,8 @@ p,h4,h3,h2,h1,span{
      justify-content: center;
      align-items: center;
 }
-.memInfo{
-
-    
-}
-.memName{
-    
-
+.mem>.memInfo{
+    text-align: center;
 }
 .memPos{
     margin-top: -5px; display: block;
