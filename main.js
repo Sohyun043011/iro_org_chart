@@ -5,6 +5,7 @@ var url = require('url');
 var path=require('path')
 const express=require('express');
 const res = require('express/lib/response');
+const { DEC8_SWEDISH_CI } = require('mysql/lib/protocol/constants/charsets');
 var db_config=require(path.join(__dirname,'db_connect.js'));
 
 const port=3000; //포트접속정보
@@ -14,12 +15,16 @@ db_config.connect(conn);
 
 const app=express(); 
 
-app.set('views','./');
+app.set('views','./views');
 app.set('view engine','ejs');
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname+'/css')));
 app.use(express.static(path.join(__dirname+'/node_modules')));
 app.use(express.static(path.join(__dirname+'/img')));
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.json()); // for parsing application/json
 
 app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나올 페이지
     var sql="";
@@ -48,13 +53,6 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     })
 
     /*갱신 종료 */
-    conn.query(sql, function(err, rows, fileds){
-        if(err) console.log('query is not executed.');
-        else {
-            console.log(rows);
-            response.render('index.ejs', {list:rows});
-        }
-    })
 
     sql=`select * from good.emp_info A left join good.seat_info B on A.emp_id=B.emp_id`;
     conn.query(sql, function(err, rows, fileds){
@@ -62,8 +60,10 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
         else {
             console.log(rows);
             response.render('index.ejs', {list:rows});
+            // response.render('pr.ejs', {list:rows});
         }
     })
+
     
 });
 app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접속 시 나올 페이지
@@ -82,6 +82,23 @@ app.get('/search', (request, response)=>{ //http://[host]:[port]/search으로 �
     })
 })
 
+app.post('/detail',function(req,res){
+
+    // const _id = req.body._id;
+    var id = req.body.id;
+    // console.log(id);
+
+    var sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,roll_info FROM good.emp_info WHERE emp_id='${id}'`;
+    conn.query(sql, function(err, info, fileds){
+        if(err) console.log('query is not executed.');
+        else {
+            console.log(info);
+            //  db에서 찾은 값 출력
+            // background.ejs로 넘겨줘야 함.
+            
+        }
+    })
+});
 
 app.use((request, response)=>{ //잘못된 url로 접근 시
     response.send(`<h1>Sorry, page not found.</h1>`);
