@@ -1,6 +1,6 @@
 
 //임시 dept_info(db에서 받아올 값)
-var path = require('path')
+// var path = require('path')
 // var db_config=require(path.join(__dirname,'db_connect.js'));
 // conn=db_config.init();//db connection handler 가져오기
 // db_config.connect(conn);
@@ -13,7 +13,6 @@ var dept_info =
 $(document).ready(function(){
     
             $('#container').css({"width": screen.width,"height":screen.height});
-            console.log('성공')
             // for(var i=0;i<$('.dept-name').length;i++){
             //     dept_name.push($('.dept-name').eq(i).text());
             // }
@@ -29,23 +28,23 @@ $(document).ready(function(){
                 $('.black-background').show().animate({marginTop:'0px'});
                 // 클릭한 cell의 memInfo의 memName,memPos를 가져옴.
 
-                
-                
                 var data =  e.target.parentElement.parentElement.children[1].children[0].getAttribute('id');
-                
+                console.log("ajax started")
                 //띄울 mem의 id
-                // $.ajax({
-                //     method:'POST',
-                //     url:'/detail',
-                //     data:data,  //서버로 보낼 데이터
-                //     success:function(result){
-                //         alert('성공');
-                //         // console.log(result);
-                //     },
-                //     error: function(result){
-                //         alert('실패');
-                //     }
-                // })
+                $.ajax({
+                    method:'POST',
+                    url:'/detail',
+                    data:{
+                        id:data
+                    },  //서버로 보낼 데이터
+                    success:function(result){
+                        alert('성공');
+                        // console.log(result);
+                    },
+                    error: function(result){
+                        alert('실패');
+                    }
+                })
                 if(data)
                 {
                     // var sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,roll_info FROM good.emp_info WHERE emp_id='${data}'`;
