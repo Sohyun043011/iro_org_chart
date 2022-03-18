@@ -4,8 +4,8 @@
         <div class="btn-container"><button type="button" class="btn-close" aria-label="Close"></button></div>
         <div class="left-container">
             <!-- 사진 왼쪽에 -->
-            <div class="pic">
-                
+            <div id="pc">
+                <img id="pic">
             </div>
             <div class="name"></div>
         
@@ -14,13 +14,27 @@
             <!-- 세부 정보 ( DB에서 가져옴 )-->
             <!-- 이름, 사번, 휴대폰번호,사무실번호, 직위,업무분장, -->
             <div class="detail-container">
-                <span class="tag_name fs-5" >이름</span><span class="tag_info name_tag fs-4"></p>
-                <span class="tag_name fs-5" >사번</span><span class="tag_info id_tag fs-4 "></p>
-                <span class="tag_name fs-5" >소속</span><span class="tag_info office_tag fs-4 ">경영지원팀</p>
-                <span class="tag_name fs-5" > 휴대폰 번호</span><span class="tag_info phone_tag fs-4">010-8422-0751</p>
-                <span class="tag_name fs-5" >사무실 번호 </span><span class="tag_info office_p_tag fs-4">032-222-2222</p>
-                <span class="tag_name fs-5" > 직위</span><span class="tag_info position_tag fs-4">인턴</p>
-                <span class="tag_name fs-5" >업무 분장 </span><span class="tag_info detail_tag fs-4">blahblaaha</p>    
+                <span class="tag_name fs-5" >이름</span>
+                <span class="tag_info  fs-4" id="name_tag"></span>
+                <p></p>
+                <span class="tag_name fs-5" >사번</span>
+                <span class="tag_info  fs-4 " id="id_tag"></span>
+                <p></p>
+                <span class="tag_name fs-5" >소속</span>
+                <span class="tag_info office_tag fs-4 " id="office_tag"></span>
+                <p></p>
+                <span class="tag_name fs-5" > 휴대폰 번호</span>
+                <span class="tag_info fs-4" id="phone_tag"></span>
+                <p></p>
+                <span class="tag_name fs-5" >사무실 번호 </span>
+                <span class="tag_info  fs-4" id="office_p_tag"></span>
+                <p></p>
+                <span class="tag_name fs-5" > 직위</span>
+                <span class="tag_info position_tag fs-4" id="position_tag"></span>
+                <p></p>
+                <span class="tag_name fs-5" >업무 분장 </span>
+                <span class="tag_info  fs-4" id="detail_tag"></span>
+                <p></p>    
             </div>
             
         </div>
@@ -28,3 +42,4 @@
         
     </div>
 </div>
+

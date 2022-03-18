@@ -100,9 +100,6 @@ app.post('/detail',function(req,res){
 
             res.json(JSON.parse(JSON.stringify(info)));
         }
-        // res.json(JSON.parse(info));
-            //  db에서 찾은 값 출력
-            // background.ejs로 넘겨줘야 함.
             
     })
     console.log("after query");

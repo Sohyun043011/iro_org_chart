@@ -159,6 +159,8 @@ p,h4,h3,h2,h1,span{
     margin: 10px;
     width: 70%;
     height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
 
 }
 .tag_name{
@@ -176,6 +178,7 @@ p,h4,h3,h2,h1,span{
     padding: 20px;
     justify-content: center;
     align-items: center;
+    
 }
 
 .tag_info{

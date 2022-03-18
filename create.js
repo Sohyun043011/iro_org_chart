@@ -38,8 +38,25 @@ $(document).ready(function(){
                         id:data
                     },  //서버로 보낼 데이터
                     success:function(result){
-                        alert('성공');
-                        // console.log(result);
+                        // //alert('성공');
+                        var name = result[0].emp_name;
+                        var emp_id = result[0].emp_id;
+                        var office = result[0].dept_name;
+                        var mobile = result[0].mobile_no;
+                        var office_no = result[0]. office_tel_no;
+                        var position_tag = result[0].post_name;
+                        var detail_tag = result[0].roll_info;
+                        // var img = result[0].img_url;
+                        
+                        // document.getElementById('pc').innerHTML=`<img src="${img}" style="height:100%;">`
+                        document.getElementById('name_tag').innerHTML = name;
+                        document.getElementById('id_tag').innerHTML = emp_id;
+                        document.getElementById('office_tag').innerHTML=office;
+                        document.getElementById('phone_tag').innerHTML = mobile;
+                        document.getElementById('office_p_tag').innerHTML = office_no;
+                        document.getElementById('position_tag').innerHTML = position_tag;
+                        document.getElementById('detail_tag').innerHTML = detail_tag;
+                        // result[0].emp_name;
                     },
                     error: function(result){
                         alert('실패');
