@@ -97,6 +97,10 @@ p,h4,h3,h2,h1,span{
     margin: 0px;
     
 }
+.mem-img{
+    height: 100%;
+
+}
 .col-6{
     /* 가운데 정렬  */
     /* 나머지 col-4,3,2...도 적용해야 함. */

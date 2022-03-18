@@ -27,6 +27,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use(bodyParser.json()); // for parsing application/json
 
 app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나올 페이지
+    console.log('connection success');
+    var info = {
+        name:'',
+    }
     var sql="";
     /*good.emp_info 갱신 */
     sql=`truncate table good.emp_info`; //테이블 비우기
@@ -61,10 +65,9 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
             console.log(rows);
             response.render('index.ejs', {list:rows});
             // response.render('pr.ejs', {list:rows});
+            
         }
     })
-
-    
 });
 app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접속 시 나올 페이지
     //페이지에 수정 버튼으로 해당 url redirection하게 만들기
@@ -93,6 +96,7 @@ app.post('/detail',function(req,res){
         if(err) console.log('query is not executed.');
         else {
             console.log(info);
+            
             //  db에서 찾은 값 출력
             // background.ejs로 넘겨줘야 함.
             
