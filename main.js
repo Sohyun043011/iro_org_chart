@@ -26,11 +26,13 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json()); // for parsing application/json
 
+global.dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':4,'MICE뷰로':2,
+'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4,'축제이벤트팀':2, '섬발전지원센터':2,'의료웰니스팀':2,'관광인프라':2};
+
+
 app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나올 페이지
     console.log('connection success');
-    var info = {
-        name:'',
-    }
+    
     var sql="";
     /*good.emp_info 갱신 */
     sql=`truncate table good.emp_info`; //테이블 비우기

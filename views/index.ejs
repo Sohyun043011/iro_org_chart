@@ -24,13 +24,18 @@
                 <!-- 왼쪽 department-->
                 <div class="office" id="first-office">
                     <div class="header fw-bold">
+                        <!--  -->
                         <span class="office-name fs-4">관광마케팅실</span>
-                        <span class="office-head">김민혜 실장</span>
+                        <span class="office-head" id="20150008">김민혜 실장</span>
                     </div>
                     <div class="dept-container">
                         <!-- 각 팀 table -->
-                        <div class="department fs-5 fw-bold " id="first-dept">
-                            <span class="dept-name">해외마케팅팀</span>
+                        <div class="department fs-5 fw-bold " >
+                            <!-- 여기서 for문 시작(Object) -->
+                            <%
+                                
+                            %>
+                            <span class="dept-name"><%= Object.keys(dept_info)[0] %></span>
                             <div class="dept-table p-2" id="first-table">
                                  <!-- 팀장 row -->
                                  <div class="row justify-content-md-center p-2" id="team-row" >
@@ -38,7 +43,8 @@
                                         <% for(var i=0;i<list.length;i++){ %>
                                         <% if(list[i].dept_name== "해외마케팅팀" && list[i].duty_name=="팀장"){ %>
                                             <div class="border bg-light cell mr-0" id="team-leader">
-                                                <img src="<%= list[i].img_url %>" class="mem-img">
+                                                    <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
+                                            
                                                 </div>
                                               <div class="memInfo">
                                                 <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
@@ -58,7 +64,7 @@
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*2+j+1  %>   
                                                         <%   if(list[m].dept_name=="해외마케팅팀" && list[m].seat_arrng==num){%>
-                                                            <img src="<%= list[m].img_url %>" class="mem-img">
+                                                            <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                                             <%}%>
                                                             <%}%>
                                                     </div>
@@ -80,7 +86,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="department fs-5 fw-bold" id="second-dept" >
+                        <div class="department fs-5 fw-bold"  >
                             <span class="dept-name">국내관광팀</span>
                             <div class="dept-table p-2" id="second-table">
                                      <!-- 팀장 row -->
@@ -89,7 +95,7 @@
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== "국내관광팀" && list[i].duty_name=="팀장"){ %>
                                         <div class="border bg-light cell mr-0" id="team-leader">
-                                            <img src="<%= list[i].img_url %>" class="mem-img">
+                                            <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                             </div>
                                           <div class="memInfo">
                                             <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
@@ -109,7 +115,7 @@
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*2+j+1  %>   
                                                         <%   if(list[m].dept_name=="국내관광팀" && list[m].seat_arrng==num){%>
-                                                            <img src="<%= list[m].img_url %>" class="mem-img">
+                                                            <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                                             <%}%>
                                                             <%}%>
                                                     </div>
@@ -131,7 +137,7 @@
 
                             </div>
                         </div>
-                        <div class="department fs-5 fw-bold" id="third-dept">
+                        <div class="department fs-5 fw-bold" >
                             <span class="dept-name">스마트관광팀</span>
                             <div class="dept-table p-2" id="third-table">
                                    <!-- 팀장 row -->
@@ -140,7 +146,7 @@
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== "스마트관광팀" && list[i].duty_name=="팀장"){ %>
                                         <div class="border bg-light cell mr-0" id="team-leader">
-                                            <img src="<%= list[i].img_url %>" class="mem-img">
+                                            <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                             </div>
                                           <div class="memInfo">
                                             <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
@@ -160,7 +166,7 @@
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*3+j+1  %>   
                                                         <%   if(list[m].dept_name=="스마트관광팀" && list[m].seat_arrng==num){%>
-                                                            <img src="<%= list[m].img_url %>" class="mem-img">
+                                                            <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                                             <%}%>
                                                             <%}%>
                                                     </div>
@@ -181,7 +187,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="department fs-5 fw-bold " id="last-dept">
+                        <div class="department fs-5 fw-bold " >
                             <span class="dept-name">MICE뷰로</span>
                             <div class="dept-table p-2" id="last-table">
                                      <!-- 팀장 row -->
@@ -190,7 +196,7 @@
                                         <% for(var i=0;i<list.length;i++){ %>
                                         <% if(list[i].dept_name== "MICE뷰로" && list[i].duty_name=="팀장"){ %>
                                             <div class="border bg-light cell mr-0" id="team-leader">
-                                                <img src="<%= list[i].img_url %>" class="mem-img">
+                                                <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                                 </div>
                                               <div class="memInfo">
                                                 <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
@@ -210,7 +216,7 @@
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*2+j+1  %>   
                                                         <%   if(list[m].dept_name=="MICE뷰로" && list[m].seat_arrng==num){%>
-                                                            <img src="<%= list[m].img_url %>" class="mem-img">
+                                                            <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                                             <%}%>
                                                             <%}%>
                                                     </div>
@@ -236,8 +242,8 @@
                 <!-- 오른쪽 department -->
                 <div class="office" id="second-office">
                     <div class="header fw-bold">
-                        <span class="office-name fs-4">관광마케팅실</span>
-                        <span class="office-head">김민혜 실장</span>
+                        <span class="office-name fs-4">기획조정실</span>
+                        <span class="office-head" id="20150007">이주희 실장</span>
                     </div>
                     <div class="dept-container">
                         <!-- 각 팀 table -->
@@ -250,7 +256,7 @@
                                         <% for(var i=0;i<list.length;i++){ %>
                                         <% if(list[i].dept_name== "고객홍보팀" && list[i].duty_name=="팀장"){ %>
                                             <div class="border bg-light cell mr-0" id="team-leader">
-                                                <img src="<%= list[i].img_url %>" class="mem-img">
+                                                <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                                 </div>
                                               <div class="memInfo">
                                                 <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
@@ -270,7 +276,7 @@
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*2+j+1  %>   
                                                         <%   if(list[m].dept_name=="고객홍보팀" && list[m].seat_arrng==num){%>
-                                                            <img src="<%= list[m].img_url %>" class="mem-img">
+                                                            <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                                             <%}%>
                                                             <%}%>
                                                     </div>
@@ -301,7 +307,7 @@
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== "전략기획팀" && list[i].duty_name=="팀장"){ %>
                                         <div class="border bg-light cell mr-0" id="team-leader">
-                                            <img src="<%= list[i].img_url %>" class="mem-img">
+                                            <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                             </div>
                                           <div class="memInfo">
                                             <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
@@ -321,7 +327,7 @@
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*2+j+1  %>   
                                                         <%   if(list[m].dept_name=="전략기획팀" && list[m].seat_arrng==num){%>
-                                                            <img src="<%= list[m].img_url %>" class="mem-img">
+                                                            <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                                             <%}%>
                                                             <%}%>
                                                     </div>
@@ -352,7 +358,7 @@
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== "경영지원팀" && list[i].duty_name=="팀장"){ %>
                                         <div class="border bg-light cell mr-0" id="team-leader">
-                                            <img src="<%= list[i].img_url %>" class="mem-img">
+                                            <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                             </div>
                                           <div class="memInfo">
                                             <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
@@ -372,7 +378,7 @@
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*4+j+1  %>   
                                                         <%   if(list[m].dept_name=="경영지원팀" && list[m].seat_arrng==num){%>
-                                                            <img src="<%= list[m].img_url %>" class="mem-img">
+                                                            <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                                             <%}%>
                                                             <%}%>
                                                     </div>
@@ -399,9 +405,5 @@
         </div>
     </div>
     
-    <script>
-        
-
-    </script>
 </body>
 </html>

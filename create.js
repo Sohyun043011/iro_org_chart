@@ -1,9 +1,4 @@
-
 //임시 dept_info(db에서 받아올 값)
-var path = require('path')
-// var db_config=require(path.join(__dirname,'db_connect.js'));
-// conn=db_config.init();//db connection handler 가져오기
-// db_config.connect(conn);
 
 var dept_info = 
 {'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':4,'MICE뷰로':2,
@@ -13,7 +8,6 @@ var dept_info =
 $(document).ready(function(){
     
             $('#container').css({"width": screen.width,"height":screen.height});
-            console.log('성공')
             // for(var i=0;i<$('.dept-name').length;i++){
             //     dept_name.push($('.dept-name').eq(i).text());
             // }
@@ -24,13 +18,12 @@ $(document).ready(function(){
             $('.mem-img').addClass('border');
 
 
+            
             $(document).on('click','.mem-img',function(e){
                 //클릭하면 모달창 뜸
                 $('.black-background').show().animate({marginTop:'0px'});
                 // 클릭한 cell의 memInfo의 memName,memPos를 가져옴.
 
-                
-                
                 var data =  e.target.parentElement.parentElement.children[1].children[0].getAttribute('id');
                 
                 //띄울 mem의 id
@@ -39,7 +32,7 @@ $(document).ready(function(){
                 //     url:'/detail',
                 //     data:data,  //서버로 보낼 데이터
                 //     success:function(result){
-                //         alert('성공');
+                //         // result (json)
                 //         // console.log(result);
                 //     },
                 //     error: function(result){
@@ -48,27 +41,21 @@ $(document).ready(function(){
                 // })
                 if(data)
                 {
-                    // var sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,roll_info FROM good.emp_info WHERE emp_id='${data}'`;
-                    // conn.query(sql, function(err, info, fileds){
-                    // if(err) console.log('query is not executed.');
-                    // else {
-                    //     console.log(info);
-            
-                    //     //  db에서 찾은 값 출력
-                    //     // background.ejs로 넘겨줘야 함.
-            
-                    //   }
-                    // });
                     console.log(data);
                 }else{
                     console.log('빈 셀');
                 }
 
-                
-
 
                 }); 
-                $('.black-background').click(function(e){
+
+            $('.header').on('click',function(e){
+                // header(실장실) 누를때
+                $('.black-background').show().animate({marginTop:'0px'});
+                var data = e.target.children[1].getAttribute('id');
+                console.log(data);
+            })
+            $('.black-background').click(function(e){
         
                     // 만약 지금 실제로 클릭한 것이 black background일 때만 닫기 
                     // 이벤트 리스너 안에서 쓸 수 있는 이벤트 함수
@@ -83,52 +70,23 @@ $(document).ready(function(){
             
                     }
             
-        });
+            });
         
-        $('.btn-close').click(function(e){
+            $('.btn-close').click(function(e){
                     //close button 눌렀을 때도 닫기 
                     if(e.target==e.currentTarget){
                         $('.black-background').hide();
               
-                      }
-        })
+                    }
+            })
 
-         }  
-    );
-            
-
-
-
+            }  
+);
+           
             // setTimeout(function(){ //30초에 한번씩 reload
             //     location.reload();
             // }, 30000);
 
-
-
-$('.black-background').click(function(e){
-        
-            // 만약 지금 실제로 클릭한 것이 black background일 때만 닫기 
-            // 이벤트 리스너 안에서 쓸 수 있는 이벤트 함수
-            // e.target;//지금 실제로 클릭한 요소
-            // e.currentTarget; //지금 이벤트리스너가 달린 곳
-            // $(this);//지금 이벤트리스너가 달린 곳
-            // e.preventDefault();//기본 동작 막기
-            // var className = $(e.target).attr('class');
-            
-            if(e.target==e.currentTarget){
-              $('.black-background').hide();
-    
-            }
-    
-});
-
-$('.btn-close').click(function(e){
-            //close button 눌렀을 때도 닫기 
-            if(e.target==e.currentTarget){
-                $('.black-background').hide();
-      
-              }
-})
 
 
 //전체 컨테이너 width height 설정
@@ -136,7 +94,7 @@ $('.btn-close').click(function(e){
         
 
 
-        //각 팀에 4행 col=? 로 table 구성(dept_info : {'팀이름':'col 수'})
+//각 팀에 4행 col=? 로 table 구성(dept_info : {'팀이름':'col 수'})
 function makeCell(dpt_num,col_num)
 {
             //dpt_num = department의 번호
