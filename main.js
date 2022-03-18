@@ -91,19 +91,22 @@ app.post('/detail',function(req,res){
 
     // const _id = req.body._id;
     var id = req.body.id;
-    // console.log(id);
-
+    console.log("before query");
+    console.log(id);
     var sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,roll_info FROM good.emp_info WHERE emp_id='${id}'`;
-    conn.query(sql, function(err, info, fileds){
+    conn.query(sql, function(err, info, fields){
         if(err) console.log('query is not executed.');
         else {
-            console.log(info);
-            
+
+            res.json(JSON.parse(JSON.stringify(info)));
+        }
+        // res.json(JSON.parse(info));
             //  db에서 찾은 값 출력
             // background.ejs로 넘겨줘야 함.
             
-        }
     })
+    console.log("after query");
+
 });
 
 app.use((request, response)=>{ //잘못된 url로 접근 시
