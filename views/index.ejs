@@ -32,14 +32,12 @@
                         <!-- 각 팀 table -->
                         <div class="department fs-5 fw-bold " >
                             <!-- 여기서 for문 시작(Object) -->
-                            <%
-                                
-                            %>
+                            <% var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':4,'MICE뷰로':2}; %>
+                            
                             <span class="dept-name"><%= Object.keys(dept_info)[0] %></span>
                             <div class="dept-table p-2" id="first-table">
                                  <!-- 팀장 row -->
-                                 <div class="row justify-content-md-center p-2" id="team-row" >
-                                    
+                                 <div class="row " id="team-row" >
                                         <% for(var i=0;i<list.length;i++){ %>
                                         <% if(list[i].dept_name== "해외마케팅팀" && list[i].duty_name=="팀장"){ %>
                                             <div class="border bg-light cell mr-0" id="team-leader">
@@ -52,13 +50,13 @@
                                           <%} %>
                                           <%}%>
                                       </div>
-                                      
+                     
                                  </div>
-                                 <div class="row justify-content-md-center g-2  mr-0" id="mem-row" style="float: none; margin:100 auto;">
+                                 <div class="row " id="mem-row" style="float: none; margin:100 auto;">
                                     <!-- 사람 수대로 col 삽입. 한행당 2열인 경우 --> 
                                     <% for(var i=0;i<4;i++){%>
                                         <% for(var j=0;j<2;j++){%>
-                                            
+                                
                                                 <div class="col-6 text-center mem" id="<%= i*2+j+1 %>" style="float: none; margin:100 auto;">
                                                     <div class="border bg-light cell mr-0">
                                                         <% for(var m=0;m<list.length;m++){%>
@@ -74,15 +72,15 @@
                                                         <%   if(list[k].dept_name=="해외마케팅팀" && list[k].seat_arrng==num){%>
                                                             <span class="memName fs-6" id = "<%= list[k].emp_id %>"><%= list[k].emp_name %></span>
                                                             <span class="memPos fs-6"><%= list[k].post_name %></span>
-                                                            
+
                                                         <%}%>
                                                         <%}%>
-                                                        
+                           
                                                     </div>
                                                 </div>
                                             <%}%>
                                        <% }%>
-
+                            
                                 </div>
                             </div>
                         </div>
@@ -90,7 +88,7 @@
                             <span class="dept-name">국내관광팀</span>
                             <div class="dept-table p-2" id="second-table">
                                      <!-- 팀장 row -->
-                                 <div class="row justify-content-md-center p-2" id="team-row" >
+                                 <div class="row " id="team-row" >
                                     
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== "국내관광팀" && list[i].duty_name=="팀장"){ %>
@@ -105,7 +103,7 @@
                                   </div>
                                   
                              </div>
-                                 <div class="row justify-content-md-center g-2 pd-2" id="mem-row"  style="float: none; margin:100 auto;">
+                                 <div class="row " id="mem-row"  style="float: none; margin:100 auto;">
                                     <!-- 사람 수대로 col 삽입. 한행당 2열인 경우 --> 
                                     <% for(var i=0;i<4;i++){%>
                                         <% for(var j=0;j<2;j++){%>
@@ -141,7 +139,7 @@
                             <span class="dept-name">스마트관광팀</span>
                             <div class="dept-table p-2" id="third-table">
                                    <!-- 팀장 row -->
-                                 <div class="row justify-content-md-center p-2" id="team-row" >
+                                 <div class="row " id="team-row" >
                                     
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== "스마트관광팀" && list[i].duty_name=="팀장"){ %>
@@ -156,7 +154,7 @@
                                   </div>
                                   
                              </div>
-                                 <div class="row justify-content-md-center g-2 pd-2" id="mem-row">
+                                 <div class="row " id="mem-row">
                                     <!-- 사람 수대로 col 삽입. 한행당 2열인 경우 --> 
                                     <% for(var i=0;i<4;i++){%>
                                         <% for(var j=0;j<3;j++){%>
@@ -191,26 +189,25 @@
                             <span class="dept-name">MICE뷰로</span>
                             <div class="dept-table p-2" id="last-table">
                                      <!-- 팀장 row -->
-                                 <div class="row justify-content-md-center p-2" id="team-row" >
+                                 <div class="row " id="team-row" >
                                     
                                         <% for(var i=0;i<list.length;i++){ %>
                                         <% if(list[i].dept_name== "MICE뷰로" && list[i].duty_name=="팀장"){ %>
                                             <div class="border bg-light cell mr-0" id="team-leader">
                                                 <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
                                                 </div>
-                                              <div class="memInfo">
+                                            <div class="memInfo">
                                                 <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
                                                 <span class="memPos fs-6" ><%= list[i].duty_name %> </span>
-                                          <%} %>
-                                          <%}%>
-                                      </div>
+                                            <%}%>
+                                        <%}%>
+                                            </div>
                                       
                                  </div>
-                                 <div class="row no-gutters justify-content-md-center g-2 pd-2" id="mem-row" >
+                                 <div class="row " id="mem-row" >
                                     <!-- 사람 수대로 col 삽입. 한행당 2열인 경우 --> 
                                     <% for(var i=0;i<4;i++){%>
                                         <% for(var j=0;j<2;j++){%>
-                                            
                                                 <div class="col-6 text-center mem" id="<%= i*2+j+1 %>" style="float: none; margin:100 auto;">
                                                     <div class="border bg-light cell mr-0">
                                                         <% for(var m=0;m<list.length;m++){%>
@@ -226,10 +223,10 @@
                                                         <%   if(list[k].dept_name=="MICE뷰로" && list[k].seat_arrng==num){%>
                                                             <span class="memName fs-6" id = "<%= list[k].emp_id %>"><%= list[k].emp_name %></span>
                                                             <span class="memPos fs-6"><%= list[k].post_name %></span>
-                                                            
+
                                                         <%}%>
                                                         <%}%>
-                                                        
+                        
                                                     </div>
                                                 </div>
                                             <%}%>
@@ -251,7 +248,7 @@
                             <span class="dept-name">고객홍보팀</span>
                             <div class="dept-table p-2" id="first-table">
                                  <!-- 팀장 row -->
-                                 <div class="row justify-content-md-center p-2" id="team-row" >
+                                 <div class="row " id="team-row" >
                                     
                                         <% for(var i=0;i<list.length;i++){ %>
                                         <% if(list[i].dept_name== "고객홍보팀" && list[i].duty_name=="팀장"){ %>
@@ -266,12 +263,12 @@
                                       </div>
                                       
                                  </div>
-                                 <div class="row justify-content-md-center g-2  mr-0" id="mem-row" style="float: none; margin:100 auto;">
+                                 <div class="row " id="mem-row" style="">
                                     <!-- 사람 수대로 col 삽입. 한행당 2열인 경우 --> 
                                     <% for(var i=0;i<4;i++){%>
                                         <% for(var j=0;j<2;j++){%>
                                             
-                                                <div class="col-6 text-center mem" id="<%= i*2+j+1 %>" style="float: none; margin:100 auto;">
+                                                <div class="col-6 text-center mem" id="<%= i*2+j+1 %>" style="">
                                                     <div class="border bg-light cell mr-0">
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*2+j+1  %>   
@@ -302,7 +299,7 @@
                             <span class="dept-name">전략기획팀</span>
                             <div class="dept-table p-2" id="second-table">
                                      <!-- 팀장 row -->
-                                 <div class="row justify-content-md-center p-2" id="team-row" >
+                                 <div class="row " id="team-row" >
                                     
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== "전략기획팀" && list[i].duty_name=="팀장"){ %>
@@ -317,12 +314,12 @@
                                   </div>
                                   
                              </div>
-                                 <div class="row justify-content-md-center g-2 pd-2" id="mem-row"  style="float: none; margin:100 auto;">
+                                 <div class="row " id="mem-row"  style="">
                                     <!-- 사람 수대로 col 삽입. 한행당 2열인 경우 --> 
                                     <% for(var i=0;i<4;i++){%>
                                         <% for(var j=0;j<2;j++){%>
                                             
-                                                <div class="col-6 text-center mem" id="<%= i*2+j+1 %>" style="float: none; margin:100 auto;">
+                                                <div class="col-6 text-center mem" id="<%= i*2+j+1 %>" style="">
                                                     <div class="border bg-light cell mr-0">
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*2+j+1  %>   
@@ -353,7 +350,7 @@
                             <span class="dept-name">경영지원팀</span>
                             <div class="dept-table p-2" id="last-table">
                                    <!-- 팀장 row -->
-                                 <div class="row justify-content-md-center p-2" id="team-row" >
+                                 <div class="row " id="team-row" >
                                     
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== "경영지원팀" && list[i].duty_name=="팀장"){ %>
@@ -368,12 +365,12 @@
                                   </div>
                                   
                              </div>
-                                 <div class="row justify-content-md-center g-2 pd-2" id="mem-row">
+                                 <div class="row " id="mem-row">
                                     <!-- 사람 수대로 col 삽입. 한행당 2열인 경우 --> 
                                     <% for(var i=0;i<4;i++){%>
                                         <% for(var j=0;j<4;j++){%>
                                             
-                                                <div class="col-3 text-center mem" id="<%= i*4+j+1 %>" style="float: none; margin:100 auto;">
+                                                <div class="col-3 text-center mem" id="<%= i*4+j+1 %>" style="">
                                                     <div class="border bg-light cell mr-0">
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*4+j+1  %>   

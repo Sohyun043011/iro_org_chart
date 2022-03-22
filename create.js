@@ -4,14 +4,14 @@
 // conn=db_config.init();//db connection handler 가져오기
 // db_config.connect(conn);
 
-var dept_info = 
-{'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':4,'MICE뷰로':2,
-'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4,'축제이벤트팀':2, '섬발전지원센터':2,'의료웰니스팀':2,'관광인프라':2};
 
+var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':4,'MICE뷰로':2};
+var dept_info_2={'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4,'축제이벤트팀':2, '섬발전지원센터':2,'의료웰니스팀':2,'관광인프라':2};
 
 $(document).ready(function(){
     
-            $('#container').css({"width": screen.width,"height":screen.height});
+            
+            $('#container').css({"width": window.innerWidth, "height":'100%'});
             // for(var i=0;i<$('.dept-name').length;i++){
             //     dept_name.push($('.dept-name').eq(i).text());
             // }
@@ -20,9 +20,27 @@ $(document).ready(function(){
             //border, bg-light 지우기
             $('.cell').removeClass('border bg-light');
             $('.mem-img').addClass('border');
-
-
             
+            //for문 ->2이면 30%,초과시 40%
+            
+            for(var i=0;i<Object.keys(dept_info).length;i++){
+                if(Object.values(dept_info)[i]==2){
+                    $('.department').eq(i).css({'width':'30%'});
+                }
+                else{
+                    $('.department').eq(i).css({'width':'40%'});
+                }
+            }
+
+            for(var j=0;j<Object.keys(dept_info_2).length;j++){
+                if(Object.values(dept_info_2)[j]==2){
+                    $('.department').eq(Object.keys(dept_info).length+j).css({'width':'30%'});
+                }
+                else{
+                    $('.department').eq(Object.keys(dept_info).length+j).css({'width':'40%'});
+                }
+            }
+
             $(document).on('click','.mem-img',function(e){
                 //클릭하면 모달창 뜸
                 $('.black-background').show().animate({marginTop:'0px'});
@@ -46,9 +64,10 @@ $(document).ready(function(){
                         var office_no = result[0]. office_tel_no;
                         var position_tag = result[0].post_name;
                         var detail_tag = result[0].roll_info;
-                        // var img = result[0].img_url;
+                        var img = result[0].img_url;
                         
-                        // document.getElementById('pc').innerHTML=`<img src="${img}" style="height:100%;">`
+                        
+                        document.getElementById('img').innerHTML= `<img src="${img}" id="pic">`
                         document.getElementById('name_tag').innerHTML = name;
                         document.getElementById('id_tag').innerHTML = emp_id;
                         document.getElementById('office_tag').innerHTML=office;
@@ -76,7 +95,46 @@ $(document).ready(function(){
                 // header(실장실) 누를때
                 $('.black-background').show().animate({marginTop:'0px'});
                 var data = e.target.children[1].getAttribute('id');
-                console.log(data);
+                console.log("ajax started")
+                //띄울 mem의 id
+                $.ajax({
+                    method:'POST',
+                    url:'/detail',
+                    data:{
+                        id:data
+                    },  //서버로 보낼 데이터
+                    success:function(result){
+                        // //alert('성공');
+                        var name = result[0].emp_name;
+                        var emp_id = result[0].emp_id;
+                        var office = result[0].dept_name;
+                        var mobile = result[0].mobile_no;
+                        var office_no = result[0]. office_tel_no;
+                        var position_tag = result[0].post_name;
+                        var detail_tag = result[0].roll_info;
+                        var img = result[0].img_url;
+                        
+                        
+                        document.getElementById('img').innerHTML= `<img src="${img}" id="pic">`
+                        document.getElementById('name_tag').innerHTML = name;
+                        document.getElementById('id_tag').innerHTML = emp_id;
+                        document.getElementById('office_tag').innerHTML=office;
+                        document.getElementById('phone_tag').innerHTML = mobile;
+                        document.getElementById('office_p_tag').innerHTML = office_no;
+                        document.getElementById('position_tag').innerHTML = position_tag;
+                        document.getElementById('detail_tag').innerHTML = detail_tag;
+                        // result[0].emp_name;
+                    },
+                    error: function(result){
+                        alert('실패');
+                    }
+                })
+                if(data)
+                {
+                    console.log(data);
+                }else{
+                    console.log('빈 셀');
+                }
             })
             $('.black-background').click(function(e){
         
@@ -138,8 +196,8 @@ function makeCell(dpt_num,col_num)
                             <span class="memPos fs-6" ></span>
                         </div>`
 
-                        var cell = `<div class="col-${12/col_num} text-center mem" id="${i*col_num+j+1}" style="float: none; margin:100 auto;">
-                            <div class=" border bg-light cell mr-0">
+                        var cell = `<div class="col-${12/col_num} text-center mem" id="${i*col_num+j+1}" >
+                            <div class=" border bg-light cell">
                             </div>
                           </div>`;
                 

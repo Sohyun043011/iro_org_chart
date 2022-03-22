@@ -26,14 +26,15 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json()); // for parsing application/json
 
-global.dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':4,'MICE뷰로':2,
-'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4,'축제이벤트팀':2, '섬발전지원센터':2,'의료웰니스팀':2,'관광인프라':2};
+
+
 
 
 app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나올 페이지
     console.log('connection success');
     
     var sql="";
+    var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':4,'MICE뷰로':2};
     /*good.emp_info 갱신 */
     sql=`truncate table good.emp_info`; //테이블 비우기
     conn.query(sql, function(err, rows, fileds){
@@ -93,11 +94,13 @@ app.post('/detail',function(req,res){
     var id = req.body.id;
     console.log("before query");
     console.log(id);
-    var sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,roll_info FROM good.emp_info WHERE emp_id='${id}'`;
+    var sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,roll_info,img_url FROM good.emp_info WHERE emp_id='${id}'`;
     conn.query(sql, function(err, info, fields){
         if(err) console.log('query is not executed.');
         else {
-
+            // stringify : JSOn parsing 가능한 text로 만들어줌
+            // 그 text를 JSON 자료구조로 만들어주는 것이 JSON.parse
+            // res.json : 
             res.json(JSON.parse(JSON.stringify(info)));
         }
             
