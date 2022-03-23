@@ -59,6 +59,25 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
         else console.log('Insert query executed successfully.');
     })
 
+    sql=`INSERT INTO good.seat_info(emp_id, emp_name, dept_name, seat_arrng) 
+    SELECT emp_id, emp_name, dept_name, -1 FROM good.emp_info 
+    WHERE (emp_id, emp_name, dept_name) NOT IN (
+        SELECT emp_id, emp_name, dept_name FROM seat_info
+    )`;
+    conn.query(sql, function(err, rows, fileds){
+        if(err) console.log('Insert query is not executed.');
+        else console.log('Insert query executed successfully.');
+    });
+
+    sql=`DELETE FROM good.seat_info 
+    WHERE (emp_id, emp_name, dept_name) NOT IN (
+        SELECT emp_id, emp_name, dept_name FROM good.emp_info
+    )`;
+    conn.query(sql, function(err, rows, fileds){
+        if(err) console.log('Delete query is not executed.');
+        else console.log('Delete query executed successfully.');
+    });
+
     /*갱신 종료 */
 
     sql=`select * from good.emp_info A left join good.seat_info B on A.emp_id=B.emp_id`;
@@ -105,9 +124,37 @@ app.post('/detail',function(req,res){
         }
             
     })
-    console.log("after query");
-
 });
+
+app.post('/move/:emp_id/:seat_arrng', function(req,res){
+    var emp_id=req.params.emp_id;
+    var seat_arrng=req.params.seat_arrng;
+
+    var sql=`UPDATE good.seat_info 
+    SET seat_arrng=${seat_arrng}
+    WHERE emp_id='${emp_id}'`
+
+    conn.query(sql, function(err, info, fields){
+        if(err) console.log('query is not executed.');
+    })
+    console.log('좌석번호가 변경되었습니다.')
+});
+
+app.post('/add/:dept_name', function(req,res){
+    var dept_name=res.params.dept_name;
+
+    var sql=`select emp_id, emp_name, '${dept_name}' from seat_info
+    where dept_name='${dept_name}' and seat_arrng=-1`
+
+    conn.query(sql, function(err, info, fields){
+        if(err) console.log('query is not executed.');
+        else {
+            res.json(JSON.parse(JSON.stringify(info)));
+        }
+            
+    })
+});
+
 
 app.use((request, response)=>{ //잘못된 url로 접근 시
     response.send(`<h1>Sorry, page not found.</h1>`);
