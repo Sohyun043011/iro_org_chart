@@ -21,6 +21,7 @@ $(document).ready(function(){
             $('.cell').removeClass('border bg-light');
             $('.mem-img').addClass('border');
             
+            $('.dept-table').last().css({'border-right':'none'});
             //for문 ->2이면 30%,초과시 40%
             
             for(var i=0;i<Object.keys(dept_info).length;i++){
@@ -176,40 +177,4 @@ $(document).ready(function(){
 
 
 //각 팀에 4행 col=? 로 table 구성(dept_info : {'팀이름':'col 수'})
-function makeCell(dpt_num,col_num)
-{
-            //dpt_num = department의 번호
-            //col_num = 열의 수
-           
-                for(var i=0;i<4;i++)
-                {
-                    for(var j=0;j<col_num;j++)
-                    {
 
-                        //이름. 직급 db에서 가져옴.
-                        
-                        //var name = "임희복"
-                        //var position = "차장"
-
-                        var info = `<div class="memInfo">
-                            <span class="memName fs-6" ></span>
-                            <span class="memPos fs-6" ></span>
-                        </div>`
-
-                        var cell = `<div class="col-${12/col_num} text-center mem" id="${i*col_num+j+1}" >
-                            <div class=" border bg-light cell">
-                            </div>
-                          </div>`;
-                
-                         
-                          $('.dept-table').children('#mem-row').eq(dpt_num).append(cell);  
-                          $('.dept-table').children('#mem-row').eq(dpt_num).children('.mem').eq(i*col_num+j).append(info);
-                          
-                    }
-                   
-                }
-
-                // var total =  $('.dept-table').children('#mem-row').eq(i).children('.mem').length;
- 
-}
-        
