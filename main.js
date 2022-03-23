@@ -105,9 +105,37 @@ app.post('/detail',function(req,res){
         }
             
     })
-    console.log("after query");
-
 });
+
+app.post('/move/:emp_id/:seat_arrng', function(req,res){
+    var emp_id=req.params.emp_id;
+    var seat_arrng=req.params.seat_arrng;
+
+    var sql=`UPDATE good.seat_info 
+    SET seat_arrng=${seat_arrng}
+    WHERE emp_id='${emp_id}'`
+
+    conn.query(sql, function(err, info, fields){
+        if(err) console.log('query is not executed.');
+    })
+    console.log('좌석번호가 변경되었습니다.')
+});
+
+app.post('/add/:dept_name', function(req,res){
+    var dept_name=res.params.dept_name;
+
+    var sql=`select emp_id, emp_name, '${dept_name}' from seat_info
+    where dept_name='${dept_name}' and seat_arrng=-1`
+
+    conn.query(sql, function(err, info, fields){
+        if(err) console.log('query is not executed.');
+        else {
+            res.json(JSON.parse(JSON.stringify(info)));
+        }
+            
+    })
+});
+
 
 app.use((request, response)=>{ //잘못된 url로 접근 시
     response.send(`<h1>Sorry, page not found.</h1>`);
