@@ -59,6 +59,25 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
         else console.log('Insert query executed successfully.');
     })
 
+    sql=`INSERT INTO good.seat_info(emp_id, emp_name, dept_name, seat_arrng) 
+    SELECT emp_id, emp_name, dept_name, -1 FROM good.emp_info 
+    WHERE (emp_id, emp_name, dept_name) NOT IN (
+        SELECT emp_id, emp_name, dept_name FROM seat_info
+    )`;
+    conn.query(sql, function(err, rows, fileds){
+        if(err) console.log('Insert query is not executed.');
+        else console.log('Insert query executed successfully.');
+    });
+
+    sql=`DELETE FROM good.seat_info 
+    WHERE (emp_id, emp_name, dept_name) NOT IN (
+        SELECT emp_id, emp_name, dept_name FROM good.emp_info
+    )`;
+    conn.query(sql, function(err, rows, fileds){
+        if(err) console.log('Delete query is not executed.');
+        else console.log('Delete query executed successfully.');
+    });
+
     /*갱신 종료 */
 
     sql=`select * from good.emp_info A left join good.seat_info B on A.emp_id=B.emp_id`;
