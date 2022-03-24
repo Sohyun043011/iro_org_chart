@@ -10,6 +10,9 @@ html{
 div{
     box-sizing: border-box;
 }
+
+
+
 p,h4,h3,h2,h1,span{
     /* 글씨 이뿌게 */
 	transform : rotate(0.04deg); 
@@ -20,6 +23,14 @@ p,h4,h3,h2,h1,span{
     position:relative;
     background-color: rgb(25, 25, 49);
 }
+
+.office{
+    /* main의 width */
+    width: 100%;
+    display: flex;
+
+}
+
 #logo-img{
    
 }
@@ -42,6 +53,7 @@ p,h4,h3,h2,h1,span{
     float:right;
 }
 .header{
+    float: left;
     position:relative;
     margin: 10px;
     padding:20px;
@@ -59,15 +71,32 @@ p,h4,h3,h2,h1,span{
     right:20px;
 
 }
-#first-office>.header{
+.header-0{
     border:1px solid blue;
 }
-#second-office>.header{
+.header-1{
     border:1px solid orange;
+}
+.header-2{
+    border:1px solid red;
 }
 .dept-container{
     display: flex;
     height: 90%;
+}
+.office-0>.dept-table:before{
+    content: "";
+    display: block;
+    width: 100%;
+    border-bottom: 5px solid blue;
+    margin-top: -10px;
+}
+.office-1>.dept-table:before{
+    content: "";
+    display: block;
+    width: 100%;
+    border-bottom: 5px solid orange;
+    margin-top: -10px;
 }
 .department{
     /* width = 100 / 팀 갯수 */
@@ -88,7 +117,6 @@ p,h4,h3,h2,h1,span{
     /* table 넣을 div */
     /* margin-top: 10px; */
     height: 95%;
-
     border-right: 1px solid gray;
 }
 #first-office>.dept-container>.department>.dept-name{
@@ -116,18 +144,15 @@ p,h4,h3,h2,h1,span{
     width:60px;
 
 }
-
+#team-row{
+    padding-top: 10px;
+}
 
 .mem{
     max-height:130px;
    
 }
-.col-6{
-    /* 가운데 정렬  */
-    /* 나머지 col-4,3,2...도 적용해야 함. */
-     /* justify-content: center;
-     align-items: center; */
-}
+
 .mem>.memInfo{
     text-align: center;
 }

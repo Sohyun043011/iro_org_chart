@@ -4,42 +4,88 @@
 // conn=db_config.init();//db connection handler 가져오기
 // db_config.connect(conn);
 
+// var org=[
+//     {
+//         room:'관광마케팅실',
+//         team:{
+//             '해외마케팅팀':2,
+//             '국내관광팀':2,
+//             '스마트관광팀':3,
+//             'MICE뷰로':2
+//         }
+//     },
+//     {   
+//         room:'기획조정실',
+//         team:{
+//             '고객홍보팀':2,
+//             '전략기획팀':2,
+//             '경영지원팀':4
+//         }
+//     }
+// ]
 
-var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':4,'MICE뷰로':2};
-var dept_info_2={'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4,'축제이벤트팀':2, '섬발전지원센터':2,'의료웰니스팀':2,'관광인프라':2};
+var org_2={
+
+    '관광마케팅실':['해외마케팅팀','국내관광팀','스마트관광팀','MICE뷰로'],
+    '기획조정실':['고객홍보팀','전략기획팀','경영지원팀'],
+}
+
+var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':3,'MICE뷰로':2,'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4};
+var office = ['관광마케팅실','기획조정실'];
 
 $(document).ready(function(){
-    
-            
-            $('#container').css({"width": window.innerWidth, "height":'100%'});
-            // for(var i=0;i<$('.dept-name').length;i++){
-            //     dept_name.push($('.dept-name').eq(i).text());
-            // }
-            // console.log(dept_name); //dept_name = ['해외마케팅팀','국내관광팀','스마트관광팀','마이스뷰로,'고객홍보팀','전략기획팀','경영지원팀']
 
-            //border, bg-light 지우기
-            $('.cell').removeClass('border bg-light');
-            $('.mem-img').addClass('border');
-            
-            $('.dept-table').last().css({'border-right':'none'});
-            //for문 ->2이면 30%,초과시 40%
-            
-            for(var i=0;i<Object.keys(dept_info).length;i++){
-                if(Object.values(dept_info)[i]==2){
-                    $('.department').eq(i).css({'width':'30%'});
-                }
-                else{
-                    $('.department').eq(i).css({'width':'40%'});
-                }
+            $('#container').css({"width": window.innerWidth, "height":'100%'});     //전체 컨테이너 크기 지정
+            $('.cell').removeClass('border bg-light');                              //셀 안에 배경 색 제거 
+            $('.mem-img').addClass('border');                                       //각 이미지에 선 추가
+            $('.dept-table').last().css({'border-right':'none'});                   //마지막 팀 테두리 선 제거 
+            $('.header').css({'width':`${100/(office.length)}%`});
+       
+            // 실장실에 순서대로 클래스명 부착()
+            for(var off = 0; off<office.length; off++){
+                $('.header').eq(off).addClass(`header-${off}`);
             }
 
-            for(var j=0;j<Object.keys(dept_info_2).length;j++){
-                if(Object.values(dept_info_2)[j]==2){
-                    $('.department').eq(Object.keys(dept_info).length+j).css({'width':'30%'});
+            // 전체 열 수 
+            var sum=0;
+            Object.values(dept_info).forEach(function(element){
+                sum=sum+element;
+            });
+
+            for(var i=0;i<Object.keys(dept_info).length;i++){
+                $('.department').eq(i).css({'width':`${(100*(Object.values(dept_info)[i]))/sum}%`});
+            }
+
+            // '관광마케팅실' 이면 addClass('office-0') '기획조정실이면 addClass('office-1')
+            for(var j = 0;j<Object.keys(dept_info).length;j++){
+                // 각 부서를 돌면서. 
+                var dept_name = $('.dept-name').eq(j).text();
+                for(var k=0;k<Object.keys(org_2).length;k++){
+                    // org[k]의 team안에 해당 dept가 있는지 
+                    var width_sum = 0;
+                    var dept = Object.values(org_2)[k];
+                    // 배열
+                    for(var t=0;t<dept.length;t++){
+                        if(dept_name==dept[t]){
+                            $('.department').eq(j).addClass(`office-${k}`);
+                            width_sum=width_sum+$('.department').eq(j).width();
+                        }
+                    }
+                       
+                } 
+
+            }
+            // 각 실에 해당하는 부서의 width를 더해서 실의 width로 바꾸기
+            for(var h=0;h<$('.header').length;h++){
+                // 2번 돌아감
+                // console.log(h+'돌아감');
+                var width_sum=0;
+                for(var t=0;t<$(`.office-${h}`).length;t++){
+                    // console.log(t);
+                    width_sum=width_sum+$(`.office-${h}`).eq(t).width();
                 }
-                else{
-                    $('.department').eq(Object.keys(dept_info).length+j).css({'width':'40%'});
-                }
+                // console.log(width_sum);
+                $('.header').eq(h).css({'width':`${width_sum}`});
             }
 
             $(document).on('click','.mem-img',function(e){
@@ -91,7 +137,6 @@ $(document).ready(function(){
 
 
                 }); 
-
             $('.header').on('click',function(e){
                 // header(실장실) 누를때
                 $('.black-background').show().animate({marginTop:'0px'});

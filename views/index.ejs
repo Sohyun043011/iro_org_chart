@@ -21,77 +21,84 @@
            <img src="img\logoFile.png" id="logo-img" style="padding: 10px;">
         </div>
         <div class="main">
-                <!-- 왼쪽 department-->
-                <% for(var off = 0; off<2;off++){%>
-                    <% var team_leader = [{'office_name':'관광마케팅실', 'name':'김민혜 실장', 'id':'20150008' ,'class':'first-office'},{'office_name':'기획조정실', 'name':'이주희 실장', 'id':'20150007','class':'second-office'}] %>
-                    <div class="office" id=<%= team_leader[off]['class'] %>>
-                        <div class="header fw-bold">
-                            <span class="office-name fs-4"><%= team_leader[off]['office_name'] %></span>
-                            <span class="office-head" id=<%= team_leader[off]['id'] %> > <%= team_leader[off]['name'] %> </span>
-                        </div>
-                        <div class="dept-container">
-                            <!-- 각 팀 table -->
-                            <!-- ejs시작 -->
-                            <% var dept_info=[{'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':3,'MICE뷰로':2},{'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4}]; %>
-                            <% for(var dept=0;dept<Object.keys(dept_info[off]).length;dept++){ %> 
-                                <div class="department fs-5 fw-bold " >
-                                    <span class="dept-name"><%= Object.keys(dept_info[off])[dept] %></span>
-                                    <div class="dept-table p-2" id="">
-                                         <!-- 팀장 row -->
-                                         <div class="row " id="team-row" >
-                                                <% for(var i=0;i<list.length;i++){ %>
-                                                <% if(list[i].dept_name== Object.keys(dept_info[off])[dept] && list[i].duty_name=="팀장"){ %>
-                                                    <div class="border bg-light cell mr-0" id="team-leader">
-                                                            <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
-                                                    
-                                                        </div>
-                                                      <div class="memInfo">
-                                                        <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
-                                                        <span class="memPos fs-6" ><%= list[i].duty_name %> </span>
-                                                  <%} %>
-                                                  <%}%>
-                                              </div>
-                             
-                                         </div>
-                                         <div class="row " id="mem-row" style="float: none; margin:100 auto;">
-                                            <!-- 사람 수대로 col 삽입. 한행당 2열인 경우 --> 
-                                            <% for(var i=0;i<4;i++){%>
-                                                <% for(var j=0;j<Object.values(dept_info[off])[dept];j++){%>
-                                                        <% var col = Object.values(dept_info[off])[dept] %>
-                                                        <div class="col-<%= 12/col %> text-center mem" id="<%= i*col+j+1 %>" style="float: none; margin:100 auto;">
-                                                            <div class="border bg-light cell mr-0">
-                                                                <% for(var m=0;m<list.length;m++){%>
-                                                                <% var num = i*col+j+1  %>   
-                                                                <%   if(list[m].dept_name==Object.keys(dept_info[off])[dept] && list[m].seat_arrng==num){%>
-                                                                    <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
-                                                                    <%}%>
-                                                                    <%}%>
-                                                            </div>
-                                                            <div class="memInfo">
-                                                                <% for(var k=0;k<list.length;k++){%>
-                                                                <% var num = i*col+j+1  %>   
-                                                                <%   if(list[k].dept_name==Object.keys(dept_info[off])[dept] && list[k].seat_arrng==num){%>
-                                                                    <span class="memName fs-6" id = "<%= list[k].emp_id %>"><%= list[k].emp_name %></span>
-                                                                    <span class="memPos fs-6"><%= list[k].post_name %></span>
-        
-                                                                <%}%>
-                                                                <%}%>
-                                   
-                                                            </div>
-                                                        </div>
-                                                    <%}%>
-                                               <% }%>
-                                    
-                                        </div>
-                                    </div>
+                <!-- 실 div -->
+                <div class="office">
+                        <% var office = ['관광마케팅실','기획조정실'] %> 
+                        <% for(var off=0; off<office.length;off++){%>
+                            <% const new_list = list.filter(function(element){%>
+                                <% return element.dept_name == office[off] %>
+                            <%})  %>
+                            <div class="header fw-bold ">
+                                <span class="office-name fs-4"><%= office[off] %></span>
+                                <span class="office-head" id=<%= new_list[0].emp_id %> > <%= new_list[0].emp_name %> <%= new_list[0].post_name %> </span>
+                            </div>
+                        <%}%>
+                </div> 
+                <!-- dept div -->
+                <div class="dept-container">
+                    <!-- 부서 table -->
+                    <% var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':3,'MICE뷰로':2,'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4}; %>
+                    <% for(var dept=0;dept<Object.keys(dept_info).length;dept++){ %> 
+                        <div class="department fs-5 fw-bold " >
+                            <span class="dept-name"><%= Object.keys(dept_info)[dept] %></span>
+                            <div class="dept-table p-2" id="">
+                                 <div class="row " id="team-row" >
+                                     <!-- 팀장 row -->
+                                        <% for(var i=0;i<list.length;i++){ %>
+                                        <% if(list[i].dept_name== Object.keys(dept_info)[dept] && list[i].duty_name=="팀장"){ %>
+                                            <div class="border bg-light cell mr-0" id="team-leader">
+                                                    <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
+                                            </div>
+                                            <div class="memInfo">
+                                                <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
+                                                <span class="memPos fs-6" ><%= list[i].duty_name %> </span>
+                                             <%}%>
+                                        <%}%>
+                                            </div>
+                     
+                                 </div>
+                                 <div class="row " id="mem-row" style="float: none; margin:100 auto;">
+                                     <!-- 사원  row -->
+                                    <% for(var i=0;i<4;i++){%>
+                                        <% for(var j=0;j<Object.values(dept_info)[dept];j++){%>
+                                                <% var col = Object.values(dept_info)[dept] %>
+                                                <div class="col-<%= 12/col %> text-center mem" id="<%= i*col+j+1 %>" style="float: none; margin:100 auto;">
+                                                    <div class="border bg-light cell mr-0">
+                                                        <% for(var m=0;m<list.length;m++){%>
+                                                        <% var num = i*col+j+1  %>   
+                                                        <%   if(list[m].dept_name==Object.keys(dept_info)[dept] && list[m].seat_arrng==num){%>
+                                                            <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
+                                                            <%}%>
+                                                        <%}%>
+                                                    </div>
+                                                    <div class="memInfo">
+                                                        <% for(var k=0;k<list.length;k++){%>
+                                                        <% var num = i*col+j+1  %>   
+                                                        <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num){%>
+                                                            <span class="memName fs-6" id = "<%= list[k].emp_id %>"><%= list[k].emp_name %></span>
+                                                            <span class="memPos fs-6"><%= list[k].post_name %></span>
+                                                        <%}%>
+                                                        <%}%>
+                           
+                                                    </div>
+                                                </div>
+                                            <%}%>
+                                       <% }%>
+                            
                                 </div>
-    
-                            <%} %>
-                             <!--ejs 끝  -->
+                            </div>
                         </div>
-                          <!-- dept-container 끝  -->
-                    </div>
-                <%}%>
+                    <%} %>
+                </div>
+                
+
+
+
+
+
+                <!-- 수정 전 코드 -->
+                
+                
                 
                 <!-- 오른쪽 department -->
                 
