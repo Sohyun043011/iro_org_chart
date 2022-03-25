@@ -89,30 +89,17 @@ $(document).ready(function(){
                 $('.header').eq(h).css({'width':`${width_sum}`});
             }
 
-            /*사용자 테두리 추가 영역*/
-            // status=="재택근무" 이면 파란색 border
-            // status=="근무중" 이면 빨간색 border를 
+            $.ajax({
+                method:'POST',
+                url:'/status',
+                data:{},
+                success:function(result){
+                    result=JSON.parse(result);
+                    console.log(result[0]['status']);
 
-            for(var mem=0;mem<$('.memName').length;mem++)
-            {
-                // console.log($('.memName').eq(mem).attr('id'));
-                // (0~53)
-                // $('.mem--info')
-                // 
 
-            }
-            
-            // $.ajax({
-            //     method:'POST',
-            //     url:'/status',
-            //     success:function(result){
-            //         result=JSON.parse(JSON.stringify(result));
-                    
-            //         console.log(result[0]);
-            //     }
-            // })
-            
-
+                }
+            });
             $(document).on('click','.mem-img',function(e){
                 //클릭하면 모달창 뜸
                 $('.black-background').show().animate({marginTop:'0px'});
