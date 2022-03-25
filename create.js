@@ -29,7 +29,6 @@ var org_2={
     '관광마케팅실':['해외마케팅팀','국내관광팀','스마트관광팀','MICE뷰로'],
     '기획조정실':['고객홍보팀','전략기획팀','경영지원팀'],
 }
-
 var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':3,'MICE뷰로':2,'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4};
 var office = ['관광마케팅실','기획조정실'];
 
@@ -207,7 +206,35 @@ $(document).ready(function(){
                     }
             })
 
-            }  
+            // 16F, 17F, 수정 버튼 클릭시 event
+            var btn = document.getElementsByClassName("btn");
+            function handleClick(event) 
+            {
+                console.log(event.target);
+                console.log(event.target.classList);
+                if (event.target.classList[1] === "clicked") {
+                    event.target.classList.remove("clicked");
+                } 
+                else {
+                    for (var i = 0; i < btn.length; i++) {
+                        btn[i].classList.remove("clicked");
+                    }
+                    event.target.classList.add("clicked");
+                }
+            }
+                
+            function init() {
+                for (var i = 0; i < btn.length; i++) 
+                {
+                    btn[i].addEventListener("click", handleClick);
+                }
+            }
+                
+            init();
+    }  
+
+            
+
 );
            
             // setTimeout(function(){ //30초에 한번씩 reload

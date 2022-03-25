@@ -31,8 +31,23 @@ p,h4,h3,h2,h1,span{
 
 }
 
-#logo-img{
-   
+.top_banner{
+    /* 로고랑 버튼 있는 컨테이너 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.btn-group{
+    padding: 20px;
+}
+.btn{
+    color: white;
+    border-color: grey;
+}
+.clicked{
+    /* 버튼 클릭시  */
+    background-color:rgb(98, 98, 198);
 }
 .main{
     /* display: flex; */
