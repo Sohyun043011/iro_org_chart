@@ -87,6 +87,17 @@ $(document).ready(function(){
                 $('.header').eq(h).css({'width':`${width_sum}`});
             }
 
+            $.ajax({
+                method:'POST',
+                url:'/status',
+                data:{},
+                success:function(result){
+                    result=JSON.parse(result);
+                    console.log(result[0]['status']);
+
+
+                }
+            });
             $(document).on('click','.mem-img',function(e){
                 //클릭하면 모달창 뜸
                 $('.black-background').show().animate({marginTop:'0px'});

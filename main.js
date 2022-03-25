@@ -183,17 +183,17 @@ app.post('/status', function(request, response){
             } // DB종료까지 모두 완료되었을 시 응답 데이터 반환 
             console.log('list size: ' + rowList.length); 
 
-            var rowList_json="["; //조회한 데이터 기반으로 상태값만 넘겨주도록 json 데이터 변경
+            var rowList_json='['; //조회한 데이터 기반으로 상태값만 넘겨주도록 json 데이터 변경
             for (row=0;row<rowList.length;row++){ // serialize
-                rowList_json+="{";
-                rowList_json+="emp_id:"+rowList[row][0]+",";
+                rowList_json+='{';
+                rowList_json+='"emp_id":"'+rowList[row][0]+'",';
                 if(rowList[row][2]=="0270" ||rowList[row][2]=="0280" ||
                     rowList[row][2]=="0290" ||rowList[row][2]=="0300"){//work_type 재택근무 코드
 
-                    rowList_json+="status:재택근무";
+                    rowList_json+='"status":"재택근무"';
                 }
                 else{
-                    rowList_json+="status:근무중";
+                    rowList_json+='"status":"근무 중"';
                 }
                 rowList_json+="},";
 
