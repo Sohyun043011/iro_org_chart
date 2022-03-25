@@ -91,7 +91,8 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
 });
 app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접속 시 나올 페이지
     //페이지에 수정 버튼으로 해당 url redirection하게 만들기
-    response.sendFile(__dirname+'/edit.ejs')
+    // response.sendFile(__dirname+'/edit.ejs')
+    response.render('edit.ejs');
 });
 
 app.get('/search', (request, response)=>{ //http://[host]:[port]/search으로 접속 시 나올 페이지 (사원 검색 페이지)
@@ -186,14 +187,14 @@ app.post('/status', function(request, response){
             var rowList_json="["; //조회한 데이터 기반으로 상태값만 넘겨주도록 json 데이터 변경
             for (row=0;row<rowList.length;row++){ // serialize
                 rowList_json+="{";
-                rowList_json+="emp_id:"+rowList[row][0]+",";
+                rowList_json+="\"emp_id\":\""+rowList[row][0]+"\",";
                 if(rowList[row][2]=="0270" ||rowList[row][2]=="0280" ||
                     rowList[row][2]=="0290" ||rowList[row][2]=="0300"){//work_type 재택근무 코드
 
-                    rowList_json+="status:재택근무";
+                    rowList_json+="\"status\":\"재택근무\"";
                 }
                 else{
-                    rowList_json+="status:근무중";
+                    rowList_json+="\"status\":\"근무중\"";
                 }
                 rowList_json+="},";
 

@@ -4,6 +4,8 @@
 // conn=db_config.init();//db connection handler 가져오기
 // db_config.connect(conn);
 
+// const { json } = require("express/lib/response");
+
 // var org=[
 //     {
 //         room:'관광마케팅실',
@@ -34,6 +36,7 @@ var office = ['관광마케팅실','기획조정실'];
 
 $(document).ready(function(){
 
+
             $('#container').css({"width": window.innerWidth, "height":'100%'});     //전체 컨테이너 크기 지정
             $('.cell').removeClass('border bg-light');                              //셀 안에 배경 색 제거 
             $('.mem-img').addClass('border');                                       //각 이미지에 선 추가
@@ -54,7 +57,6 @@ $(document).ready(function(){
             for(var i=0;i<Object.keys(dept_info).length;i++){
                 $('.department').eq(i).css({'width':`${(100*(Object.values(dept_info)[i]))/sum}%`});
             }
-
             // '관광마케팅실' 이면 addClass('office-0') '기획조정실이면 addClass('office-1')
             for(var j = 0;j<Object.keys(dept_info).length;j++){
                 // 각 부서를 돌면서. 
@@ -86,6 +88,30 @@ $(document).ready(function(){
                 // console.log(width_sum);
                 $('.header').eq(h).css({'width':`${width_sum}`});
             }
+
+            /*사용자 테두리 추가 영역*/
+            // status=="재택근무" 이면 파란색 border
+            // status=="근무중" 이면 빨간색 border를 
+
+            for(var mem=0;mem<$('.memName').length;mem++)
+            {
+                // console.log($('.memName').eq(mem).attr('id'));
+                // (0~53)
+                // $('.mem--info')
+                // 
+
+            }
+            
+            // $.ajax({
+            //     method:'POST',
+            //     url:'/status',
+            //     success:function(result){
+            //         result=JSON.parse(JSON.stringify(result));
+                    
+            //         console.log(result[0]);
+            //     }
+            // })
+            
 
             $(document).on('click','.mem-img',function(e){
                 //클릭하면 모달창 뜸
@@ -197,7 +223,6 @@ $(document).ready(function(){
                     }
             
             });
-        
             $('.btn-close').click(function(e){
                     //close button 눌렀을 때도 닫기 
                     if(e.target==e.currentTarget){
@@ -207,12 +232,17 @@ $(document).ready(function(){
             })
 
             // 16F, 17F, 수정 버튼 클릭시 event
+            // 1. 16F 페이지일 때 16버튼 active 되어야 함
+
             var btn = document.getElementsByClassName("btn");
+            
+            //1.clicked 클래스 add,remove(버튼 색 변경)
             function handleClick(event) 
             {
                 console.log(event.target);
                 console.log(event.target.classList);
                 if (event.target.classList[1] === "clicked") {
+                    
                     event.target.classList.remove("clicked");
                 } 
                 else {
@@ -223,6 +253,9 @@ $(document).ready(function(){
                 }
             }
                 
+
+            /*2. 버튼 클릭시 페이지 이동*/
+
             function init() {
                 for (var i = 0; i < btn.length; i++) 
                 {
@@ -237,16 +270,12 @@ $(document).ready(function(){
 
 );
            
-            // setTimeout(function(){ //30초에 한번씩 reload
-            //     location.reload();
-            // }, 30000);
+            
+// setTimeout(function(){ //30초에 한번씩 reload
+//     location.reload();
+// }, 30000);
 
 
-
-//전체 컨테이너 width height 설정
-
-        
-
-
-//각 팀에 4행 col=? 로 table 구성(dept_info : {'팀이름':'col 수'})
-
+function movePage(){
+    location.href="/edit";
+}
