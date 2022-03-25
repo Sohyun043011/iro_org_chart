@@ -1,3 +1,4 @@
+var oracledb=require('oracledb');
 const req=require('request');
 const http=require('http');
 const fs = require('fs');
@@ -25,9 +26,6 @@ app.use(express.static(path.join(__dirname+'/img')));
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json()); // for parsing application/json
-
-
-
 
 
 app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나올 페이지
@@ -154,7 +152,63 @@ app.post('/add/:dept_name', function(req,res){
             
     })
 });
+app.post('/status', function(request, response){ 
+    oracledb.getConnection({ 
+        user : db_config.user, 
+        password : db_config.password, 
+        connectString : db_config.connectString 
+    }, 
+    function(err, connection) { 
+        if (err) { 
+            console.error(err.message); 
+            return; 
+        } 
+        let query = `SELECT EMP_ID,SHIFT_CD,WORK_TYPE, YMD FROM EHR2011060.TAM5400_V 
+        WHERE YMD =(SELECT TO_CHAR(SYSDATE, 'YYYYMMDD')AS YYYYMMDD FROM DUAL)`; 
+        
+        connection.execute(query, [], function (err, result) { 
+            if (err) { 
+                console.error(err.message); 
+                doRelease(connection); 
+                return; 
+            } 
+            // console.log(result.rows); // 데이터 
+            doRelease(connection, result.rows); // Connection 해제 
+        }); 
+    }); // DB 연결 해제 
+    function doRelease(connection, rowList) { 
+        connection.release(function (err) { 
+            if (err) { 
+                console.error(err.message); 
+            } // DB종료까지 모두 완료되었을 시 응답 데이터 반환 
+            console.log('list size: ' + rowList.length); 
 
+            var rowList_json="["; //조회한 데이터 기반으로 상태값만 넘겨주도록 json 데이터 변경
+            for (row=0;row<rowList.length;row++){ // serialize
+                rowList_json+="{";
+                rowList_json+="emp_id:"+rowList[row][0]+",";
+                if(rowList[row][2]=="0270" ||rowList[row][2]=="0280" ||
+                    rowList[row][2]=="0290" ||rowList[row][2]=="0300"){//work_type 재택근무 코드
+
+                    rowList_json+="status:재택근무";
+                }
+                else{
+                    rowList_json+="status:근무중";
+                }
+                rowList_json+="},";
+
+                console.log(rowList[row][0], rowList[row][1], rowList[row][2], rowList[row][3]);
+            }
+            
+            if(rowList.length>1){
+                rowList_json=rowList_json.substring(0, rowList_json.length - 1);
+            }
+            rowList_json+="]";
+
+            response.json(JSON.parse(JSON.stringify(rowList_json)));
+        }); 
+    } 
+});
 
 app.use((request, response)=>{ //잘못된 url로 접근 시
     response.send(`<h1>Sorry, page not found.</h1>`);
@@ -163,4 +217,5 @@ app.use((request, response)=>{ //잘못된 url로 접근 시
 app.listen(port, function(){ // 3000번 포트로 listen
     console.log(`Server running at ${port}`);
 });
+
 
