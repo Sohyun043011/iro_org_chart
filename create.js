@@ -95,9 +95,41 @@ $(document).ready(function(){
                 data:{},
                 success:function(result){
                     result=JSON.parse(result);
-                    console.log(result[0]['status']);
-
-
+                    for(var mem=0;mem<$('.memInfo').length;mem++){
+                        if($('.memInfo').eq(mem).children().length>0)
+                        {
+                            // 있는 경우 
+                            console.log($('.memInfo').eq(mem).children('span:eq(0)').attr('id'));
+                            var id = $('.memInfo').eq(mem).children('span:eq(0)').attr('id')
+                            for(var res=0; res<result.length;res++)
+                            {
+                                if(id==result[res]['emp_id'])
+                                {
+                                    var status = result[res]['status'];
+                                    if(status=="재택근무")
+                                    {
+                                        //재택근무면 파란색
+                                        $('.cell').eq(mem).children('span:eq(0)').removeClass('btn-success');
+                                        $('.cell').eq(mem).children('span:eq(0)').addClass('btn-primary');
+                                    }
+                                    else if(status=="근무 중")
+                                    {
+                                        //근무 중은 초록색(기본)
+                                    }
+                                    else if(status=="연차")
+                                    {
+                                        //연차일땐 
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            //memName이 없는 경우 뱃지 제거
+                            $(".rounded-circle").eq(mem).css({'display':'none'});
+                            
+                        }
+                
+                    }
                 }
             });
             $(document).on('click','.mem-img',function(e){

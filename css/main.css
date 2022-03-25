@@ -85,13 +85,22 @@ p,h4,h3,h2,h1,span{
     top:8px;
     right:20px;
 
+    
 }
+#status{
+   
+    right: 0px;
+    z-index: 4;
+}
+
 .status-blue{
-    border:1px solid blue;
+    border:3px solid blue;
+   
 }
 .status-red{
-    border:1px solid red;
-}
+    border:3px solid 
+    
+} 
 
 .header-0{
     border:1px solid blue;
@@ -161,7 +170,6 @@ p,h4,h3,h2,h1,span{
     
 }
 .mem-img{
-    
     height: 100%;
     width:60px;
 
