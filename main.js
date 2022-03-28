@@ -90,9 +90,20 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     })
 });
 app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접속 시 나올 페이지
-    //페이지에 수정 버튼으로 해당 url redirection하게 만들기
+    // 페이지에 수정 버튼으로 해당 url redirection하게 만들기
     // response.sendFile(__dirname+'/edit.ejs')
     response.render('edit.ejs');
+
+    // 조직도 TV연결 데스크탑 ip만 허용하고 나머지는 접근 못하게 막기
+    // if (requestIp.getClientIp(req)=='::ffff:192.168.10.100'){
+    //     res.render('test.ejs',{});
+    //     console.log('allow access');
+    // }
+    // else{
+    //     alert('Failed to access');
+    //     return;
+    // }
+    //
 });
 
 app.get('/search', (request, response)=>{ //http://[host]:[port]/search으로 접속 시 나올 페이지 (사원 검색 페이지)
