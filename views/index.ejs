@@ -19,12 +19,31 @@
         <%-include('background.ejs') %>
         <div class="top_banner">
            <img src="img\logoFile.png" id="logo-img" style="padding: 10px;">
-           <!-- 16F/17f/수정 버튼그룹 -->
-           <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button type="button" class="btn btn-16" onclick="location.reload();">16F</button>
-                <button type="button" class="btn btn-17" onclick="movePage()">17F</button>
-                <button type="button" class="btn btn-edit" onclick="movePage()">수정</button>
-          </div>
+           <div class="right-banner">
+                <div class="btn-detail">
+                    <!-- 버튼 관련 설명 (초록색 : 근무 중, 파란색 : 재택근무 중, 연차 : ) -->
+                    <!-- 마진부분 변경해야 함.(오른쪽 정렬) -->
+                    <div style="width:33.3%;">
+                        <div class="circle"></div>
+                        <span class="circle-span">재택근무</span>
+                    </div>
+                    <div style="width:33.3%;">
+                        <div class="circle border-green"></div>
+                        <span class="circle-span">근무 중</span>
+                    </div>
+                    <div style="width:33.3%;">
+                        <div class="circle border-red"></div>
+                        <span class="circle-span">연차</span>
+                    </div>
+                </div>
+                <!-- 16F/17f/수정 버튼그룹 -->
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-16" onclick="location.reload();">16F</button>
+                    <button type="button" class="btn btn-17" onclick="movePage()">17F</button>
+                    <button type="button" class="btn btn-edit" onclick="movePage()">수정</button>
+                </div>
+           </div>
+           
         </div>
         
         <div class="main">
@@ -53,10 +72,12 @@
                                      <!-- 팀장 row -->
                                         <% for(var i=0;i<list.length;i++){ %>
                                         <% if(list[i].dept_name== Object.keys(dept_info)[dept] && list[i].duty_name=="팀장"){ %>
-                                            <div class="border bg-light cell mr-0" id="team-leader">
-                                                    <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
+                                            <div class="border bg-light cell mr-0" id="team-leader" style="position:relative" >
+                                                <span class="position-absolute btn-success translate-middle p-2 border border-light rounded-circle" id="status" >
+                                                </span>
+                                                    <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img" style="">
                                             </div>
-                                            <div class="memInfo">
+                                            <div class="memInfo" style="position: relative;" id="team-leader">
                                                 <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
                                                 <span class="memPos fs-6" ><%= list[i].duty_name %> </span>
                                              <%}%>
@@ -70,15 +91,18 @@
                                         <% for(var j=0;j<Object.values(dept_info)[dept];j++){%>
                                                 <% var col = Object.values(dept_info)[dept] %>
                                                 <div class="col-<%= 12/col %> text-center mem" id="<%= i*col+j+1 %>" style="float: none; margin:100 auto;">
-                                                    <div class="border bg-light cell mr-0">
+                                                    <div class="border bg-light cell mr-0" style="position:relative" >
+                                                        <span class="position-absolute translate-middle p-2 btn-success border border-light rounded-circle"  id="status">
+                                                        </span>
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*col+j+1  %>   
                                                         <%   if(list[m].dept_name==Object.keys(dept_info)[dept] && list[m].seat_arrng==num){%>
-                                                            <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img">
+                                                            <img src="<%= list[m].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img" style="position:relative">
                                                             <%}%>
                                                         <%}%>
                                                     </div>
-                                                    <div class="memInfo">
+                                                    <div class="memInfo"  style="position: relative;">
+                                                        
                                                         <% for(var k=0;k<list.length;k++){%>
                                                         <% var num = i*col+j+1  %>   
                                                         <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num){%>
