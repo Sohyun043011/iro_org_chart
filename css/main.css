@@ -87,21 +87,37 @@ p,h4,h3,h2,h1,span{
 
     
 }
+.circle {
+    margin: 0 auto 10px;
+    width: 5px;
+    height: 5px;
+    border: 10px solid blue;
+    border-radius: 100%;
+}
+.border-green{
+    border-color: green;  
+}
+.border-red{
+    border-color: red;  
+}
+.btn-detail{
+    padding-top:20px;
+    display:flex; 
+    width:200px; 
+    float:left; 
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.circle-span{
+    color: white; 
+    margin-top:10px;
+}
 #status{
-   
-    right: 0px;
+    /* 선택할 수 없게 함 */
+    pointer-events: none;
     z-index: 4;
 }
-
-.status-blue{
-    border:3px solid blue;
-   
-}
-.status-red{
-    border:3px solid 
-    
-} 
-
 .header-0{
     border:1px solid blue;
 }
@@ -159,10 +175,6 @@ p,h4,h3,h2,h1,span{
     display:block;
     border-bottom: 5px solid orangered;
 }
-#second-office>.dept-container>#last-dept>#last-table{
-    /* 두번째 office의 맨마지막 팀 border 삭제  */
-    /* border-right: non e; */
-}
 .cell{
 
     height: 80px;
@@ -175,7 +187,7 @@ p,h4,h3,h2,h1,span{
 
 }
 #team-row{
-    padding-top: 10px;
+    padding-top: 15px;
 }
 
 .mem{
@@ -216,6 +228,7 @@ p,h4,h3,h2,h1,span{
     border-radius:0.5rem;
     display: flex;
     position:relative;
+    overflow: hidden;
     justify-content: center;
     align-items: center;
 }
@@ -249,12 +262,28 @@ p,h4,h3,h2,h1,span{
 .right-container{
     float:right;
     border-radius: 0.5rem;
-    margin: 10px;
+    margin: 15px 10px auto;
     height: 100%;
     width:50%;
     overflow-x: hidden;
     overflow-y: scroll;
+    
+}
 
+/* scroll 꾸미기 */
+.right-container::-webkit-scrollbar{
+    width: 10px;
+}
+.right-container::-webkit-scrollbar-thumb {
+    background-color: #2f3542;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 1px solid transparent;
+}
+.right-container::-webkit-scrollbar-track {
+    background-color: grey;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 5px white;
 }
 .tag_name{
     display:inline-block;
