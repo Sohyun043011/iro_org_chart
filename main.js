@@ -243,64 +243,116 @@ app.post('/delete/:emp_id', function(req, res){ // 배치된 사용자의 seat_a
     });
 });
 
+app.post('/status', function(req, res){
+    function fillZero(width, str){
+        return str.length >= width ? str:new Array(width-str.length+1).join('0')+str;//남는 길이만큼 0으로 채움
+    }
 
-app.post('/status', function(request, response){ // 사용자 사진 클릭 시 세부내용
-    oracledb.getConnection({ //ehr database에서 정보 가져오기
-        user : db_config.user, 
-        password : db_config.password, 
-        connectString : db_config.connectString 
-    }, 
-    function(err, connection) { 
-        if (err) { 
-            console.error(err.message); 
-            return; 
-        } 
-        let query = `SELECT EMP_ID,SHIFT_CD,WORK_TYPE, YMD FROM EHR2011060.TAM5400_V 
-        WHERE YMD =(SELECT TO_CHAR(SYSDATE, 'YYYYMMDD')AS YYYYMMDD FROM DUAL)`; 
-        
-        connection.execute(query, [], function (err, result) { 
-            if (err) { 
-                console.error(err.message); 
-                doRelease(connection); 
-                return; 
-            } 
-            // console.log(result.rows); // 데이터 
-            doRelease(connection, result.rows); // Connection 해제 
-        }); 
-    }); // DB 연결 해제 
-    function doRelease(connection, rowList) { 
-        connection.release(function (err) { 
-            if (err) { 
-                console.error(err.message); 
-            } // DB종료까지 모두 완료되었을 시 응답 데이터 반환 
-            console.log('list size: ' + rowList.length); 
+    var sql=`select emp_id, shift_cd, work_type, ymd, plan2, fix1, dayoff1_time from good.ehr_cal_today`;
 
-            var rowList_json='['; //조회한 데이터 기반으로 상태값만 넘겨주도록 json 데이터 변경
-            for (row=0;row<rowList.length;row++){ // serialize
-                rowList_json+='{';
-                rowList_json+='"emp_id":"'+rowList[row][0]+'",';
-                if(rowList[row][2]=="0270" ||rowList[row][2]=="0280" ||
-                    rowList[row][2]=="0290" ||rowList[row][2]=="0300"){//work_type 재택근무 코드
+    let today=new Date();
 
-                    rowList_json+='"status":"재택근무"';
+    conn.query(sql, function(err, info, fields){
+        if(err) console.log(err);
+        else {
+            let serialized=JSON.parse(JSON.stringify(info)); // 가져온 sql정보를 json parsing 후 변수에 저장
+            for(line of serialized){
+                var work_type=line["work_type"]; //fix1정보
+                var plan2=line["plan2"];
+                var fix1=line["fix1"];
+                var dayoff=line["dayoff1_time"];
+
+                line["status"]="근무 중"; // default status값
+
+                if(work_type=="0270" ||work_type=="0280" || work_type=="0290" ||work_type=="0300"){//work_type 재택근무 코드
+                    line["status"]="재택근무";
                 }
-                else{
-                    rowList_json+='"status":"근무 중"';
+                if(plan2=="전일연차" || fix1=="기타휴가"){ //하루종일 연차인 경우
+                    line["status"]="연차";
                 }
-                rowList_json+="},";
+                if(dayoff!='None'){
+                    var sta_dayoff=dayoff.substr(0,4);
+                    var end_dayoff=dayoff.substr(5,4);
+                    var now=fillZero(2,today.getHours().toString())+fillZero(2,today.getMinutes().toString());
 
-                console.log(rowList[row][0], rowList[row][1], rowList[row][2], rowList[row][3]);
+                    if(now>=sta_dayoff && now<=end_dayoff){
+                        line["status"]="연차";
+                    }
+                }
             }
+            const newArray = serialized.map(({shift_cd, work_type,ymd,plan2,fix1,dayoff1_time, ...rest}) => rest);
             
-            if(rowList.length>1){
-                rowList_json=rowList_json.substring(0, rowList_json.length - 1);
-            }
-            rowList_json+="]";
+            // delete serialized["shift_cd"];
+            // delete serialized["work_type"];
+            // delete serialized["ymd"];
+            // delete serialized["plan2"];
+            // delete serialized["fix1"];
+            // delete serialized["dayoff1_time"];
+            console.log(newArray);
+            res.json(JSON.parse(JSON.stringify(newArray)));
+        }
+    });
+    return;
+})
 
-            response.json(JSON.parse(JSON.stringify(rowList_json)));
-        }); 
-    } 
-});
+
+// app.post('/status', function(request, response){ // 사용자 사진 클릭 시 세부내용
+//     oracledb.getConnection({ //ehr database에서 정보 가져오기
+//         user : db_config.user, 
+//         password : db_config.password, 
+//         connectString : db_config.connectString 
+//     }, 
+//     function(err, connection) { 
+//         if (err) { 
+//             console.error(err.message); 
+//             return; 
+//         } 
+//         let query = `SELECT EMP_ID,SHIFT_CD,WORK_TYPE, YMD FROM EHR2011060.TAM5400_V 
+//         WHERE YMD =(SELECT TO_CHAR(SYSDATE, 'YYYYMMDD')AS YYYYMMDD FROM DUAL)`; 
+        
+//         connection.execute(query, [], function (err, result) { 
+//             if (err) { 
+//                 console.error(err.message); 
+//                 doRelease(connection); 
+//                 return; 
+//             } 
+//             // console.log(result.rows); // 데이터 
+//             doRelease(connection, result.rows); // Connection 해제 
+//         }); 
+//     }); // DB 연결 해제 
+//     function doRelease(connection, rowList) { 
+//         connection.release(function (err) { 
+//             if (err) { 
+//                 console.error(err.message); 
+//             } // DB종료까지 모두 완료되었을 시 응답 데이터 반환 
+//             console.log('list size: ' + rowList.length); 
+
+//             var rowList_json='['; //조회한 데이터 기반으로 상태값만 넘겨주도록 json 데이터 변경
+//             for (row=0;row<rowList.length;row++){ // serialize
+//                 rowList_json+='{';
+//                 rowList_json+='"emp_id":"'+rowList[row][0]+'",';
+//                 if(rowList[row][2]=="0270" ||rowList[row][2]=="0280" ||
+//                     rowList[row][2]=="0290" ||rowList[row][2]=="0300"){//work_type 재택근무 코드
+
+//                     rowList_json+='"status":"재택근무"';
+//                 }
+//                 else{
+//                     rowList_json+='"status":"근무 중"';
+//                 }
+//                 rowList_json+="},";
+
+//                 console.log(rowList[row][0], rowList[row][1], rowList[row][2], rowList[row][3]);
+//             }
+            
+//             if(rowList.length>1){
+//                 rowList_json=rowList_json.substring(0, rowList_json.length - 1);
+//             }
+//             rowList_json+="]";
+
+//             response.json(JSON.parse(JSON.stringify(rowList_json)));
+//         }); 
+//     } 
+// });
 
 app.use((request, response)=>{ //잘못된 url로 접근 시
     response.send(`<h1>Sorry, page not found.</h1>`);
