@@ -61,7 +61,7 @@ $(document).ready(function(){
                 method:'POST',
                 url:'/status',
                 data:{},
-                success:function(result){                   //result : 서버에서 전달해준 json 값 
+                success:function(result){                       //result : 서버에서 전달해준 json 값 
                     for(var mem=0;mem<$('.memInfo').length;mem++){
                         if($('.memInfo').eq(mem).children().length>0)
                         {

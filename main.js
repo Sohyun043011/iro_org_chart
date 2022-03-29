@@ -11,9 +11,6 @@ var db_config=require(path.join(__dirname,'db_connect.js'));
 
 const port=3000; //포트접속정보
 
-conn=db_config.init();//db connection handler 가져오기
-db_config.connect(conn);
-
 const app=express(); 
 
 app.set('views','./views');
@@ -29,6 +26,8 @@ app.use(bodyParser.json()); // for parsing application/json
 
 
 app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나올 페이지
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
     console.log('connection success');
     
     var sql="";
@@ -64,7 +63,7 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     )`;
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('Insert query is not executed.');
-        else console.log('Insert query executed successfully.');
+        else console.log(rows.affectedRows);
     });
 
     sql=`DELETE FROM good.seat_info 
@@ -73,7 +72,7 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     )`;
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('Delete query is not executed.');
-        else console.log('Delete query executed successfully.');
+        else console.log(rows.affectedRows + " rows affected");
     });
 
     /*갱신 종료 */
@@ -82,12 +81,13 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('query is not executed.');
         else {
-            console.log(rows);
             response.render('index.ejs', {list:rows});
             // response.render('pr.ejs', {list:rows});
             
         }
     })
+
+    conn.end();
 });
 app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접속 시 나올 페이지
     //16F, 17F에 따라 다른 페이지를 호출해야 함 => 17층 레이아웃 구성 완료되면 추가 구성
@@ -96,6 +96,8 @@ app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접�
 
     // 페이지에 수정 버튼으로 해당 url redirection하게 만들기
     
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
     console.log('connection success');
     
     var sql="";
@@ -131,7 +133,7 @@ app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접�
     )`;
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('Insert query is not executed.');
-        else console.log('Insert query executed successfully.');
+        else console.log(rows.affectedRows);
     });
 
     sql=`DELETE FROM good.seat_info 
@@ -140,7 +142,7 @@ app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접�
     )`;
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('Delete query is not executed.');
-        else console.log('Delete query executed successfully.');
+        else console.log(rows.affectedRows);
     });
 
     /*갱신 종료 */
@@ -149,15 +151,17 @@ app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접�
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('query is not executed.');
         else {
-            console.log(rows);
             response.render('edit.ejs', {list:rows});
             // response.render('pr.ejs', {list:rows});
             
         }
     })
+    conn.end();
 });
 
 app.get('/search', (request, response)=>{ //http://[host]:[port]/search으로 접속 시 나올 페이지 (사원 검색 페이지)
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
     var sql=`select * from connec.hr_info`;
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('query is not executed.');
@@ -166,14 +170,15 @@ app.get('/search', (request, response)=>{ //http://[host]:[port]/search으로 �
             response.render('search.ejs', {list:rows});
         }
     })
+    conn.end();
 })
 
 app.post('/detail',function(req,res){
-
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
     // const _id = req.body._id;
     var id = req.body.id;
-    console.log("before query");
-    console.log(id);
+
     var sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,roll_info,img_url FROM good.emp_info WHERE emp_id='${id}'`;
     conn.query(sql, function(err, info, fields){
         if(err) console.log('query is not executed.');
@@ -181,13 +186,18 @@ app.post('/detail',function(req,res){
             // stringify : JSOn parsing 가능한 text로 만들어줌
             // 그 text를 JSON 자료구조로 만들어주는 것이 JSON.parse
             // res.json : 
+            console.log(info);
             res.json(JSON.parse(JSON.stringify(info)));
         }
             
     })
+    conn.end();
 });
 
 app.post('/move/:emp_id/:seat_arrng', function(req,res){
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
+
     var emp_id=req.params.emp_id;
     var seat_arrng=req.params.seat_arrng;
 
@@ -199,9 +209,13 @@ app.post('/move/:emp_id/:seat_arrng', function(req,res){
         if(err) console.log('query is not executed.');
     })
     console.log('좌석번호가 변경되었습니다.')
+    conn.end();
 });
 
 app.post('/addlist/:dept_name', function(req,res){ // 플러스 버튼 누를 때 가져올 유저리스트
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
+
     var dept_name=req.params.dept_name;
 
     var sql=`select emp_id, emp_name, '${dept_name}' from seat_info
@@ -214,9 +228,13 @@ app.post('/addlist/:dept_name', function(req,res){ // 플러스 버튼 누를 �
         }
             
     })
+    conn.end();
 });
 
 app.post('/add/:emp_id/:seat_arrng', function(req, res){ // 추가할 사용자 리스트에서 하나 선택해서 그 자리에 배치
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
+    
     var emp_id=req.params.emp_id;
     var seat_arrng=parseInt(req.params.seat_arrng);
 
@@ -225,12 +243,15 @@ app.post('/add/:emp_id/:seat_arrng', function(req, res){ // 추가할 사용자 
     conn.query(sql, function(err, info, fields){
         if(err) console.log(err);
         else {
-            console.log(info.insertId);
+            console.log(info.affectedRows);
         }
     });
+    conn.end();
 });
 
 app.post('/delete/:emp_id', function(req, res){ // 배치된 사용자의 seat_arrng를 -1로 만들어 빼기
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
     var emp_id=req.params.emp_id;
 
     var sql=`update seat_info set seat_arrng=-1 where emp_id=${emp_id}`;
@@ -241,9 +262,14 @@ app.post('/delete/:emp_id', function(req, res){ // 배치된 사용자의 seat_a
             console.log(info.insertId);
         }
     });
+
+    conn.end();
 });
 
 app.post('/status', function(req, res){
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
+
     function fillZero(width, str){
         return str.length >= width ? str:new Array(width-str.length+1).join('0')+str;//남는 길이만큼 0으로 채움
     }
@@ -257,10 +283,10 @@ app.post('/status', function(req, res){
         else {
             let serialized=JSON.parse(JSON.stringify(info)); // 가져온 sql정보를 json parsing 후 변수에 저장
             for(line of serialized){
-                var work_type=line["work_type"]; //fix1정보
-                var plan2=line["plan2"];
-                var fix1=line["fix1"];
-                var dayoff=line["dayoff1_time"];
+                var work_type=line["work_type"]; //work_type 정보
+                var plan2=line["plan2"]; //plan2정보
+                var fix1=line["fix1"];//fix1정보
+                var dayoff=line["dayoff1_time"];//dayoff1_time 정보
 
                 line["status"]="근무 중"; // default status값
 
@@ -269,8 +295,9 @@ app.post('/status', function(req, res){
                 }
                 if(plan2=="전일연차" || fix1=="기타휴가"){ //하루종일 연차인 경우
                     line["status"]="연차";
+                    continue;
                 }
-                if(dayoff!='None'){
+                if(dayoff!='None'){ //연차기록이 있으면 
                     var sta_dayoff=dayoff.substr(0,4);
                     var end_dayoff=dayoff.substr(5,4);
                     var now=fillZero(2,today.getHours().toString())+fillZero(2,today.getMinutes().toString());
@@ -281,6 +308,7 @@ app.post('/status', function(req, res){
                 }
             }
             const newArray = serialized.map(({shift_cd, work_type,ymd,plan2,fix1,dayoff1_time, ...rest}) => rest);
+            // emp_id, status 제외하고 모두 삭제해주기
             
             // delete serialized["shift_cd"];
             // delete serialized["work_type"];
@@ -288,11 +316,10 @@ app.post('/status', function(req, res){
             // delete serialized["plan2"];
             // delete serialized["fix1"];
             // delete serialized["dayoff1_time"];
-            console.log(newArray);
             res.json(JSON.parse(JSON.stringify(newArray)));
         }
     });
-    return;
+    conn.end();
 })
 
 
