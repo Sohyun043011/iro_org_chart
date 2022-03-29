@@ -1,0 +1,18 @@
+#btn-del{
+    z-index: 4;
+   
+    border: 1px solid black;
+    
+}
+.dahsed-border{
+    border: 3px dashed grey ;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-add{
+    /* 추가 버튼 */
+}
+.btn-close{
+    box-sizing:border-box;
+}

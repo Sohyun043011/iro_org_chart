@@ -7,14 +7,12 @@ var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':3
 var office = ['관광마케팅실','기획조정실'];
 
 $(document).ready(function(){
-
-
             $('#container').css({"width": window.innerWidth, "height":'100%'});     //전체 컨테이너 크기 지정
             $('.cell').removeClass('border bg-light');                              //셀 안에 배경 색 제거 
             $('.mem-img').addClass('border');                                       //각 이미지에 선 추가
             $('.dept-table').last().css({'border-right':'none'});                   //마지막 팀 테두리 선 제거 
             $('.header').css({'width':`${100/(office.length)}%`});
-       
+            $('.btn').removeClass('clicked');
             // 실장실에 순서대로 클래스명 부착
             for(var off = 0; off<office.length; off++){
                 $('.header').eq(off).addClass(`header-${off}`);
@@ -246,7 +244,3 @@ $(document).ready(function(){
 // setTimeout(function(){ //30초에 한번씩 reload
 //     location.reload();
 // }, 30000);
-
-function movePage(){
-    location.href="/edit";
-}
