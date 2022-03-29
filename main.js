@@ -202,7 +202,7 @@ app.post('/move/:emp_id/:seat_arrng', function(req,res){
 });
 
 app.post('/addlist/:dept_name', function(req,res){ // 플러스 버튼 누를 때 가져올 유저리스트
-    var dept_name=res.params.dept_name;
+    var dept_name=req.params.dept_name;
 
     var sql=`select emp_id, emp_name, '${dept_name}' from seat_info
     where dept_name='${dept_name}' and seat_arrng=-1` // 해당 부서에 seat_arrng=-1인 사용자들 호출
@@ -217,10 +217,10 @@ app.post('/addlist/:dept_name', function(req,res){ // 플러스 버튼 누를 �
 });
 
 app.post('/add/:emp_id/:seat_arrng', function(req, res){ // 추가할 사용자 리스트에서 하나 선택해서 그 자리에 배치
-    var emp_id=res.params.emp_id;
-    var seat_arrng=res.params.seat_arrng;
+    var emp_id=req.params.emp_id;
+    var seat_arrng=parseInt(req.params.seat_arrng);
 
-    var sql=`update seat_info set seat_arrng ${seat_arrng} where emp_id=${emp_id}`;
+    var sql=`update seat_info set seat_arrng=${seat_arrng} where emp_id=${emp_id}`;
 
     conn.query(sql, function(err, info, fields){
         if(err) console.log(err);
@@ -231,9 +231,9 @@ app.post('/add/:emp_id/:seat_arrng', function(req, res){ // 추가할 사용자 
 });
 
 app.post('/delete/:emp_id', function(req, res){ // 배치된 사용자의 seat_arrng를 -1로 만들어 빼기
-    var emp_id=res.params.emp_id;
+    var emp_id=req.params.emp_id;
 
-    var sql=`update seat_info set seat_arrng -1 where emp_id=${emp_id}`;
+    var sql=`update seat_info set seat_arrng=-1 where emp_id=${emp_id}`;
 
     conn.query(sql, function(err, info, fields){
         if(err) console.log(err);
