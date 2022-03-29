@@ -84,7 +84,7 @@ $(document).ready(function(){
     }
     init();
 
-    // 만약 빈 셀이면, X 표시 없애고 border를 점선으로 표시
+    // 추가버튼 -  만약 빈 셀이면, X 표시 없애고 border를 점선으로 표시
     for(var mem=0;mem<$('.memInfo').length;mem++){
         console.log($('.memInfo').eq(mem).children().length);
         if($('.memInfo').eq(mem).children().length==0)
@@ -102,24 +102,26 @@ $(document).ready(function(){
     }
 
 
-    $('#btn-del').on('click',function(e){
+    $('.btn-del').on('click',function(e){
         // 해당 셀 삭제 버튼 누르는 경우, 셀의 사번을 ajax로 전송
-        var data = e.target.parentElement.children[1].children[0].getAttribute('id');
-        console.log("ajax started");
-
-        $.ajax({
-            method:'POST',
-            url:'/delete',
-            data:{
-                emp_id:data
-            },  //서버로 보낼 데이터
-            success:function(result){
-                // 
-            },
-            error: function(result){
-                alert('실패');
-            }
-        })
+        // 삭제 하시겠습니까?(confirm창)
+        var ans = confirm('삭제 하시겠습니까?');
+        if(ans){
+            var data = e.target.parentElement.parentElement.children[1].children[0].getAttribute('id');
+            console.log("ajax started");
+            $.ajax({
+                method:'POST',
+                url:`/delete/${data}`,
+                success:function(result){
+                    
+                },
+                error: function(result){
+                    alert('실패');
+                }
+            });
+            location.reload();      //새로고침      
+        }
+        
     });
 });
 

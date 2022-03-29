@@ -73,14 +73,20 @@
                                             <div class="border bg-light cell mr-0" id="team-leader" style="position:relative" >
                                                 <span class="position-absolute btn-success translate-middle p-2 border border-light rounded-circle" id="status" >
                                                 </span>
+                                                <% if(list[i].seat_arrng!=-1){%>
                                                     <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img" style="">
-                                            </div>
-                                            <div class="memInfo" style="position: relative;" id="team-leader">
-                                                <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
-                                                <span class="memPos fs-6" ><%= list[i].duty_name %> </span>
+                                                    </div>
+                                                    <div class="memInfo" style="position: relative;" id="team-leader">
+                                                        <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
+                                                        <span class="memPos fs-6" ><%= list[i].duty_name %> </span>
+                                                    </div>
+                                                <%}else{ %>
+                                                </div>
+                                                <div class="memInfo" style="position: relative;" id="team-leader"></div>
+                                                   
+                                                <%} %>
                                              <%}%>
                                         <%}%>
-                                            </div>
                      
                                  </div>
                                  <div class="row " id="mem-row" style="float: none; margin:100 auto;">

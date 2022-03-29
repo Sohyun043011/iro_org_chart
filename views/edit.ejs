@@ -37,7 +37,7 @@
                 <!-- 16F/17f/수정 버튼그룹 -->
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-edit" onclick="location.href='/edit'">수정</button>
-                    <button type="button" class="btn" onclick="history.back()">돌아가기</button>
+                    <button type="button" class="btn" onclick="location.href='/'">돌아가기</button>
                 </div>
            </div>
         </div>
@@ -68,16 +68,23 @@
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== Object.keys(dept_info)[dept] && list[i].duty_name=="팀장"){ %>
                                         <div class="border bg-light cell mr-0" id="team-leader" style="position:relative" >
-                                            <span class="position-absolute btn-close btn-danger translate-middle p-2 rounded-circle" id="btn-del" >
+                                            <span class="position-absolute btn-close btn-danger translate-middle p-2 rounded-circle btn-del" id="" >
                                             </span>
+                                                
+                                            <% if(list[i].seat_arrng!=-1){ %>
                                                 <img src="<%= list[i].img_url %>" onerror="this.src='../img/none.PNG'" class="mem-img" >
-                                        </div>
-                                        <div class="memInfo" style="position: relative;" id="team-leader">
-                                            <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
-                                            <span class="memPos fs-6" ><%= list[i].duty_name %> </span>
+                                                </div>
+                                                <div class="memInfo" style="position: relative;" id="team-leader">
+                                                <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
+                                                <span class="memPos fs-6" ><%= list[i].duty_name %> </span>
+                                                </div>
+                                            <%}else{ %>
+                                             </div>
+                                            <div class="memInfo" style="position: relative;" id="team-leader"></div>
+                                            <%}%>
+                                        
                                          <%}%>
                                     <%}%>
-                                        </div>
                  
                              </div>
                              <div class="row " id="mem-row" style="float: none; margin:100 auto;">
@@ -87,7 +94,7 @@
                                             <% var col = Object.values(dept_info)[dept] %>
                                             <div class="col-<%= 12/col %> text-center mem" id="<%= i*col+j+1 %>" style="float: none; margin:100 auto;">
                                                 <div class="border bg-light cell mr-0" style="position:relative" >
-                                                    <span class="position-absolute btn-close translate-middle p-2 btn-danger rounded-circle" id="btn-del">
+                                                    <span class="position-absolute btn-close translate-middle p-2 btn-danger rounded-circle btn-del" id="">
                                                     </span>
                                                     <% for(var m=0;m<list.length;m++){%>
                                                     <% var num = i*col+j+1  %>   

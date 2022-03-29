@@ -61,8 +61,7 @@ $(document).ready(function(){
                 method:'POST',
                 url:'/status',
                 data:{},
-                success:function(result){
-                    result=JSON.parse(result);                          //result : 서버에서 전달해준 json 값 
+                success:function(result){                   //result : 서버에서 전달해준 json 값 
                     for(var mem=0;mem<$('.memInfo').length;mem++){
                         if($('.memInfo').eq(mem).children().length>0)
                         {
@@ -88,6 +87,9 @@ $(document).ready(function(){
                                     else if(status=="연차")
                                     {
                                         //연차일땐 
+                                        $('.cell').eq(mem).children('span:eq(0)').removeClass('btn-success');
+                                        $('.cell').eq(mem).children('span:eq(0)').addClass('btn-danger');
+                                    
                                     }
                                 }
                             }
