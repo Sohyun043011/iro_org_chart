@@ -93,9 +93,9 @@ $(document).ready(function(){
             $(".rounded-circle").eq(mem).css({'display':'none'});
             // $('.cell').eq(mem).append(`<img src="img/none.PNG"  class="mem-img dahsed-border" style="">`)
             $('.memInfo').eq(mem).css({'height':'48px'});
-            $('.cell').eq(mem).addClass('dahsed-border');
+            // $('.cell').eq(mem).addClass('dashed-border');
             //버튼 추가
-            $('.cell').eq(mem).append(`<button type="button" class="btn btn-secondary btn-add">+</button>`);
+            $('.cell').eq(mem).append(`<div class="dashed-border"><button type="button" class="btn btn-secondary btn-add">+</button></div>`);
         }
         else{
         }
@@ -123,7 +123,50 @@ $(document).ready(function(){
         }
         
     });
-});
+
+    // 추가 버튼 누르는 경우
+    $('.btn-add').on('click',function(e){
+        //  팀 이름 가져오기
+        $('.black-background').show().animate({marginTop:'0px'});  
+        var dept_name = $(e.target).parents('.department').children('.dept-name').text();
+        console.log(dept_name);
+        // 플러스 버튼 누르면 유저리스트 가져오기
+        $.ajax({
+            method:'POST',
+            url:`/addlist/${dept_name}`,
+            success:function(result){
+                var len = result.length;    //팀에 -1인 사람의 수  
+                // 리스트 띄우기 (드롭다운??)   
+                for(var i=0;i<len;i++)
+                {
+                    console.log('사번: '+ result[i]['emp_id']);
+                    console.log('이름: '+ result[i]['emp_name']);
+                    console.log('팀이름: '+ dept_name);
+                }
+                
+            },
+            error:function(result){
+                alert('실패');
+            }
+        });
+        
+    });
+
+    // 모달창 뒤 검은 배경 누르면 창 닫힘
+    $('.black-background').click(function(e){
+        if(e.target==e.currentTarget){
+          $('.black-background').hide();
+        }
+    });
+
+// X 버튼 누르면 창 닫힘
+    $('.btn-close').click(function(e){
+            //close button 눌렀을 때도 닫기 
+            if(e.target==e.currentTarget){
+                $('.black-background').hide();
+            }
+    });
+    });
 
 
 

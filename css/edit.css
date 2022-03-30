@@ -1,10 +1,14 @@
 .btn-del{
     z-index: 5;
-   
+    top:0px;
+    left:20%;
     border: 1px solid black;
     
 }
-.dahsed-border{
+.dashed-border{
+    position:absolute;
+    width: 60px;
+    height: 100%;
     border: 3px dashed grey ;
     display:flex;
     justify-content: center;
@@ -15,4 +19,14 @@
 }
 .btn-close{
     box-sizing:border-box;
+}
+
+.list-container{
+    height: 100%;
+}
+.form-select{
+    height: 100%;
+}
+.white-background{
+    display: block;
 }

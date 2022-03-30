@@ -119,7 +119,7 @@ $(document).ready(function(){
                     success:function(result){
                         // //alert('성공');
                         var name = result[0].emp_name;
-                        var emp_id = result[0].emp_id;
+                        // var emp_id = result[0].emp_id;
                         var office = result[0].dept_name;
                         var mobile = result[0].mobile_no;
                         var office_no = result[0]. office_tel_no;
@@ -129,12 +129,11 @@ $(document).ready(function(){
                         
                         // background.ejs에 받은 정보들 삽입
                         document.getElementById('img').innerHTML= `<img src="${img}" id="pic">`
-                        document.getElementById('name_tag').innerHTML = name;
-                        document.getElementById('id_tag').innerHTML = emp_id;
+                        document.getElementById('name_tag').innerHTML = `${name} ${position_tag}`;
+                        // document.getElementById('id_tag').innerHTML = emp_id;
                         document.getElementById('office_tag').innerHTML=office;
                         document.getElementById('phone_tag').innerHTML = mobile;
                         document.getElementById('office_p_tag').innerHTML = office_no;
-                        document.getElementById('position_tag').innerHTML = position_tag;
                         document.getElementById('detail_tag').innerHTML = detail_tag;
                     },
                     error: function(result){

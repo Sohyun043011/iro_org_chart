@@ -89,7 +89,7 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
 
     conn.end();
 });
-app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접속 시 나올 페이지
+app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으로 접속 시 나올 페이지
     //16F, 17F에 따라 다른 페이지를 호출해야 함 => 17층 레이아웃 구성 완료되면 추가 구성
     
     // var floor=request.params.floor; // 층 정보
