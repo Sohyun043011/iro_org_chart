@@ -306,7 +306,7 @@ app.post('/status', function(req, res){
                     var now=fillZero(2,today.getHours().toString())+fillZero(2,today.getMinutes().toString());
 
                     if(now>=sta_busi_trip && now<=end_busi_trip){
-                        line["status"]="출장";
+                        line["status"]="출장 및 교육";
                     }
                 }
 
