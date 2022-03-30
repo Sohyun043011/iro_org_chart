@@ -159,7 +159,7 @@ $(document).ready(function(){
         }
     });
 
-// X 버튼 누르면 창 닫힘
+    // X 버튼 누르면 창 닫힘
     $('.btn-close').click(function(e){
             //close button 눌렀을 때도 닫기 
             if(e.target==e.currentTarget){

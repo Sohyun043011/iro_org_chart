@@ -274,7 +274,7 @@ app.post('/status', function(req, res){
         return str.length >= width ? str:new Array(width-str.length+1).join('0')+str;//남는 길이만큼 0으로 채움
     }
 
-    var sql=`select emp_id, shift_cd, work_type, ymd, plan2, fix1, dayoff1_time from good.ehr_cal_today`;
+    var sql=`select emp_id, shift_cd, work_type, ymd, plan2, fix1, dayoff1_time, busi_trip1_time from good.ehr_cal_today`;
 
     let today=new Date();
 
@@ -287,16 +287,29 @@ app.post('/status', function(req, res){
                 var plan2=line["plan2"]; //plan2정보
                 var fix1=line["fix1"];//fix1정보
                 var dayoff=line["dayoff1_time"];//dayoff1_time 정보
+                var busi_trip=line["busi_trip1_time"];//busi_trip1_time 정보
 
                 line["status"]="근무 중"; // default status값
 
                 if(work_type=="0270" ||work_type=="0280" || work_type=="0290" ||work_type=="0300"){//work_type 재택근무 코드
                     line["status"]="재택근무";
                 }
+
                 if(plan2=="전일연차" || fix1=="기타휴가"){ //하루종일 연차인 경우
                     line["status"]="연차";
                     continue;
                 }
+
+                if(busi_trip!='None'){ //출장기록이 있으면
+                    var sta_busi_trip=busi_trip.substr(0,4);
+                    var end_busi_trip=busi_trip.substr(5,4);
+                    var now=fillZero(2,today.getHours().toString())+fillZero(2,today.getMinutes().toString());
+
+                    if(now>=sta_busi_trip && now<=end_busi_trip){
+                        line["status"]="출장 및 교육";
+                    }
+                }
+
                 if(dayoff!='None'){ //연차기록이 있으면 
                     var sta_dayoff=dayoff.substr(0,4);
                     var end_dayoff=dayoff.substr(5,4);
@@ -306,6 +319,7 @@ app.post('/status', function(req, res){
                         line["status"]="연차";
                     }
                 }
+
             }
             const newArray = serialized.map(({shift_cd, work_type,ymd,plan2,fix1,dayoff1_time, ...rest}) => rest);
             // emp_id, status 제외하고 모두 삭제해주기
