@@ -32,7 +32,7 @@
                     </div>
                     <div style="width:15%;">
                         <div class="circle border-red"></div>
-                        <span class="circle-span">연차</span>
+                        <span class="circle-span">휴무</span>
                     </div>
                     <div style="width:15%;">
                         <div class="circle border-yellow"></div>
@@ -75,7 +75,7 @@
                                         <% for(var i=0;i<list.length;i++){ %>
                                         <% if(list[i].dept_name== Object.keys(dept_info)[dept] && list[i].duty_name=="팀장"){ %>
                                             <div class="border bg-light cell mr-0" id="team-leader" style="position:relative" >
-                                                <span class="position-absolute btn-success translate-middle p-2 border border-light rounded-circle btn-l-<%=Object.values(dept_info)[dept]%>" id="" >
+                                                <span class="position-absolute btn-green translate-middle p-2 border border-light rounded-circle btn-l-<%=Object.values(dept_info)[dept]%>" id="" >
                                                 </span>
                                                 <% if(list[i].seat_arrng!=-1){%>
                                                     <img src="<%= list[i].img_url %>" onerror="this.src='img/NoImage.jpeg'" class="mem-img">
@@ -100,7 +100,7 @@
                                                 <% var col = Object.values(dept_info)[dept] %>
                                                 <div class="col-<%= 12/col %> text-center mem" id="<%= i*col+j+1 %>" style="float: none; margin:100 auto;">
                                                     <div class="border bg-light cell mr-0" style="position:relative" >
-                                                        <span class="position-absolute translate-middle p-2 btn-success border border-light rounded-circle"  id="status">
+                                                        <span class="position-absolute translate-middle p-2 btn-green border border-light rounded-circle"  id="status">
                                                         </span>
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*col+j+1  %>   
