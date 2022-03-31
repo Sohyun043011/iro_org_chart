@@ -46,20 +46,26 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     IFNULL(B.URL,'None') as img_url FROM connect.hr_info as A 
     LEFT JOIN connect.gw_pic_info as B ON A.emp_id=B.emp_code 
     RIGHT JOIN (SELECT distinct emp_id, post_nm, duty_nm from connect.inf_app 
-    WHERE (emp_id, sta_ymd) IN (SELECT emp_id, MAX(sta_ymd) AS sta_ymd 
-    FROM (SELECT * FROM connect.inf_app WHERE emp_id not IN 
-    ( SELECT emp_id FROM connect.inf_app WHERE appnt_nm IN('퇴직','파견계약해지')))t 
-    GROUP BY emp_nm) AND appnt_nm NOT IN ('직급대우해지') 
-    AND emp_nm NOT IN ('테과장','테스트')) AS C ON A.emp_id=C.emp_id`;
+        WHERE (emp_id, sta_ymd, SEQ_NO) IN (
+            SELECT emp_id, sta_ymd, MAX(SEQ_NO) AS SEQ_NO FROM connect.inf_app 
+            WHERE (emp_id, sta_ymd) in(
+                SELECT emp_id, MAX(sta_ymd) AS sta_ymd FROM (
+                    SELECT emp_id, sta_ymd, SEQ_NO FROM connect.inf_app WHERE emp_id not in (
+                        SELECT emp_id FROM connect.inf_app WHERE appnt_nm IN('퇴직','파견계약해지')
+                    )
+                )w GROUP BY emp_id)
+            GROUP BY emp_id)
+        AND appnt_nm NOT IN ('직급대우해지') 
+        AND emp_nm NOT IN ('테과장','테스트')) AS C ON A.emp_id=C.emp_id`;
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('Insert query is not executed.');
         else console.log('Insert query executed successfully.');
     })
 
-    sql=`INSERT INTO good.seat_info(emp_id, emp_name, dept_name, seat_arrng) 
-    SELECT emp_id, emp_name, dept_name, -1 FROM good.emp_info 
-    WHERE (emp_id, emp_name, dept_name) NOT IN (
-        SELECT emp_id, emp_name, dept_name FROM seat_info
+    sql=`INSERT INTO good.seat_info(emp_id, emp_name, dept_name, post_name, seat_arrng) 
+    SELECT emp_id, emp_name, dept_name, post_name -1 FROM good.emp_info 
+    WHERE (emp_id, emp_name, dept_name, post_name) NOT IN (
+        SELECT emp_id, emp_name, dept_name, post_name FROM seat_info
     )`;
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('Insert query is not executed.');
@@ -67,8 +73,8 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     });
 
     sql=`DELETE FROM good.seat_info 
-    WHERE (emp_id, emp_name, dept_name) NOT IN (
-        SELECT emp_id, emp_name, dept_name FROM good.emp_info
+    WHERE (emp_id, emp_name, dept_name, post_name) NOT IN (
+        SELECT emp_id, emp_name, dept_name, post_name FROM good.emp_info
     )`;
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('Delete query is not executed.');
@@ -295,8 +301,8 @@ app.post('/status', function(req, res){
                     line["status"]="재택근무";
                 }
 
-                if(plan2=="전일연차" || fix1=="기타휴가"){ //하루종일 연차인 경우
-                    line["status"]="연차";
+                if(plan2=="전일연차" || fix1=="기타휴가" || work_type=="0060"){ //하루종일 연차인 경우
+                    line["status"]="휴무";
                     continue;
                 }
 
@@ -316,7 +322,7 @@ app.post('/status', function(req, res){
                     var now=fillZero(2,today.getHours().toString())+fillZero(2,today.getMinutes().toString());
 
                     if(now>=sta_dayoff && now<=end_dayoff){
-                        line["status"]="연차";
+                        line["status"]="휴무";
                     }
                 }
 
