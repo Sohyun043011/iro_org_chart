@@ -179,7 +179,7 @@ app.post('/detail',function(req,res){
     // const _id = req.body._id;
     var id = req.body.id;
 
-    var sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,roll_info,img_url FROM good.emp_info WHERE emp_id='${id}'`;
+    var sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,duty_name,roll_info,img_url FROM good.emp_info WHERE emp_id='${id}'`;
     conn.query(sql, function(err, info, fields){
         if(err) console.log('query is not executed.');
         else {
