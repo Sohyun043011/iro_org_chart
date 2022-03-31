@@ -108,7 +108,7 @@ p,h4,h3,h2,h1,span{
 .btn-detail{
     padding-top:20px;
     display:flex; 
-    width:330px; 
+    width:380px; 
     float:left; 
     text-align: center;
     justify-content: center;
@@ -117,7 +117,7 @@ p,h4,h3,h2,h1,span{
 .circle-span{
     color: white; 
     margin-top:10px;
-    font-size: small;
+    font-size: 15px;
     white-space:nowrap;
 }
 #status{
@@ -270,7 +270,8 @@ p,h4,h3,h2,h1,span{
     /* 이미지 */
     max-width: 230px;
     height:100%;
-    border: 1px solid black;
+    border-radius: 16px;
+    box-shadow: 0 0 8px grey;
 }
 .right-container{
     float:right;
@@ -330,12 +331,43 @@ p,h4,h3,h2,h1,span{
     top:0px;
     left:43% !important;
 }
-
-/* 0px로 설정 */
-@media (min-width: 0px){
-    /* 팀장 자리 가운데로 설정 */
-    .justify-content-md-center {
-        justify-content: center!important;
-    }
+.btn-yellow{
+   
+    width:18px;
+    height:18px;
+    border-width:3px !important;
+    color:#fff;
+    border-color:rgba(255, 255, 255, 1);
+    box-shadow: 1px 1px 3px 1px rgba(155, 155, 155, 1);
+    background:linear-gradient(rgba(245, 166, 35, 1), rgba(250, 232, 15, 1));
+}
+.btn-green{
+    width:18px;
+    height:18px;
+    border-width:2px    !important;  
+    border-color:rgba(255, 255, 255, 1) !important; 
+    box-shadow: 4px -1px 1px -1px rgba(155, 155, 155, 1);
+    background:linear-gradient(green,rgb(3 78 3));
+}
+.btn-blue{
+    width:18px;
+    height:18px;
+    border-width:2px    !important;  
+    border-color:rgba(255, 255, 255, 1) !important; 
+    box-shadow: 4px -1px 1px -1px rgba(155, 155, 155, 1);
+    background:linear-gradient(#6060ff,rgb(0 0 199));
+}
+.btn-red{
+    /* background-color: red; */
+    width:18px;
+    height:18px;
+    border-width:2px    !important;  
+    border-color:rgba(255, 255, 255, 1) !important; 
+    box-shadow: 4px -1px 1px -1px rgba(155, 155, 155, 1);
+    background:linear-gradient(rgb(247 0 0), rgba(208, 2, 27, 1))
 
 }
+
+
+/* 0px로 설정 */
+

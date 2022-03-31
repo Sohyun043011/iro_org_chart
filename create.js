@@ -76,19 +76,21 @@ $(document).ready(function(){
                                     if(status=="재택근무")
                                     {
                                         //재택근무면 파란색(btn-primary)
-                                        $('.cell').eq(mem).children('span:eq(0)').removeClass('btn-success');
-                                        $('.cell').eq(mem).children('span:eq(0)').addClass('btn-primary');
+                                        $('.cell').eq(mem).children('span:eq(0)').removeClass('btn-green');
+                                        $('.cell').eq(mem).children('span:eq(0)').addClass('btn-blue');
                                         
                                     }
-                                    else if(status=="근무 중")
+                                    else if(status=="출장 및 교육")
                                     {
                                         //근무 중은 초록색(기본 btn-success)
+                                        $('.cell').eq(mem).children('span:eq(0)').removeClass('btn-green');
+                                        $('.cell').eq(mem).children('span:eq(0)').addClass('btn-yellow');
                                     }
                                     else if(status=="연차")
                                     {
                                         //연차일땐 
-                                        $('.cell').eq(mem).children('span:eq(0)').removeClass('btn-success');
-                                        $('.cell').eq(mem).children('span:eq(0)').addClass('btn-danger');
+                                        $('.cell').eq(mem).children('span:eq(0)').removeClass('btn-green');
+                                        $('.cell').eq(mem).children('span:eq(0)').addClass('btn-red');
                                     
                                     }
                                 }
