@@ -86,7 +86,7 @@ $(document).ready(function(){
                                         $('.cell').eq(mem).children('span:eq(0)').removeClass('btn-green');
                                         $('.cell').eq(mem).children('span:eq(0)').addClass('btn-yellow');
                                     }
-                                    else if(status=="연차")
+                                    else if(status=="휴무")
                                     {
                                         //연차일땐 
                                         $('.cell').eq(mem).children('span:eq(0)').removeClass('btn-green');
