@@ -1,3 +1,6 @@
+body.swal2-height-auto {
+    height: 100% !important
+}
 .btn-del{
     z-index: 5;
     top:0px;
@@ -23,10 +26,25 @@
 
 .list-container{
     height: 100%;
+    padding:20px;
 }
 .form-select{
     height: 100%;
 }
 .white-background{
     display: block;
+}
+.list-header{
+    height: 70px;
+    color: white;
+    background-color: rgb(25, 25, 49);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position:relative;
+
+}
+.list-title{
+    padding: 20px;
+    font-size: 20px;
 }

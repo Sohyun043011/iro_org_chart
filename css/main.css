@@ -4,6 +4,9 @@ body{
     height:100%;
     overflow:hidden;
 }
+body.swal2-height-auto {
+    height: 100% !important
+}
 html{
     height:100%;
 }
@@ -108,7 +111,7 @@ p,h4,h3,h2,h1,span{
 .btn-detail{
     padding-top:20px;
     display:flex; 
-    width:380px; 
+    width:480px; 
     float:left; 
     text-align: center;
     justify-content: center;
@@ -116,7 +119,6 @@ p,h4,h3,h2,h1,span{
 }
 .circle-span{
     color: white; 
-    margin-top:10px;
     font-size: 15px;
     white-space:nowrap;
 }
@@ -367,10 +369,13 @@ p,h4,h3,h2,h1,span{
     color:#fff;
     border-color:rgba(255, 255, 255, 1);
     box-shadow: 1px 1px 3px 1px rgba(155, 155, 155, 1);
-    background:linear-gradient(rgb(244 149 149), rgb(226 4 4));
+    background:linear-gradient(rgb(253 241 241), rgb(226 4 4));
 
 }
-
+.buttonClass{
+    width:15%;
+    text-align: center;
+}
 
 /* 0px로 설정 */
 

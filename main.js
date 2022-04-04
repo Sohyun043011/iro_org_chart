@@ -230,7 +230,7 @@ app.post('/addlist/:dept_name', function(req,res){ // 플러스 버튼 누를 �
 
     var dept_name=req.params.dept_name;
 
-    var sql=`select emp_id, emp_name, '${dept_name}' from seat_info
+    var sql=`select emp_id, emp_name,dept_name from seat_info
     where dept_name='${dept_name}' and seat_arrng=-1` // 해당 부서에 seat_arrng=-1인 사용자들 호출
 
     conn.query(sql, function(err, info, fields){

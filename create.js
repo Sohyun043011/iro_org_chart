@@ -97,8 +97,8 @@ $(document).ready(function(){
                             }
                         }
                         else{
-                            //(빈 셀인 경우) 상태표시 제거
-                            $(".rounded-circle").eq(mem).css({'display':'none'});
+                            //(빈 셀인 경우) 상태표시 제거 (뒤에 바꾸기)
+                            $(".rounded-circle").eq(mem+4).css({'display':'none'});
                         }
                     }
                 }
@@ -244,6 +244,6 @@ $(document).ready(function(){
     }  
 );
 
-// setTimeout(function(){ //30초에 한번씩 reload
-//     location.reload();
-// }, 30000);
+setTimeout(function(){ //600초(10분)에 한번씩 reload
+    location.reload();
+}, 600000);

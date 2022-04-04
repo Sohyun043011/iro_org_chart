@@ -13,6 +13,12 @@ $(document).ready(function(){
     $('.dept-table').last().css({'border-right':'none'});                   //마지막 팀 테두리 선 제거 
     $('.header').css({'width':`${100/(office.length)}%`});
     $('.btn').removeClass('clicked');
+
+   
+
+
+
+
     // 실장실에 순서대로 클래스명 부착
     for(var off = 0; off<office.length; off++){
         $('.header').eq(off).addClass(`header-${off}`);
@@ -105,52 +111,146 @@ $(document).ready(function(){
     $('.btn-del').on('click',function(e){
         // 해당 셀 삭제 버튼 누르는 경우, 셀의 사번을 ajax로 전송
         // 삭제 하시겠습니까?(confirm창)
-        var ans = confirm('삭제 하시겠습니까?');
-        if(ans){
-            var data = e.target.parentElement.parentElement.children[1].children[0].getAttribute('id');
-            console.log("ajax started");
-            $.ajax({
-                method:'POST',
-                url:`/delete/${data}`,
-                success:function(result){
-                    
-                },
-                error: function(result){
-                    alert('실패');
-                }
-            });
-            location.reload();      //새로고침      
-        }
+
+
+        Swal.fire({
+            title : '해당 사원을 삭제하시겠습니까?',
+            icon:'warning',
+            heightAuto:false,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '승인',
+            cancelButtonText: '취소'
+        }).then((result)=>{
+            if(result.isConfirmed){
+                var data = e.target.parentElement.parentElement.children[1].children[0].getAttribute('id');
+                console.log("ajax started");
+                $.ajax({
+                    method:'POST',
+                    url:`/delete/${data}`,
+                    success:function(result){
+                        
+                    },
+                    error: function(result){
+                        alert('실패');
+                    }
+                });
+                Swal.fire(
+                    '삭제되었습니다.','','success'
+                );
+                location.reload(); 
+            }
+        });
+
         
     });
+
+    
+
+
 
     // 추가 버튼 누르는 경우
     $('.btn-add').on('click',function(e){
         //  팀 이름 가져오기
+        var seat_arrng = e.target.parentElement.parentElement.parentElement.getAttribute('id');
+        console.log(seat_arrng);
         $('.black-background').show().animate({marginTop:'0px'});  
-        var dept_name = $(e.target).parents('.department').children('.dept-name').text();
-        console.log(dept_name);
         // 플러스 버튼 누르면 유저리스트 가져오기
-        $.ajax({
-            method:'POST',
-            url:`/addlist/${dept_name}`,
-            success:function(result){
-                var len = result.length;    //팀에 -1인 사람의 수  
-                // 리스트 띄우기 (드롭다운??)   
-                for(var i=0;i<len;i++)
-                {
-                    console.log('사번: '+ result[i]['emp_id']);
-                    console.log('이름: '+ result[i]['emp_name']);
-                    console.log('팀이름: '+ dept_name);
-                }
+
+        $("#jsGrid").jsGrid({
+            width: "100%",
+            height: "400px",
+            paging:false,
+            autoload:true,
+            
+            fields: [
+                { name : "number", type:"number",title:"번호",align:"center",width:"50px"},
+                { name: "emp_name", type: "text",title:"이름",align:"center"},
+                { name: "dept_name", type: "text",title:"팀이름",align:"center"},
                 
+            ],
+        
+            controller:{
+                loadData : function(){
+                    var d = $.Deferred();
+                    var dept_name = $(e.target).parents('.department').children('.dept-name').text();
+                    console.log(dept_name);
+    
+                    
+                    $.ajax({
+                        method:'POST',
+                        url:`/addlist/${dept_name}`,
+                        dataType:"json",
+                        success:function(data){
+                           
+                            // console.log(data);
+                            
+                            
+                            for(var i=0;i<data.length;i++)
+                            {
+                                data[i]["number"]=i+1;
+                            }
+                            console.log(data);
+                            d.resolve(data);
+                        },
+                        error:function(e){
+                            alert("error: "+e.responseText);
+                        }
+                       
+                    });
+                    return d.promise();
+                }
             },
-            error:function(result){
-                alert('실패');
+           
+            rowClick : function(args){
+                console.log(args);
+                console.log(args.event);
+                var getData = args.item;
+                var emp_id = getData['emp_id'];
+                var emp_name = getData['emp_name'];
+                
+                Swal.fire({
+                    title : '해당 사원을 추가하시겠습니까?',
+                    icon:'warning',
+                    heightAuto:false,
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '승인',
+                    cancelButtonText: '취소'
+                }).then((result)=>{
+                    if(result.isConfirmed){
+                        $.ajax({
+                            method:'POST',
+                            url:`/add/${emp_id}/${seat_arrng}`,
+                            dataType:"json",
+                            success:function(data){
+                                
+                            },
+                            error:function(e){
+                                alert("error: "+e.responseText);
+                            }
+                           
+                        });
+                        Swal.fire(
+                            '승인되었습니다.','','success'
+                        );
+                        location.reload(); 
+                    }
+                });
+
+               
             }
+            
+
+            
         });
         
     });
+
+    
+    
 
     // 모달창 뒤 검은 배경 누르면 창 닫힘
     $('.black-background').click(function(e){
@@ -170,6 +270,6 @@ $(document).ready(function(){
 
 
 
-// setTimeout(function(){ //30초에 한번씩 reload
-//     location.reload();
-// }, 30000);
+setTimeout(function(){ //300초(5분)뒤에 redirection 이전 페이지로 
+    window.history.back();
+}, 300000);
