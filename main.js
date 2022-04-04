@@ -58,17 +58,17 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
         AND appnt_nm NOT IN ('직급대우해지') 
         AND emp_nm NOT IN ('테과장','테스트')) AS C ON A.emp_id=C.emp_id`;
     conn.query(sql, function(err, rows, fileds){
-        if(err) console.log('Insert query is not executed.');
+        if(err) console.log(err);
         else console.log('Insert query executed successfully.');
     })
 
     sql=`INSERT INTO good.seat_info(emp_id, emp_name, dept_name, post_name, seat_arrng) 
-    SELECT emp_id, emp_name, dept_name, post_name -1 FROM good.emp_info 
+    SELECT emp_id, emp_name, dept_name, post_name, -1 FROM good.emp_info 
     WHERE (emp_id, emp_name, dept_name, post_name) NOT IN (
         SELECT emp_id, emp_name, dept_name, post_name FROM seat_info
     )`;
     conn.query(sql, function(err, rows, fileds){
-        if(err) console.log('Insert query is not executed.');
+        if(err) console.log(err);
         else console.log(rows.affectedRows);
     });
 
@@ -77,7 +77,7 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
         SELECT emp_id, emp_name, dept_name, post_name FROM good.emp_info
     )`;
     conn.query(sql, function(err, rows, fileds){
-        if(err) console.log('Delete query is not executed.');
+        if(err) console.log(err);
         else console.log(rows.affectedRows + " rows affected");
     });
 
@@ -134,17 +134,17 @@ app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으�
         AND appnt_nm NOT IN ('직급대우해지') 
         AND emp_nm NOT IN ('테과장','테스트')) AS C ON A.emp_id=C.emp_id`;
     conn.query(sql, function(err, rows, fileds){
-        if(err) console.log('Insert query is not executed.');
+        if(err) console.log(err);
         else console.log('Insert query executed successfully.');
     })
 
     sql=`INSERT INTO good.seat_info(emp_id, emp_name, dept_name, post_name, seat_arrng) 
-    SELECT emp_id, emp_name, dept_name, post_name -1 FROM good.emp_info 
+    SELECT emp_id, emp_name, dept_name, post_name, -1 FROM good.emp_info 
     WHERE (emp_id, emp_name, dept_name, post_name) NOT IN (
-        SELECT emp_id, emp_name, dept_name, post_name FROM seat_info
+      SELECT emp_id, emp_name, dept_name, post_name FROM seat_info
     )`;
     conn.query(sql, function(err, rows, fileds){
-        if(err) console.log('Insert query is not executed.');
+        if(err) console.log(err);
         else console.log(rows.affectedRows);
     });
 
@@ -153,7 +153,7 @@ app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으�
         SELECT emp_id, emp_name, dept_name, post_name FROM good.emp_info
     )`;
     conn.query(sql, function(err, rows, fileds){
-        if(err) console.log('Delete query is not executed.');
+        if(err) console.log(err);
         else console.log(rows.affectedRows);
     });
 
@@ -161,7 +161,7 @@ app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으�
 
     sql=`select * from good.emp_info A left join good.seat_info B on A.emp_id=B.emp_id`;
     conn.query(sql, function(err, rows, fileds){
-        if(err) console.log('query is not executed.');
+        if(err) console.log(err);
         else {
             response.render('edit.ejs', {list:rows});
             // response.render('pr.ejs', {list:rows});
