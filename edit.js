@@ -132,10 +132,11 @@ $(document).ready(function(){
                         alert('실패');
                     }
                 });
-                Swal.fire(
-                    '삭제되었습니다.','','success'
-                );
-                location.reload(); 
+                Swal.fire({
+                    title:'삭제되었습니다.',
+                    icon:'success',
+                }).then(()=> {location.reload()}); 
+               
             }
         });
 

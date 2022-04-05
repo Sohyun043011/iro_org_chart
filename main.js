@@ -31,7 +31,6 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     console.log('connection success');
     
     var sql="";
-    var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':4,'MICE뷰로':2};
     /*good.emp_info 갱신 */
     sql=`truncate table good.emp_info`; //테이블 비우기
     conn.query(sql, function(err, rows, fileds){
@@ -107,7 +106,6 @@ app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으�
     console.log('connection success');
     
     var sql="";
-    var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':4,'MICE뷰로':2};
     /*good.emp_info 갱신 */
     sql=`truncate table good.emp_info`; //테이블 비우기
     conn.query(sql, function(err, rows, fileds){

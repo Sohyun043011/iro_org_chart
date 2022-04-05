@@ -1,10 +1,12 @@
 var org={
 
-    '관광마케팅실':['해외마케팅팀','국내관광팀','스마트관광팀','MICE뷰로'],
-    '기획조정실':['고객홍보팀','전략기획팀','경영지원팀'],
+    '관광마케팅실':['의료웰니스팀'],
+    '관광산업실':['축제이벤트팀','섬발전지원센터','관광인프라팀','관광기업지원센터','MICE지원센터'],
+    '비서실':['비서실'],
+    '안전감사':['안전감사팀']
 }
-var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':3,'MICE뷰로':2,'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4};
-var office = ['관광마케팅실','기획조정실'];
+var dept_info={'의료웰니스팀':2,'축제이벤트팀':2,'섬발전지원센터':2,'관광인프라팀':2,'관광기업지원센터':2,'MICE지원센터':2,'비서실':1,'안전감사팀':1};
+var office = ['관광마케팅실','관광산업실','비서실','안전감사'];
 
 $(document).ready(function(){
             $('#container').css({"width": window.innerWidth, "height":'100%'});     //전체 컨테이너 크기 지정
@@ -168,20 +170,14 @@ $(document).ready(function(){
                         var office = result[0].dept_name;
                         var mobile = result[0].mobile_no;
                         var office_no = result[0]. office_tel_no;
+                        var position_tag = result[0].duty_name;
                         var detail_tag = result[0].roll_info;
                         var img = result[0].img_url;
                         
-                        // 팀장은 duty_name, 나머지 사원은 post_name이 직급
-                        if(result[0].duty_name=="팀장"){
-                            var position_tag = result[0].duty_name; 
-                        }
-                        else{
-                            var position_tag = result[0].post_name; 
-                        }
-
                         // background.ejs에 받은 정보들 삽입
                         document.getElementById('img').innerHTML= `<img src="${img}" id="pic">`
                         document.getElementById('name_tag').innerHTML = `${name} ${position_tag}`;
+                        // document.getElementById('id_tag').innerHTML = emp_id;
                         document.getElementById('office_tag').innerHTML=office;
                         document.getElementById('phone_tag').innerHTML = mobile;
                         document.getElementById('office_p_tag').innerHTML = office_no;
