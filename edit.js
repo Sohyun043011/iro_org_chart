@@ -133,6 +133,7 @@ $(document).ready(function(){
                     }
                 });
                 Swal.fire({
+                    heightAuto:false,
                     title:'삭제되었습니다.',
                     icon:'success',
                 }).then(()=> {location.reload()}); 
@@ -157,7 +158,6 @@ $(document).ready(function(){
 
         $("#jsGrid").jsGrid({
             width: "100%",
-            height: "400px",
             paging:false,
             autoload:true,
             
@@ -231,6 +231,7 @@ $(document).ready(function(){
                            
                         });
                         Swal.fire({
+                            heightAuto:false,
                             title:'승인되었습니다.',
                             icon:'success',
                         }).then(()=> {location.reload()}); 
