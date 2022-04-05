@@ -104,6 +104,49 @@ $(document).ready(function(){
                 }
             });
 
+            //각 실장님 클릭시 detail 모달창 (다른 사원과 내부 요소들이 달라서 따로 구현함)
+            $('.header').on('click',function(e){
+                $('.black-background').show().animate({marginTop:'0px'});
+                $('.right-container').scrollTop(0);
+                var data = e.currentTarget.children[1].getAttribute('id');
+                console.log("ajax started")
+                //띄울 mem의 id
+                $.ajax({
+                    method:'POST',
+                    url:'/detail',
+                    data:{
+                        id:data
+                    },  //서버로 보낼 데이터
+                    success:function(result){
+                        // //alert('성공');
+                        var name = result[0].emp_name;
+                        // var emp_id = result[0].emp_id;
+                        var office = result[0].dept_name;
+                        var mobile = result[0].mobile_no;
+                        var office_no = result[0]. office_tel_no;
+                        var position_tag = result[0].duty_name;
+                        var detail_tag = result[0].roll_info;
+                        var img = result[0].img_url;
+                        
+                        // background.ejs에 받은 정보들 삽입
+                        document.getElementById('img').innerHTML= `<img src="${img}" id="pic">`
+                        document.getElementById('name_tag').innerHTML = `${name} ${position_tag}`;
+                        document.getElementById('office_tag').innerHTML=office;
+                        document.getElementById('phone_tag').innerHTML = mobile;
+                        document.getElementById('office_p_tag').innerHTML = office_no;
+                        document.getElementById('detail_tag').innerHTML = detail_tag;
+                    },
+                    error: function(result){
+                        alert('실패');
+                    }
+                })
+                if(data)
+                {
+                    console.log(data);
+                }else{
+                    console.log('빈 셀');
+                }
+            });
             //사원 이미지 클릭시 detail 모달창 띄움
             $('.mem-img').on('click',function(e){
                 $('.black-background').show().animate({marginTop:'0px'});
@@ -125,7 +168,7 @@ $(document).ready(function(){
                         var office = result[0].dept_name;
                         var mobile = result[0].mobile_no;
                         var office_no = result[0]. office_tel_no;
-                        var position_tag = result[0].post_name;
+                        var position_tag = result[0].duty_name;
                         var detail_tag = result[0].roll_info;
                         var img = result[0].img_url;
                         
@@ -152,52 +195,8 @@ $(document).ready(function(){
 
             });
 
-            //각 실장님 클릭시 detail 모달창 (다른 사원과 내부 요소들이 달라서 따로 구현함)
-            $('.header').on('click',function(e){
-                $('.black-background').show().animate({marginTop:'0px'});
-                $('.right-container').scrollTop(0);
-                var data = e.currentTarget.children[1].getAttribute('id');
-                console.log("ajax started")
-                //띄울 mem의 id
-                $.ajax({
-                    method:'POST',
-                    url:'/detail',
-                    data:{
-                        id:data
-                    },  //서버로 보낼 데이터
-                    success:function(result){
-                        // //alert('성공');
-                        var name = result[0].emp_name;
-                        var emp_id = result[0].emp_id;
-                        var office = result[0].dept_name;
-                        var mobile = result[0].mobile_no;
-                        var office_no = result[0]. office_tel_no;
-                        var position_tag = result[0].post_name;
-                        var detail_tag = result[0].roll_info;
-                        var img = result[0].img_url;
-                        
-                        
-                        document.getElementById('img').innerHTML= `<img src="${img}" id="pic">`
-                        document.getElementById('name_tag').innerHTML = name;
-                        document.getElementById('id_tag').innerHTML = emp_id;
-                        document.getElementById('office_tag').innerHTML=office;
-                        document.getElementById('phone_tag').innerHTML = mobile;
-                        document.getElementById('office_p_tag').innerHTML = office_no;
-                        document.getElementById('position_tag').innerHTML = position_tag;
-                        document.getElementById('detail_tag').innerHTML = detail_tag;
-                        // result[0].emp_name;
-                    },
-                    error: function(result){
-                        alert('실패');
-                    }
-                })
-                if(data)
-                {
-                    console.log(data);
-                }else{
-                    console.log('빈 셀');
-                }
-            });
+            
+           
 
             // 모달창 뒤 검은 배경 누르면 창 닫힘
             $('.black-background').click(function(e){

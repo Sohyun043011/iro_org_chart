@@ -14,10 +14,6 @@ $(document).ready(function(){
     $('.header').css({'width':`${100/(office.length)}%`});
     $('.btn').removeClass('clicked');
 
-   
-
-
-
 
     // 실장실에 순서대로 클래스명 부착
     for(var off = 0; off<office.length; off++){
@@ -234,7 +230,11 @@ $(document).ready(function(){
                            
                         });
                         Swal.fire(
-                            '승인되었습니다.','','success'
+                            {
+                                title:'승인되었습니다',
+                                icon:'success',
+                            }
+                            
                         );
                         location.reload(); 
                     }
