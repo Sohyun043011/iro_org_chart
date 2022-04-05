@@ -230,14 +230,10 @@ $(document).ready(function(){
                             }
                            
                         });
-                        Swal.fire(
-                            {
-                                title:'승인되었습니다',
-                                icon:'success',
-                            }
-                            
-                        );
-                        location.reload(); 
+                        Swal.fire({
+                            title:'승인되었습니다.',
+                            icon:'success',
+                        }).then(()=> {location.reload()}); 
                     }
                 });
 
