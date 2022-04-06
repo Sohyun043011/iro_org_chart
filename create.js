@@ -12,7 +12,6 @@ $(document).ready(function(){
             $('.mem-img').addClass('border');                                       //각 이미지에 선 추가
             $('.dept-table').last().css({'border-right':'none'});                   //마지막 팀 테두리 선 제거 
             $('.header').css({'width':`${100/(office.length)}%`});
-            $('.btn').removeClass('clicked');
             // 실장실에 순서대로 클래스명 부착
             for(var off = 0; off<office.length; off++){
                 $('.header').eq(off).addClass(`header-${off}`);
@@ -106,7 +105,8 @@ $(document).ready(function(){
 
             //각 실장님 클릭시 detail 모달창 (다른 사원과 내부 요소들이 달라서 따로 구현함)
             $('.header').on('click',function(e){
-                $('.black-background').show().animate({marginTop:'0px'});
+                $('.black-background').css({marginTop:'0px'});
+                $('.black-background').show();
                 $('.right-container').scrollTop(0);
                 var data = e.currentTarget.children[1].getAttribute('id');
                 console.log("ajax started")
@@ -149,7 +149,8 @@ $(document).ready(function(){
             });
             //사원 이미지 클릭시 detail 모달창 띄움
             $('.mem-img').on('click',function(e){
-                $('.black-background').show().animate({marginTop:'0px'});
+                $('.black-background').css({marginTop:'0px'});
+                $('.black-background').show();
                 $('.right-container').scrollTop(0);     //스크롤 위치 위로 초기화
                 // 클릭한 cell의 memInfo의 memName,memPos를 가져옴.
                 var data =  e.target.parentElement.parentElement.children[1].children[0].getAttribute('id');
@@ -219,35 +220,56 @@ $(document).ready(function(){
                     }
             });
 
-            // 16F, 17F, 수정 버튼 클릭시 event
-            // 1. 16F 페이지일 때 16버튼 active 되어야 함
-            var btn = document.getElementsByClassName("btn");
-            // 1.clicked 클래스 add,remove(버튼 색 변경)
-            function handleClick(event) 
-            {
-                console.log(event.target);
-                console.log(event.target.classList);
-                if (event.target.classList[1] === "clicked") {
-                    
-                    event.target.classList.remove("clicked");
-                } 
-                else {
-                    for (var i = 0; i < btn.length; i++) {
-                        btn[i].classList.remove("clicked");
-                    }
-                    event.target.classList.add("clicked");
-                }
-            }
-            // 2. 버튼 클릭시 페이지 이동
-            function init() {
-                for (var i = 0; i < btn.length; i++) 
-                {
-                    btn[i].addEventListener("click", handleClick);
-                }
-            }
-            init();
     }  
 );
+
+const login = async()=>{
+
+    
+    const { value: password } = await Swal.fire({
+        title: '비밀번호를 입력하세요',
+        icon:'warning',
+        input: 'password',
+        heightAuto:false,
+        inputPlaceholder: '비밀번호를 입력하세요',
+        inputAttributes: {
+          maxlength: 10,
+          autocapitalize: 'off',
+          autocorrect: 'off'
+        },
+        inputValidator: (value) => {
+            if (!value) {
+              return '비밀번호를 입력해주세요!'
+            }
+          }
+      });
+      
+    
+      if (password) {
+        console.log(password);
+        $.ajax({
+            method:'POST',
+            url:'/login',
+            data : {'password':password},
+            success:function(result){
+                console.log(result);
+            },
+            error:function(result){
+                Swal.fire({
+                    title : "비밀번호가 틀렸습니다.",
+                    icon:'warning',
+                    heightAuto : false,
+                }).then(()=>{
+                    location.href='/';
+                })
+            }
+        })
+      }
+
+      
+}
+
+
 
 setTimeout(function(){ //600초(10분)에 한번씩 reload
     location.reload();

@@ -14,7 +14,21 @@ div{
     box-sizing: border-box;
 }
 
-
+input[type=password]{
+    font-family:"굴림";
+}
+::placeholder { 
+    font-family: 'NanumSquare', sans-serif; 
+    opacity: 1; /* Firefox */ 
+} 
+:-ms-input-placeholder { 
+    /* Internet Explorer 10-11 */ 
+    font-family: 'NanumSquare', sans-serif; 
+} 
+::-ms-input-placeholder { 
+    /* Microsoft Edge */ 
+    font-family: 'NanumSquare', sans-serif; 
+}
 
 p,h4,h3,h2,h1,span{
     /* 글씨 이뿌게 */
@@ -50,10 +64,7 @@ p,h4,h3,h2,h1,span{
     color: white;
     border-color: grey;
 }
-.clicked{
-    /* 버튼 클릭시  */
-    background-color:rgb(98, 98, 198);
-}
+
 .main{
     /* display: flex; */
     background-color:white; 
