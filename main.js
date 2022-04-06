@@ -6,15 +6,23 @@ var url = require('url');
 var path=require('path')
 const express=require('express');
 const res = require('express/lib/response');
+const session=require('express-session');
 const { DEC8_SWEDISH_CI } = require('mysql/lib/protocol/constants/charsets');
 var db_config=require(path.join(__dirname,'db_connect.js'));
 
 const port=3000; //포트접속정보
 
+const user_pwd='ito1234!@#$'
+
 const app=express(); 
 
 app.set('views','./views');
 app.set('view engine','ejs');
+app.use(session({
+    secret:'kjwlakwf@$#!',
+    resave:false,
+    saveUninitialized:true,
+}));
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname+'/css')));
 app.use(express.static(path.join(__dirname+'/node_modules')));
@@ -24,6 +32,47 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json()); // for parsing application/json
 
+
+
+app.post('/login',(req,res)=>{
+    console.log('/login 호출');
+    var paramPw = req.body.password || req.query.password;
+    if (req.session.user) {
+        console.log('이미 로그인되어 수정페이지로 이동');
+        return res.status(200).send({result:'redirect', url:'/edit/16'})
+    } else {
+        if(paramPw==user_pwd){
+            req.session.is_logined=true;
+            req.session.save(err=>{
+                if(err) throw err;
+                return res.status(200).send({result:'redirect', url:'/edit/16'})
+            })
+        }
+        else{
+            console.log('password is not correct.');
+            console.log(paramPw);
+            console.log(user_pwd);
+            return res.status(401).send({error:"Password is not correct."})
+        }
+    }
+})
+app.get('/logout', (req, res)=>{
+    console.log('/process/logout 호출됨');
+    
+    if(req.session.is_logined){
+        console.log('로그아웃');
+        
+        req.session.destroy(function(err){
+            if(err) throw err;
+            console.log('세션 삭제하고 로그아웃됨');
+            res.redirect('/');
+        });
+    }
+    else{
+        console.log('로그인 상태 아님');
+        res.redirect('/');
+    }
+});
 
 app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나올 페이지
     conn=db_config.init();//db connection handler 가져오기
@@ -101,6 +150,10 @@ app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으�
 
     // 페이지에 수정 버튼으로 해당 url redirection하게 만들기
     
+    if(!request.session.user){
+        response.redirect('/');
+    }
+
     conn=db_config.init();//db connection handler 가져오기
     db_config.connect(conn);
     console.log('connection success');
