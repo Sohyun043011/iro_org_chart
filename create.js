@@ -106,7 +106,8 @@ $(document).ready(function(){
 
             //각 실장님 클릭시 detail 모달창 (다른 사원과 내부 요소들이 달라서 따로 구현함)
             $('.header').on('click',function(e){
-                $('.black-background').show().animate({marginTop:'0px'});
+                $('.black-background').css({marginTop:'0px'});
+                $('.black-background').show();
                 $('.right-container').scrollTop(0);
                 var data = e.currentTarget.children[1].getAttribute('id');
                 console.log("ajax started")
@@ -149,7 +150,8 @@ $(document).ready(function(){
             });
             //사원 이미지 클릭시 detail 모달창 띄움
             $('.mem-img').on('click',function(e){
-                $('.black-background').show().animate({marginTop:'0px'});
+                $('.black-background').css({marginTop:'0px'});
+                $('.black-background').show();
                 $('.right-container').scrollTop(0);     //스크롤 위치 위로 초기화
                 // 클릭한 cell의 memInfo의 memName,memPos를 가져옴.
                 var data =  e.target.parentElement.parentElement.children[1].children[0].getAttribute('id');
@@ -219,33 +221,6 @@ $(document).ready(function(){
                     }
             });
 
-            // 16F, 17F, 수정 버튼 클릭시 event
-            // 1. 16F 페이지일 때 16버튼 active 되어야 함
-            var btn = document.getElementsByClassName("btn");
-            // 1.clicked 클래스 add,remove(버튼 색 변경)
-            function handleClick(event) 
-            {
-                console.log(event.target);
-                console.log(event.target.classList);
-                if (event.target.classList[1] === "clicked") {
-                    
-                    event.target.classList.remove("clicked");
-                } 
-                else {
-                    for (var i = 0; i < btn.length; i++) {
-                        btn[i].classList.remove("clicked");
-                    }
-                    event.target.classList.add("clicked");
-                }
-            }
-            // 2. 버튼 클릭시 페이지 이동
-            function init() {
-                for (var i = 0; i < btn.length; i++) 
-                {
-                    btn[i].addEventListener("click", handleClick);
-                }
-            }
-            init();
     }  
 );
 

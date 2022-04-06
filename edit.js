@@ -60,31 +60,8 @@ $(document).ready(function(){
 
     // 16F, 17F, 수정 버튼 클릭시 event
     // 1. 16F 페이지일 때 16버튼 active 되어야 함
-    var btn = document.getElementsByClassName("btn");
-    // 1.clicked 클래스 add,remove(버튼 색 변경)
-    function handleClick(event) 
-    {
-        console.log(event.target);
-        console.log(event.target.classList);
-        if (event.target.classList[1] === "clicked") {
-            
-            event.target.classList.remove("clicked");
-        } 
-        else {
-            for (var i = 0; i < btn.length; i++) {
-                btn[i].classList.remove("clicked");
-            }
-            event.target.classList.add("clicked");
-        }
-    }
-    // 2. 버튼 클릭시 페이지 이동
-    function init() {
-        for (var i = 0; i < btn.length; i++) 
-        {
-            btn[i].addEventListener("click", handleClick);
-        }
-    }
-    init();
+    
+
 
     // 추가버튼 -  만약 빈 셀이면, X 표시 없애고 border를 점선으로 표시
     for(var mem=0;mem<$('.memInfo').length;mem++){

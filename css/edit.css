@@ -1,6 +1,10 @@
 body.swal2-height-auto {
     /* height: 100% !important */
 }
+.jsgrid-grid-body {
+    border-top: none;
+    height: 300px;
+}
 .btn-del{
     z-index: 5;
     top:0px;
