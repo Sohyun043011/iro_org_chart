@@ -12,7 +12,6 @@ $(document).ready(function(){
             $('.mem-img').addClass('border');                                       //각 이미지에 선 추가
             $('.dept-table').last().css({'border-right':'none'});                   //마지막 팀 테두리 선 제거 
             $('.header').css({'width':`${100/(office.length)}%`});
-            $('.btn').removeClass('clicked');
             // 실장실에 순서대로 클래스명 부착
             for(var off = 0; off<office.length; off++){
                 $('.header').eq(off).addClass(`header-${off}`);
@@ -223,6 +222,54 @@ $(document).ready(function(){
 
     }  
 );
+
+const login = async()=>{
+
+    
+    const { value: password } = await Swal.fire({
+        title: '비밀번호를 입력하세요',
+        icon:'warning',
+        input: 'password',
+        heightAuto:false,
+        inputPlaceholder: '비밀번호를 입력하세요',
+        inputAttributes: {
+          maxlength: 10,
+          autocapitalize: 'off',
+          autocorrect: 'off'
+        },
+        inputValidator: (value) => {
+            if (!value) {
+              return '비밀번호를 입력해주세요!'
+            }
+          }
+      });
+      
+    
+      if (password) {
+        console.log(password);
+        $.ajax({
+            method:'POST',
+            url:'/login',
+            data : {'password':password},
+            success:function(result){
+                console.log(result);
+            },
+            error:function(result){
+                Swal.fire({
+                    title : "비밀번호가 틀렸습니다.",
+                    icon:'warning',
+                    heightAuto : false,
+                }).then(()=>{
+                    location.href='/';
+                })
+            }
+        })
+      }
+
+      
+}
+
+
 
 setTimeout(function(){ //600초(10분)에 한번씩 reload
     location.reload();
