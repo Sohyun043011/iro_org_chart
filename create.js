@@ -250,9 +250,9 @@ const login = async()=>{
         $.ajax({
             method:'POST',
             url:'/login',
-            data : {'password':password},
+            data : {password:password},
             success:function(result){
-                console.log(result);
+                window.location.replace(result.url);
             },
             error:function(result){
                 Swal.fire({

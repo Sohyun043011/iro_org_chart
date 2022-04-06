@@ -12,7 +12,7 @@ var db_config=require(path.join(__dirname,'db_connect.js'));
 
 const port=3000; //포트접속정보
 
-const user_pwd='ito1234!@#$'
+const user_pwd='ito1234!@#'
 
 const app=express(); 
 
@@ -45,6 +45,7 @@ app.post('/login',(req,res)=>{
             req.session.is_logined=true;
             req.session.save(err=>{
                 if(err) throw err;
+                console.log('session created');
                 return res.status(200).send({result:'redirect', url:'/edit/16'})
             })
         }
@@ -150,7 +151,7 @@ app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으�
 
     // 페이지에 수정 버튼으로 해당 url redirection하게 만들기
     
-    if(!request.session.user){
+    if(!request.session.is_logined){
         response.redirect('/');
     }
 
