@@ -150,9 +150,13 @@ $(document).ready(function(){
 
     // 추가 버튼 누르는 경우
     $('.btn-add').on('click',function(e){
-        //  팀 이름 가져오기
-        var seat_arrng = e.target.parentElement.parentElement.parentElement.getAttribute('id');
-        console.log(seat_arrng);
+        
+
+        var seat_arrng = e.target.parentElement.parentElement.getAttribute('id');       //팀장버튼인 경우
+        if(seat_arrng!=0){
+            seat_arrng = e.target.parentElement.parentElement.parentElement.getAttribute('id');
+        }
+        // console.log(seat_arrng);
         $('.black-background').show().animate({marginTop:'0px'});  
         // 플러스 버튼 누르면 유저리스트 가져오기
 
