@@ -7,6 +7,12 @@ var db_info={
 }
 
 module.exports={
+    db_info : {
+        host:"192.168.20.19",
+        user:"root",
+        password:"Azsxdc123$",
+        database:"good"
+    },
     init:function(){
         return mysql.createConnection(db_info);
     },

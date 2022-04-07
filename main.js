@@ -7,8 +7,12 @@ var path=require('path')
 const express=require('express');
 const res = require('express/lib/response');
 const session=require('express-session');
+const mysql_store=require('express-mysql-session')(session);
+const requestIp=require('request-ip');
 const { DEC8_SWEDISH_CI } = require('mysql/lib/protocol/constants/charsets');
 var db_config=require(path.join(__dirname,'db_connect.js'));
+var mysql_config=require(path.join(__dirname,'login_info.js'))
+var session_store= new mysql_store(mysql_config.options);
 
 const port=3000; //포트접속정보
 
@@ -22,6 +26,7 @@ app.use(session({
     secret:'kjwlakwf@$#!',
     resave:false,
     saveUninitialized:true,
+    store:session_store
 }));
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname+'/css')));
@@ -29,43 +34,67 @@ app.use(express.static(path.join(__dirname+'/node_modules')));
 app.use(express.static(path.join(__dirname+'/img')));
 
 var bodyParser = require('body-parser');
+const { json } = require('express/lib/response');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json()); // for parsing application/json
 
 
 
 app.post('/login',(req,res)=>{
-    console.log('/login 호출');
-    var paramPw = req.body.password || req.query.password;
-    if (req.session.user) {
-        console.log('이미 로그인되어 수정페이지로 이동');
-        return res.status(200).send({result:'redirect', url:'/edit/16'})
-    } else {
-        if(paramPw==user_pwd){
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
+    
+    var param_id='Anonymous';
+    
+    var param_pw = req.body.password || req.query.password;
+    sql='select count(*) as num_of_sessions from good.sessions';
+
+    conn.query(sql, async function(err, rows){
+        list=JSON.parse(JSON.stringify(rows));
+        if (list[0]['num_of_sessions']!=0){
+            console.log('이미 다른 유저가 로그인하였습니다.');
+            res.json({error:"Already another user logged in."});
+        }
+        else if(param_pw==user_pwd){
+            const connection_info=requestIp.getClientIp(req).split(':'); // req 헤더정보 분리
+            console.log(connection_info)
+            if(connection_info.length==4){ // ipv4 추출
+                param_id=connection_info[3];
+            }
+    
+            req.session.user=param_id;
             req.session.is_logined=true;
             req.session.save(err=>{
                 if(err) throw err;
                 console.log('session created');
-                return res.status(200).send({result:'redirect', url:'/edit/16'})
+                res.json({result:'redirect', url:'/edit/16'});
             })
-        }
-        else{
+        }else{
             console.log('password is not correct.');
-            console.log(paramPw);
+            console.log(param_pw);
             console.log(user_pwd);
-            return res.status(401).send({error:"Password is not correct."})
+            res.json({error:"Password is not correct."});
         }
-    }
+    });
+    
 })
 app.get('/logout', (req, res)=>{
+    conn=db_config.init();//db connection handler 가져오기
+    db_config.connect(conn);
     console.log('/process/logout 호출됨');
     
     if(req.session.is_logined){
         console.log('로그아웃');
         
+
         req.session.destroy(function(err){
             if(err) throw err;
             console.log('세션 삭제하고 로그아웃됨');
+            sql='TRUNCATE TABLE good.sessions';
+            conn.query(sql, function(err, rows){
+                if(err) console.log(err);
+                else console.log('세션 정보 삭제');
+            })
             res.redirect('/');
         });
     }
@@ -190,31 +219,32 @@ app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으�
         else console.log('Insert query executed successfully.');
     })
 
-    sql=`INSERT INTO good.seat_info(emp_id, emp_name, dept_name, post_name, seat_arrng) 
-    SELECT emp_id, emp_name, dept_name, post_name, -1 FROM good.emp_info 
-    WHERE (emp_id, emp_name, dept_name, post_name) NOT IN (
-      SELECT emp_id, emp_name, dept_name, post_name FROM seat_info
-    )`;
-    conn.query(sql, function(err, rows, fileds){
-        if(err) console.log(err);
-        else console.log(rows.affectedRows);
-    });
+    // sql=`INSERT INTO good.seat_info(emp_id, emp_name, dept_name, post_name, seat_arrng) 
+    // SELECT emp_id, emp_name, dept_name, post_name, -1 FROM good.emp_info 
+    // WHERE (emp_id, emp_name, dept_name, post_name) NOT IN (
+    //   SELECT emp_id, emp_name, dept_name, post_name FROM seat_info
+    // )`;
+    // conn.query(sql, function(err, rows, fileds){
+    //     if(err) console.log(err);
+    //     else console.log(rows.affectedRows);
+    // });
 
-    sql=`DELETE FROM good.seat_info 
-    WHERE (emp_id, emp_name, dept_name, post_name) NOT IN (
-        SELECT emp_id, emp_name, dept_name, post_name FROM good.emp_info
-    )`;
-    conn.query(sql, function(err, rows, fileds){
-        if(err) console.log(err);
-        else console.log(rows.affectedRows);
-    });
+    // sql=`DELETE FROM good.seat_info 
+    // WHERE (emp_id, emp_name, dept_name, post_name) NOT IN (
+    //     SELECT emp_id, emp_name, dept_name, post_name FROM good.emp_info
+    // // )`;
+    // conn.query(sql, function(err, rows, fileds){
+    //     if(err) console.log(err);
+    //     else console.log(rows.affectedRows);
+    // });
 
     /*갱신 종료 */
 
     sql=`select * from good.emp_info A left join good.seat_info B on A.emp_id=B.emp_id`;
-    conn.query(sql, function(err, rows, fileds){
+    conn.query(sql, function(err, rows, fields){
         if(err) console.log(err);
         else {
+            console.log({list:rows})
             response.render('edit.ejs', {list:rows});
             // response.render('pr.ejs', {list:rows});
             

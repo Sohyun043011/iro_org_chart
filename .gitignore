@@ -7,3 +7,4 @@ pr.ejs
 .vscode/launch.json
 test.js
 test.html
+sessions/
