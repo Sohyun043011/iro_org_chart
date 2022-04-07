@@ -43,10 +43,10 @@ app.use(bodyParser.json()); // for parsing application/json
 app.post('/login',(req,res)=>{
     conn=db_config.init();//db connection handler 가져오기
     db_config.connect(conn);
-    
-    var link=req.body.url;
-    console.log(link);
-    var param_id='Anonymous';
+    console.log('req.body.url : '+req.body.url);
+    const url_link=new URL(req.body.url);
+    console.log('url link : '+url_link.pathname);
+    var param_id='Anonymous'; //default id 설정
     
     var param_pw = req.body.password || req.query.password;
     sql='select count(*) as num_of_sessions from good.sessions';
@@ -66,10 +66,17 @@ app.post('/login',(req,res)=>{
     
             req.session.user=param_id;
             req.session.is_logined=true;
+            if(url_link.pathname=='/'){
+                req.session.floor='16';
+            }
+            else if(url_link.pathname=='/17F'){
+                req.session.floor='17';
+            }
             req.session.save(err=>{
                 if(err) throw err;
                 console.log('session created');
-                res.json({result:'redirect', url:`/edit/17`});
+                res.json({result:'redirect', url:'/edit'});
+
             })
         }else{
             console.log('password is not correct.');
@@ -84,10 +91,17 @@ app.get('/logout', (req, res)=>{
     
     if(req.session.is_logined){
         console.log('로그아웃');
+
+        var floor=req.session.floor;
         req.session.destroy(function(err){
             if(err) throw err;
             console.log('세션 삭제하고 로그아웃됨');
-            res.redirect('/');
+            if(floor=='16'){
+                res.redirect('/');
+            }else{
+                res.redirect('/'+floor);
+            }
+            
         });
     }
     else{
@@ -164,7 +178,7 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
 
     conn.end();
 });
-app.get('/17',(request,response)=>{
+app.get('/17F',(request,response)=>{
     conn=db_config.init();//db connection handler 가져오기
     db_config.connect(conn);
     console.log('connection success');
@@ -233,16 +247,16 @@ app.get('/17',(request,response)=>{
 
     conn.end();
 });
-app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으로 접속 시 나올 페이지
+app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접속 시 나올 페이지
     //16F, 17F에 따라 다른 페이지를 호출해야 함 => 17층 레이아웃 구성 완료되면 추가 구성
-    
-    // var floor=request.params.floor; // 층 정보
 
     // 페이지에 수정 버튼으로 해당 url redirection하게 만들기
     
     if(!request.session.is_logined){
         response.redirect('/');
     }
+    console.log(request.session.floor);
+
 
     conn=db_config.init();//db connection handler 가져오기
     db_config.connect(conn);
@@ -282,7 +296,13 @@ app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으�
     conn.query(sql, function(err, rows, fields){
         if(err) console.log(err);
         else {
-            response.render('edit_17.ejs', {list:rows});
+            if(request.session.floor=='16'){
+                response.render('edit.ejs', {list:rows});
+            }else if(request.session.floor=='17'){
+                response.render('edit_17.ejs', {list:rows});
+                //여기다가 edit_17.js 넣어주세여!!
+            }
+            
             // response.render('pr.ejs', {list:rows});
             
         }
