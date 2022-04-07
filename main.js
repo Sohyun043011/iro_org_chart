@@ -69,7 +69,7 @@ app.post('/login',(req,res)=>{
             req.session.save(err=>{
                 if(err) throw err;
                 console.log('session created');
-                res.json({result:'redirect', url:'/edit/16'});
+                res.json({result:'redirect', url:`/edit/17`});
             })
         }else{
             console.log('password is not correct.');
@@ -164,7 +164,7 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
 
     conn.end();
 });
-app.get('/17F',(request,response)=>{
+app.get('/17',(request,response)=>{
     conn=db_config.init();//db connection handler 가져오기
     db_config.connect(conn);
     console.log('connection success');
@@ -282,7 +282,7 @@ app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으�
     conn.query(sql, function(err, rows, fields){
         if(err) console.log(err);
         else {
-            response.render('edit.ejs', {list:rows});
+            response.render('edit_17.ejs', {list:rows});
             // response.render('pr.ejs', {list:rows});
             
         }

@@ -258,16 +258,35 @@ const login = async()=>{
                 url:link
             },
             success:function(result){
-                window.location.replace(result.url);
+                if(result.error){
+                    // error일 때
+                    if(result.error=="Password is not correct."){
+                        Swal.fire({
+                            title : "비밀번호가 틀렸습니다.",
+                            icon:'warning',
+                            heightAuto : false,
+                        }).then(()=>{
+                            location.href='/';
+                        })
+                    }
+                    else if(result.error=="Already another user logged in."){
+                        Swal.fire({
+                            title : "다른 유저가 접속중입니다.",
+                            icon:'warning',
+                            heightAuto : false,
+                        }).then(()=>{
+                            location.href='/';
+                        })
+                    }
+                    
+
+                }else{
+                    window.location.replace(result.url);
+                }
+                
             },
             error:function(result){
-                Swal.fire({
-                    title : "비밀번호가 틀렸습니다.",
-                    icon:'warning',
-                    heightAuto : false,
-                }).then(()=>{
-                    location.href='/';
-                })
+                
             }
         })
       }
