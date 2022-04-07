@@ -25,7 +25,7 @@ app.set('view engine','ejs');
 app.use(session({
     secret:'kjwlakwf@$#!',
     resave:false,
-    saveUninitialized:true,
+    saveUninitialized: false,
     store:session_store
 }));
 app.use(express.static(__dirname));
@@ -44,6 +44,8 @@ app.post('/login',(req,res)=>{
     conn=db_config.init();//db connection handler 가져오기
     db_config.connect(conn);
     
+    var link=req.body.url;
+    console.log(link);
     var param_id='Anonymous';
     
     var param_pw = req.body.password || req.query.password;
@@ -79,22 +81,12 @@ app.post('/login',(req,res)=>{
     
 })
 app.get('/logout', (req, res)=>{
-    conn=db_config.init();//db connection handler 가져오기
-    db_config.connect(conn);
-    console.log('/process/logout 호출됨');
     
     if(req.session.is_logined){
         console.log('로그아웃');
-        
-
         req.session.destroy(function(err){
             if(err) throw err;
             console.log('세션 삭제하고 로그아웃됨');
-            sql='TRUNCATE TABLE good.sessions';
-            conn.query(sql, function(err, rows){
-                if(err) console.log(err);
-                else console.log('세션 정보 삭제');
-            })
             res.redirect('/');
         });
     }
@@ -166,7 +158,6 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
         if(err) console.log('query is not executed.');
         else {
             response.render('index.ejs', {list:rows});
-            // response.render('pr.ejs', {list:rows});
             
         }
     })
@@ -218,33 +209,10 @@ app.get('/edit/:floor', (request, response)=>{ // http://[host]:[port]/edit으�
         if(err) console.log(err);
         else console.log('Insert query executed successfully.');
     })
-
-    // sql=`INSERT INTO good.seat_info(emp_id, emp_name, dept_name, post_name, seat_arrng) 
-    // SELECT emp_id, emp_name, dept_name, post_name, -1 FROM good.emp_info 
-    // WHERE (emp_id, emp_name, dept_name, post_name) NOT IN (
-    //   SELECT emp_id, emp_name, dept_name, post_name FROM seat_info
-    // )`;
-    // conn.query(sql, function(err, rows, fileds){
-    //     if(err) console.log(err);
-    //     else console.log(rows.affectedRows);
-    // });
-
-    // sql=`DELETE FROM good.seat_info 
-    // WHERE (emp_id, emp_name, dept_name, post_name) NOT IN (
-    //     SELECT emp_id, emp_name, dept_name, post_name FROM good.emp_info
-    // // )`;
-    // conn.query(sql, function(err, rows, fileds){
-    //     if(err) console.log(err);
-    //     else console.log(rows.affectedRows);
-    // });
-
-    /*갱신 종료 */
-
     sql=`select * from good.emp_info A left join good.seat_info B on A.emp_id=B.emp_id`;
     conn.query(sql, function(err, rows, fields){
         if(err) console.log(err);
         else {
-            console.log({list:rows})
             response.render('edit.ejs', {list:rows});
             // response.render('pr.ejs', {list:rows});
             

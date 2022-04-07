@@ -233,7 +233,7 @@ const login = async()=>{
         heightAuto:false,
         inputPlaceholder: '비밀번호를 입력하세요',
         inputAttributes: {
-          maxlength: 10,
+          maxlength: 15,
           autocapitalize: 'off',
           autocorrect: 'off'
         },
@@ -244,13 +244,19 @@ const login = async()=>{
           }
       });
       
-    
+      //현재페이지 정보 넘겨주기
+      var link=document.location.href;
+      console.log(link);
+
       if (password) {
         console.log(password);
         $.ajax({
             method:'POST',
             url:'/login',
-            data : {password:password},
+            data : {
+                password:password,
+                url:link
+            },
             success:function(result){
                 window.location.replace(result.url);
             },
