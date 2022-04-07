@@ -249,6 +249,6 @@ $(document).ready(function(){
 
 
 
-setTimeout(function(){ //300초(5분)뒤에 redirection 이전 페이지로 
-    window.history.back();
+setTimeout(function(){ //300초(5분)뒤에 logout으로 
+    location.replace('/logout');
 }, 300000);
