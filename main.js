@@ -178,7 +178,7 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
 
     conn.end();
 });
-app.get('/17F',(request,response)=>{
+app.get('/17',(request,response)=>{
     conn=db_config.init();//db connection handler 가져오기
     db_config.connect(conn);
     console.log('connection success');
