@@ -167,6 +167,13 @@ p,h4,h3,h2,h1,span{
     border-bottom: 5px solid orange;
     margin-top: -10px;
 }
+.office-2>.dept-table:before{
+    content: "";
+    display: block;
+    width: 100%;
+    border-bottom: 5px solid red;
+    margin-top: -10px;
+}
 .department{
     /* width = 100 / 팀 갯수 */
     text-align: center;

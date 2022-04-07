@@ -45,7 +45,7 @@
                 <!-- 17F, edit 버튼 disable 설정 -->
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-16 btn-outline-secondary" onclick="location.href='/'">16F</button>
-                    <button type="button" class="btn btn-17 btn-outline-secondary " onclick="location.href='/'" disabled>17F</button>
+                    <button type="button" class="btn btn-17 btn-outline-secondary " onclick="location.href='/17F'" disabled>17F</button>
                     <button type="button" class="btn btn-edit btn-outline-secondary " onclick="login()">수정</button>
                 </div>
            </div>
@@ -107,7 +107,7 @@
                                                         </span>
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*col+j+1  %>   
-                                                        <%   if(list[m].dept_name==Object.keys(dept_info)[dept] && list[m].seat_arrng==num){%>
+                                                        <%   if(list[m].dept_name==Object.keys(dept_info)[dept] && list[m].seat_arrng==num &&(!list[m].roll_info.includes('비서실'))){%>
                                                             <img src="<%= list[m].img_url %>" onerror="this.src='img/NoImage.jpeg'" class="mem-img" style="position:relative">
                                                             <%}%>
                                                         <%}%>
@@ -116,7 +116,7 @@
                                                         
                                                         <% for(var k=0;k<list.length;k++){%>
                                                         <% var num = i*col+j+1  %>   
-                                                        <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num){%>
+                                                        <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num && (!list[k].roll_info.includes('비서실'))){%>
                                                             <span class="memName fs-6" id = "<%= list[k].emp_id %>"><%= list[k].emp_name %></span>
                                                             <span class="memPos fs-6"><%= list[k].post_name %></span>
                                                         <%}%>

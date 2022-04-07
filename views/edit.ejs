@@ -106,7 +106,7 @@
                                                     </span>
                                                     <% for(var m=0;m<list.length;m++){%>
                                                     <% var num = i*col+j+1  %>   
-                                                    <%   if(list[m].dept_name==Object.keys(dept_info)[dept] && list[m].seat_arrng==num){%>
+                                                    <%   if(list[m].dept_name==Object.keys(dept_info)[dept] && list[m].seat_arrng==num && (!list[m].roll_info.includes('비서실'))){%>
                                                         <img src="<%= list[m].img_url %>" onerror="this.src='../img/NoImage.jpeg'" class="mem-img" style="position:relative">
                                                         <%}%>
                                                     <%}%>
@@ -115,7 +115,7 @@
                                                     
                                                     <% for(var k=0;k<list.length;k++){%>
                                                     <% var num = i*col+j+1  %>   
-                                                    <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num){%>
+                                                    <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num && (!list[k].roll_info.includes('비서실'))){%>
                                                         <span class="memName fs-6" id = "<%= list[k].emp_id %>"><%= list[k].emp_name %></span>
                                                         <span class="memPos fs-6"><%= list[k].post_name %></span>
                                                     <%}%>

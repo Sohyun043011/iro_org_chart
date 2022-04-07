@@ -58,10 +58,6 @@ $(document).ready(function(){
         $('.header').eq(h).css({'width':`${width_sum}`});
     }
 
-    // 16F, 17F, 수정 버튼 클릭시 event
-    // 1. 16F 페이지일 때 16버튼 active 되어야 함
-    
-
 
     // 추가버튼 -  만약 빈 셀이면, X 표시 없애고 border를 점선으로 표시
     for(var mem=0;mem<$('.memInfo').length;mem++){
@@ -120,10 +116,6 @@ $(document).ready(function(){
 
         
     });
-
-    
-
-
 
     // 추가 버튼 누르는 경우
     $('.btn-add').on('click',function(e){
@@ -228,9 +220,6 @@ $(document).ready(function(){
         
     });
 
-    
-    
-
     // 모달창 뒤 검은 배경 누르면 창 닫힘
     $('.black-background').click(function(e){
         if(e.target==e.currentTarget){
@@ -245,7 +234,7 @@ $(document).ready(function(){
                 $('.black-background').hide();
             }
     });
-    });
+});
 
 
 
