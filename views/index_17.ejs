@@ -80,10 +80,10 @@
                         <div class="department fs-5 fw-bold " >
                             <span class="dept-name"><%= Object.keys(dept_info)[dept] %></span>
                             <div class="dept-table p-2" id="">
-                                 <div class="row " id="team-row" >
+                                 <div class="row" id="team-row" >
                                      <!-- 팀장 row -->
                                         <% if(Object.keys(dept_info)[dept]=='비서실'){ %>
-                                            <div class="border bg-light cell mr-0" id="team-0" style="position:relative" >
+                                            <div class="border bg-light cell mr-0 secretary" id="team-0" style="position:relative" >
                                                 <span class="position-absolute btn-green translate-middle p-2 border border-light rounded-circle btn-l-<%=Object.values(dept_info)[dept]%>" id="" >
                                                 </span>
                                             </div>

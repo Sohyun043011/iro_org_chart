@@ -57,6 +57,8 @@ $(document).ready(function(){
             }
 
             $('.office-name').eq(0).removeClass('fs-4');
+            // // 비서실의 경우 secretary 클래스 add
+            // $('.department').last().children[1].children[1].addClass('secretary');
 
             // 각 사원의 status(근무상태)를 설정
             $.ajax({
