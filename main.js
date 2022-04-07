@@ -99,7 +99,7 @@ app.get('/logout', (req, res)=>{
             if(floor=='16'){
                 res.redirect('/');
             }else{
-                res.redirect('/'+floor);
+                res.redirect('/'+floor+'F');
             }
             
         });

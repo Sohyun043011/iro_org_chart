@@ -57,8 +57,8 @@ $(document).ready(function(){
         $('.header').eq(h).css({'width':`${width_sum}`});
     }
 
-    $('.office-name').eq(0).removeClass('fs-4');
-
+    // $('.office-name').eq(0).removeClass('fs-4');
+    $('.office-head').eq(0).css({'display':'none'});
     // 추가버튼 -  만약 빈 셀이면, X 표시 없애고 border를 점선으로 표시
     for(var mem=0;mem<$('.memInfo').length;mem++){
         console.log($('.memInfo').eq(mem).children().length);

@@ -1,12 +1,11 @@
 .header-0>.office-name{
     font-size:large;
     font-weight: bold;
-    top: 6px;
 }
 .header-0>.office-head{
     font-size:small;
     top:10px;
 }
 .secretary{
-    padding-top:70px;
+    margin-top: 25px;
 }
