@@ -258,7 +258,7 @@ const login = async()=>{
                 url:link
             },
             success:function(result){
-                window.location.renodeplace(result.url);
+                window.location.replace(result.url);
             },
             error:function(result){
                 Swal.fire({
