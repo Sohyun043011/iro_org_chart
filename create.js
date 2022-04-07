@@ -224,7 +224,7 @@ $(document).ready(function(){
 );
 
 const login = async()=>{
-
+    console.log('현재 페이지는 '+document.location.href+'입니다.');
     
     const { value: password } = await Swal.fire({
         title: '비밀번호를 입력하세요',
@@ -245,11 +245,11 @@ const login = async()=>{
       });
       
       //현재페이지 정보 넘겨주기
-      var link=document.location.href;
-      console.log(link);
 
       if (password) {
         console.log(password);
+        
+        var link=document.location.href;
         $.ajax({
             method:'POST',
             url:'/login',
