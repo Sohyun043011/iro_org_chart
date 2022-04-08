@@ -1,0 +1,15 @@
+#status{
+    left:29%;
+}
+
+.btn-l-5{
+    top:0px;
+    left:45% !important;
+}
+.btn-del{
+    left:30%;
+}
+.department{
+    /* office 하나라서 display:flex 없앰 */
+    display: block;
+}

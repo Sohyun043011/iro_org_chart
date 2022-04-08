@@ -223,7 +223,7 @@ p,h4,h3,h2,h1,span{
 }
 .mem{
     max-height:130px;
-   
+   min-height: 130px;
 }
 
 .mem>.memInfo{
