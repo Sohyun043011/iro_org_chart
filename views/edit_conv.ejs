@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="../css/main.css">
     <link rel="stylesheet" type="text/css" href="../css/edit.css">
+    <link rel="stylesheet" type="text/css" href="../css/main_conv.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -66,7 +67,7 @@
             <!-- dept div -->
             <div class="dept-container">
                 <!-- 부서 table -->
-                <% var dept_info={'컨벤션마케팅팀':2,'전시사업팀':2,'전시마케팅팀':2,'운영팀':3}; %>
+                <% var dept_info={'컨벤션마케팅팀':4,'전시사업팀':2,'전시마케팅팀':2,'운영팀':3}; %>
                 <% for(var dept=0;dept<Object.keys(dept_info).length;dept++){ %> 
                     <div class="department fs-5 fw-bold " >
                         <span class="dept-name"><%= Object.keys(dept_info)[dept] %></span>
@@ -76,7 +77,7 @@
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== Object.keys(dept_info)[dept] && list[i].duty_name=="팀장"){ %>
                                         <div class="border bg-light cell mr-0" id="0" style="position:relative" >
-                                            <span class="position-absolute btn-close btn-danger translate-middle p-2 rounded-circle btn-l-<%=Object.values(dept_info)[dept]%> btn-del ">
+                                            <span class="position-absolute btn-close btn-danger translate-middle p-2 rounded-circle btn-l-<%= Object.values(dept_info)[dept]+1 %> btn-del ">
                                             </span>
                                                 
                                             <% if(list[i].seat_arrng==0){ %>

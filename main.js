@@ -110,7 +110,9 @@ app.get('/logout', (req, res)=>{
             console.log('세션 삭제하고 로그아웃됨');
             if(floor=='16'){
                 res.redirect('/');
-            }else{
+            }else if(floor=='17'){
+                res.redirect('/'+floor+'F');
+            }else if(floor=='conv'){
                 res.redirect('/'+floor);
             }
             
@@ -449,6 +451,7 @@ app.post('/move/:emp_id/:seat_arrng', function(req,res){
 });
 
 app.post('/addlist/:dept_name', function(req,res){ // 플러스 버튼 누를 때 가져올 유저리스트
+    
     conn=db_config.init();//db connection handler 가져오기
     db_config.connect(conn);
 

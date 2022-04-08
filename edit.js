@@ -72,8 +72,6 @@ $(document).ready(function(){
             //버튼 추가
             $('.cell').eq(mem).append(`<div class="dashed-border"><button type="button" class="btn btn-secondary btn-add">+</button></div>`);
         }
-        else{
-        }
     }
 
 
