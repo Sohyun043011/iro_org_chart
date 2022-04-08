@@ -49,13 +49,21 @@ app.post('/login',(req,res)=>{
     var param_id='Anonymous'; //default id 설정
     
     var param_pw = req.body.password || req.query.password;
-    sql='select count(*) as num_of_sessions from good.sessions';
+    sql='select * from good.sessions';
 
     conn.query(sql, async function(err, rows){
         list=JSON.parse(JSON.stringify(rows));
-        if (list[0]['num_of_sessions']!=0){
-            console.log('이미 다른 유저가 로그인하였습니다.');
-            res.json({error:"Already another user logged in."});
+        console.log(list)
+        if (list.length!=0){
+            console.log("session이 하나 이상 존재합니다.");
+            console.log(req.session.is_logined);
+            if(req.session.is_logined){
+                console.log("session이 하나 이상 존재합니다.")
+                res.json({result:'redirect', url:'/edit'});
+            }else{
+                console.log('이미 다른 유저가 로그인하였습니다.');
+                res.json({error:"Already another user logged in."});
+            }
         }
         else if(param_pw==user_pwd){
             const connection_info=requestIp.getClientIp(req).split(':'); // req 헤더정보 분리
