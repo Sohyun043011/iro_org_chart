@@ -24,12 +24,15 @@ app.set('views','./views');
 app.set('view engine','ejs');
 app.use(session({
     secret:'kjwlakwf@$#!',
-    resave:false,
+    resave:true,
     saveUninitialized: false,
     cookie:{
-        maxAge:300000
+        maxAge:60000,
+        httpOnly:false
     },
-    store:session_store
+    store:session_store,
+    
+    rolling:true
 }));
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname+'/css')));
@@ -110,7 +113,9 @@ app.get('/logout', (req, res)=>{
             console.log('세션 삭제하고 로그아웃됨');
             if(floor=='16'){
                 res.redirect('/');
-            }else{
+            }else if(floor=='17'){
+                res.redirect('/'+floor+'F');
+            }else if(floor=='conv'){
                 res.redirect('/'+floor);
             }
             
@@ -335,6 +340,7 @@ app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접�
     // 페이지에 수정 버튼으로 해당 url redirection하게 만들기
     
     if(!request.session.is_logined){
+        console.log('로그인 상태 아님');
         response.redirect('/');
     }
     console.log(request.session.floor);
@@ -430,76 +436,75 @@ app.post('/detail',function(req,res){
     conn.end();
 });
 
-app.post('/move/:emp_id/:seat_arrng', function(req,res){
-    conn=db_config.init();//db connection handler 가져오기
-    db_config.connect(conn);
-
-    var emp_id=req.params.emp_id;
-    var seat_arrng=req.params.seat_arrng;
-
-    var sql=`UPDATE good.seat_info 
-    SET seat_arrng=${seat_arrng}
-    WHERE emp_id='${emp_id}'`
-
-    conn.query(sql, function(err, info, fields){
-        if(err) console.log('query is not executed.');
-    })
-    console.log('좌석번호가 변경되었습니다.')
-    conn.end();
-});
-
 app.post('/addlist/:dept_name', function(req,res){ // 플러스 버튼 누를 때 가져올 유저리스트
-    conn=db_config.init();//db connection handler 가져오기
-    db_config.connect(conn);
 
-    var dept_name=req.params.dept_name;
+    if(!request.session.is_logined){
+        console.log('로그인 상태 아님');
+        res.json({error:"You are not logged in."});
+    }else{
 
-    var sql=`select emp_id, emp_name,dept_name from seat_info
-    where dept_name='${dept_name}' and seat_arrng=-1` // 해당 부서에 seat_arrng=-1인 사용자들 호출
+        conn=db_config.init();//db connection handler 가져오기
+        db_config.connect(conn);
 
-    conn.query(sql, function(err, info, fields){
-        if(err) console.log('query is not executed.');
-        else {
-            res.json(JSON.parse(JSON.stringify(info)));
-        }
-            
-    })
-    conn.end();
+        var dept_name=req.params.dept_name;
+
+        var sql=`select emp_id, emp_name,dept_name from seat_info
+        where dept_name='${dept_name}' and seat_arrng=-1` // 해당 부서에 seat_arrng=-1인 사용자들 호출
+
+        conn.query(sql, function(err, info, fields){
+            if(err) console.log('query is not executed.');
+            else {
+                res.json(JSON.parse(JSON.stringify(info)));
+            }
+                
+        })
+        conn.end();
+    }
 });
 
 app.post('/add/:emp_id/:seat_arrng', function(req, res){ // 추가할 사용자 리스트에서 하나 선택해서 그 자리에 배치
-    conn=db_config.init();//db connection handler 가져오기
-    db_config.connect(conn);
-    
-    var emp_id=req.params.emp_id;
-    var seat_arrng=parseInt(req.params.seat_arrng);
+    if(!request.session.is_logined){
+        console.log('로그인 상태 아님');
+        res.json({error:"You are not logged in."});
+    }else{
+        conn=db_config.init();//db connection handler 가져오기
+        db_config.connect(conn);
+        
+        var emp_id=req.params.emp_id;
+        var seat_arrng=parseInt(req.params.seat_arrng);
 
-    var sql=`update seat_info set seat_arrng=${seat_arrng} where emp_id=${emp_id}`;
+        var sql=`update seat_info set seat_arrng=${seat_arrng} where emp_id=${emp_id}`;
 
-    conn.query(sql, function(err, info, fields){
-        if(err) console.log(err);
-        else {
-            console.log(info.affectedRows);
-        }
-    });
-    conn.end();
+        conn.query(sql, function(err, info, fields){
+            if(err) console.log(err);
+            else {
+                console.log(info.affectedRows);
+            }
+        });
+        conn.end();
+    }
 });
 
 app.post('/delete/:emp_id', function(req, res){ // 배치된 사용자의 seat_arrng를 -1로 만들어 빼기
-    conn=db_config.init();//db connection handler 가져오기
-    db_config.connect(conn);
-    var emp_id=req.params.emp_id;
+    if(!request.session.is_logined){
+        console.log('로그인 상태 아님');
+        res.json({error:"You are not logged in."});
+    }else{
+        conn=db_config.init();//db connection handler 가져오기
+        db_config.connect(conn);
+        var emp_id=req.params.emp_id;
 
-    var sql=`update seat_info set seat_arrng=-1 where emp_id=${emp_id}`;
+        var sql=`update seat_info set seat_arrng=-1 where emp_id=${emp_id}`;
 
-    conn.query(sql, function(err, info, fields){
-        if(err) console.log(err);
-        else {
-            console.log(info.insertId);
-        }
-    });
+        conn.query(sql, function(err, info, fields){
+            if(err) console.log(err);
+            else {
+                console.log(info.insertId);
+            }
+        });
 
-    conn.end();
+        conn.end();
+    }
 });
 
 app.post('/status', function(req, res){

@@ -5,5 +5,9 @@ module.exports={
         password:"Azsxdc123$",
         database:"good",
         clearExpired: true,
+        checkExpirationInterval:10000,
+        expiration:60000,
+        connectionLimit: 1,
+        endConnectionOnClose:true,
     }
 };
