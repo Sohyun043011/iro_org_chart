@@ -26,6 +26,9 @@ app.use(session({
     secret:'kjwlakwf@$#!',
     resave:false,
     saveUninitialized: false,
+    cookie:{
+        maxAge:300000
+    },
     store:session_store
 }));
 app.use(express.static(__dirname));
@@ -76,9 +79,10 @@ app.post('/login',(req,res)=>{
             req.session.is_logined=true;
             if(url_link.pathname=='/'){
                 req.session.floor='16';
-            }
-            else if(url_link.pathname=='/17F'){
+            }else if(url_link.pathname=='/17F'){
                 req.session.floor='17';
+            }else if(url_link.pathname=='/conv'){
+                req.session.floor='conv';
             }
             req.session.save(err=>{
                 if(err) throw err;
@@ -107,7 +111,7 @@ app.get('/logout', (req, res)=>{
             if(floor=='16'){
                 res.redirect('/');
             }else{
-                res.redirect('/'+floor+'F');
+                res.redirect('/'+floor);
             }
             
         });
@@ -255,8 +259,7 @@ app.get('/17F',(request,response)=>{
 
     conn.end();
 });
-
-app.get('/conv',(request,response)=>{
+app.get('/conv', (request,response)=>{
     conn=db_config.init();//db connection handler 가져오기
     db_config.connect(conn);
     console.log('connection success');
@@ -379,6 +382,9 @@ app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접�
                 response.render('edit.ejs', {list:rows});
             }else if(request.session.floor=='17'){
                 response.render('edit_17.ejs', {list:rows});
+                //여기다가 edit_17.js 넣어주세여!!
+            }else if(request.session.floor=='conv'){
+                response.render('edit_conv.ejs', {list:rows});
                 //여기다가 edit_17.js 넣어주세여!!
             }
             
