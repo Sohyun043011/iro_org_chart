@@ -14,7 +14,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script type="text/javascript" src="../create.js"></script>
+    <script type="text/javascript" src="../create_conv.js"></script>
 </head>
 <body>
     <div id="container">
@@ -55,7 +55,7 @@
         <div class="main">
                 <!-- 실 div -->
                 <div class="office">
-                        <% var office = ['관광마케팅실','기획조정실'] %> 
+                        <% var office = ['송도컨벤시아사업단'] %> 
                         <% for(var off=0; off<office.length;off++){%>
                             <% const new_list = list.filter(function(element){%>
                                 <% return element.dept_name == office[off] %>
@@ -69,7 +69,7 @@
                 <!-- dept div -->
                 <div class="dept-container">
                     <!-- 부서 table -->
-                    <% var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':3,'MICE뷰로':2,'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4}; %>
+                    <% var dept_info={'컨벤션마케팅팀':2,'전시사업팀':2,'전시마케팅팀':2,'운영팀':3}; %>
                     <% for(var dept=0;dept<Object.keys(dept_info).length;dept++){ %> 
                         <div class="department fs-5 fw-bold " >
                             <span class="dept-name"><%= Object.keys(dept_info)[dept] %></span>
@@ -108,7 +108,7 @@
                                                         </span>
                                                         <% for(var m=0;m<list.length;m++){%>
                                                         <% var num = i*col+j+1  %>   
-                                                        <%   if(list[m].dept_name==Object.keys(dept_info)[dept] && list[m].seat_arrng==num &&(!list[m].roll_info.includes('비서실'))){%>
+                                                        <%   if(list[m].dept_name==Object.keys(dept_info)[dept] && list[m].seat_arrng==num){%>
                                                             <img src="<%= list[m].img_url %>" onerror="this.src='img/NoImage.jpeg'" class="mem-img" style="position:relative">
                                                             <%}%>
                                                         <%}%>
@@ -117,7 +117,7 @@
                                                         
                                                         <% for(var k=0;k<list.length;k++){%>
                                                         <% var num = i*col+j+1  %>   
-                                                        <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num && (!list[k].roll_info.includes('비서실'))){%>
+                                                        <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num){%>
                                                             <span class="memName fs-6" id = "<%= list[k].emp_id %>"><%= list[k].emp_name %></span>
                                                             <span class="memPos fs-6"><%= list[k].post_name %></span>
                                                         <%}%>

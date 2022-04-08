@@ -47,6 +47,7 @@
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-16 btn-outline-secondary" onclick="location.href='/'">16F</button>
                     <button type="button" class="btn btn-17 btn-outline-secondary " onclick="location.href='/17F'">17F</button>
+                    <button type="button" class="btn btn-17 btn-outline-secondary " onclick="location.href='/conv'">컨벤시아</button>
                     <button type="button" class="btn btn-edit btn-outline-secondary " onclick="login()">수정</button>
                 </div>
            </div>
@@ -68,7 +69,7 @@
 
                         <!-- 비서실, 안전감사팀 div -->
                         <div class="header fw-bold ">
-                            <span class="office-name fs-4">기타 부서실</span>
+                            <span class="office-name fs-4">기타 부서</span>
                             <span class="office-head"></span>
                         </div>
                 </div> 
@@ -80,10 +81,10 @@
                         <div class="department fs-5 fw-bold " >
                             <span class="dept-name"><%= Object.keys(dept_info)[dept] %></span>
                             <div class="dept-table p-2" id="">
-                                 <div class="row " id="team-row" >
+                                 <div class="row" id="team-row" >
                                      <!-- 팀장 row -->
                                         <% if(Object.keys(dept_info)[dept]=='비서실'){ %>
-                                            <div class="border bg-light cell mr-0" id="team-0" style="position:relative" >
+                                            <div class="border bg-light cell mr-0 secretary" id="team-0" style="position:relative" >
                                                 <span class="position-absolute btn-green translate-middle p-2 border border-light rounded-circle btn-l-<%=Object.values(dept_info)[dept]%>" id="" >
                                                 </span>
                                             </div>

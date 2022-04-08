@@ -1,11 +1,9 @@
 var org={
 
-    '관광마케팅실':['의료웰니스팀'],
-    '관광산업실':['축제이벤트팀','섬발전지원센터','관광인프라팀','관광기업지원센터'],
-    '기타 부서':['안전감사팀','비서실']
+    '컨벤시아사업단' : ['컨벤션마케팅팀','전시사업팀','전시마케팅팀','운영팀'],
 }
-var dept_info={'의료웰니스팀':2,'축제이벤트팀':2,'섬발전지원센터':2,'관광인프라팀':2,'관광기업지원센터':4,'안전감사팀':2,'비서실':1};
-var office = ['관광마케팅실','관광산업실','기타 부서'];
+var dept_info={'컨벤션마케팅팀':2,'전시사업팀':2,'전시마케팅팀':2,'운영팀':3};
+var office = ['컨벤시아사업단'];
 
 $(document).ready(function(){
             $('#container').css({"width": window.innerWidth, "height":'100%'});     //전체 컨테이너 크기 지정
@@ -55,13 +53,6 @@ $(document).ready(function(){
                 }
                 $('.header').eq(h).css({'width':`${width_sum}`});
             }
-
-            // $('.office-name').eq(0).removeClass('fs-4');
-            $('.office-head').eq(0).css({'display':'none'});
-            // // 비서실의 경우 secretary 클래스 add
-            $('.row').last().addClass('secretary');
-            $('.header').last().css({})
-            // $('.department').last().children[1].children[1].addClass('secretary');
 
             // 각 사원의 status(근무상태)를 설정
             $.ajax({
@@ -113,7 +104,6 @@ $(document).ready(function(){
 
             //각 실장님 클릭시 detail 모달창 (다른 사원과 내부 요소들이 달라서 따로 구현함)
             $('.header').on('click',function(e){
-                
                 var data = e.currentTarget.children[1].getAttribute('id');
                 console.log("ajax started")
                 //띄울 mem의 id
@@ -213,6 +203,9 @@ $(document).ready(function(){
 
             });
 
+            
+           
+
             // 모달창 뒤 검은 배경 누르면 창 닫힘
             $('.black-background').click(function(e){
                     if(e.target==e.currentTarget){
@@ -230,11 +223,9 @@ $(document).ready(function(){
 
     }  
 );
-
 const login = async()=>{
-
     console.log('현재 페이지는 '+document.location.href+'입니다.');
-
+    
     const { value: password } = await Swal.fire({
         title: '비밀번호를 입력하세요',
         icon:'warning',
@@ -242,7 +233,7 @@ const login = async()=>{
         heightAuto:false,
         inputPlaceholder: '비밀번호를 입력하세요',
         inputAttributes: {
-          maxlength: 10,
+          maxlength: 15,
           autocapitalize: 'off',
           autocorrect: 'off'
         },
@@ -253,13 +244,11 @@ const login = async()=>{
           }
       });
       
-    
       //현재페이지 정보 넘겨주기
-      var link=document.location.href;
-      console.log(link);
 
       if (password) {
         console.log(password);
+        
         var link=document.location.href;
         $.ajax({
             method:'POST',
@@ -304,8 +293,6 @@ const login = async()=>{
 
       
 }
-
-
 
 setTimeout(function(){ //600초(10분)에 한번씩 reload
     location.reload();
