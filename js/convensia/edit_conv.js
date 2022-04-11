@@ -1,10 +1,10 @@
 var org={
 
-    '관광마케팅실':['해외마케팅팀','국내관광팀','스마트관광팀','MICE뷰로'],
-    '기획조정실':['고객홍보팀','전략기획팀','경영지원팀'],
+    '컨벤시아사업단' : ['컨벤션마케팅팀','전시사업팀','전시마케팅팀','운영팀']
 }
-var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':3,'MICE뷰로':2,'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4};
-var office = ['관광마케팅실','기획조정실'];
+var dept_info={'컨벤션마케팅팀':4,'전시사업팀':2,'전시마케팅팀':2,'운영팀':3};
+var office = ['컨벤시아사업단'];
+
 
 $(document).ready(function(){
     $('#container').css({"width": window.innerWidth, "height":'100%'});     //전체 컨테이너 크기 지정
@@ -72,6 +72,8 @@ $(document).ready(function(){
             //버튼 추가
             $('.cell').eq(mem).append(`<div class="dashed-border"><button type="button" class="btn btn-secondary btn-add">+</button></div>`);
         }
+        else{
+        }
     }
 
 
@@ -115,9 +117,6 @@ $(document).ready(function(){
                         // return;
                     }
                 });
-
-                
-               
                
             }
         });
@@ -211,8 +210,11 @@ $(document).ready(function(){
                                 
                             },
                             error:function(e){
-                                alert("error: "+e.responseText);
-                                location.href='/';
+                                Swal.fire({
+                                    heightAuto:false,
+                                    title:'로그인 상태가 아닙니다.\n 이전 페이지로 돌아갑니다.',
+                                    icon:'warning',
+                                }).then(()=>{location.href='/';});
                             }
                            
                         });

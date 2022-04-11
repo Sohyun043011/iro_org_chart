@@ -1,10 +1,11 @@
 var org={
 
-    '컨벤시아사업단' : ['컨벤션마케팅팀','전시사업팀','전시마케팅팀','운영팀']
+    '관광마케팅실':['의료웰니스팀'],
+    '관광산업실':['축제이벤트팀','섬발전지원센터','관광인프라팀','관광기업지원센터'],
+    '기타 부서':['안전감사팀','비서실']
 }
-var dept_info={'컨벤션마케팅팀':4,'전시사업팀':2,'전시마케팅팀':2,'운영팀':3};
-var office = ['컨벤시아사업단'];
-
+var dept_info={'의료웰니스팀':2,'축제이벤트팀':2,'섬발전지원센터':2,'관광인프라팀':2,'관광기업지원센터':4,'안전감사팀':2,'비서실':1};
+var office = ['관광마케팅실','관광산업실','기타 부서'];
 
 $(document).ready(function(){
     $('#container').css({"width": window.innerWidth, "height":'100%'});     //전체 컨테이너 크기 지정
@@ -12,9 +13,7 @@ $(document).ready(function(){
     $('.mem-img').addClass('border');                                       //각 이미지에 선 추가
     $('.dept-table').last().css({'border-right':'none'});                   //마지막 팀 테두리 선 제거 
     $('.header').css({'width':`${100/(office.length)}%`});
-    $('.btn').removeClass('clicked');
-
-
+    
     // 실장실에 순서대로 클래스명 부착
     for(var off = 0; off<office.length; off++){
         $('.header').eq(off).addClass(`header-${off}`);
@@ -58,7 +57,8 @@ $(document).ready(function(){
         $('.header').eq(h).css({'width':`${width_sum}`});
     }
 
-
+    // $('.office-name').eq(0).removeClass('fs-4');
+    $('.office-head').eq(0).css({'display':'none'});
     // 추가버튼 -  만약 빈 셀이면, X 표시 없애고 border를 점선으로 표시
     for(var mem=0;mem<$('.memInfo').length;mem++){
         console.log($('.memInfo').eq(mem).children().length);
@@ -136,6 +136,7 @@ $(document).ready(function(){
         $('.black-background').show().animate({marginTop:'0px'});  
         // 플러스 버튼 누르면 유저리스트 가져오기
 
+
         $("#jsGrid").jsGrid({
             width: "100%",
             paging:false,
@@ -152,6 +153,10 @@ $(document).ready(function(){
                 loadData : function(){
                     var d = $.Deferred();
                     var dept_name = $(e.target).parents('.department').children('.dept-name').text();
+                    if(dept_name=="비서실"){
+                        // 비서실인 경우 경영지원팀으로 변경 
+                        dept_name="경영지원팀";
+                    }
                     console.log(dept_name);
     
                     
@@ -210,8 +215,11 @@ $(document).ready(function(){
                                 
                             },
                             error:function(e){
-                                alert("error: "+e.responseText);
-                                location.href='/';
+                                Swal.fire({
+                                    heightAuto:false,
+                                    title:'로그인 상태가 아닙니다.\n 이전 페이지로 돌아갑니다.',
+                                    icon:'warning',
+                                }).then(()=>{location.href='/';});
                             }
                            
                         });
