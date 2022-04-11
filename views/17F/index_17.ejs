@@ -21,7 +21,7 @@
     <div id="container">
         <%-include('../background.ejs') %>
         <div class="top_banner">
-           <img src="img\logoFile.png" id="logo-img" style="padding: 10px;">
+           <img src="../../img/logoFile.png" id="logo-img" style="padding: 10px;">
            <div class="right-banner">
                 <div class="btn-detail">
                     <!-- 버튼 관련 설명 (초록색 : 근무 중, 파란색 : 재택근무 중, 연차 : ) -->
@@ -46,7 +46,7 @@
                 <!-- 17F, edit 버튼 disable 설정 -->
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-16 btn-outline-secondary" onclick="location.href='/'">16F</button>
-                    <button type="button" class="btn btn-17 btn-outline-secondary " onclick="location.href='/17F'">17F</button>
+                    <button type="button" class="btn btn-17 btn-outline-secondary " onclick="location.href='/17f'">17F</button>
                     <button type="button" class="btn btn-17 btn-outline-secondary " onclick="location.href='/conv'">컨벤시아</button>
                     <button type="button" class="btn btn-edit btn-outline-secondary " onclick="login()">수정</button>
                 </div>
@@ -97,7 +97,7 @@
                                                         </span>
                                                         <% if(list[i].seat_arrng==0){%>
                                                             <!-- 팀장일 때  -->
-                                                            <img src="<%= list[i].img_url %>" onerror="this.src='img/NoImage.jpeg'" class="mem-img">
+                                                            <img src="<%= list[i].img_url %>" onerror="this.src='../../img/NoImage.jpeg'" class="mem-img">
                                                             </div>
                                                             <div class="memInfo" style="position: relative;" id="team-leader">
                                                                 <span class="memName fs-6" id="<%= list[i].emp_id %>"><%= list[i].emp_name %></span>
@@ -129,7 +129,7 @@
                                                             <% for(var m=0;m<list.length;m++){%>
                                                                 <% var num = i*col+j+1  %>   
                                                                 <%   if(list[m].dept_name=='경영지원팀' && list[m].seat_arrng==num && list[m].roll_info.includes('비서실')){%>
-                                                                    <img src="<%= list[m].img_url %>" onerror="this.src='img/NoImage.jpeg'" class="mem-img" style="position:relative">
+                                                                    <img src="<%= list[m].img_url %>" onerror="this.src='../../img/NoImage.jpeg'" class="mem-img" style="position:relative">
                                                                     <%}%>
                                                                 <%}%>
                                                                 </div>
@@ -149,7 +149,7 @@
                                                             <% for(var m=0;m<list.length;m++){%>
                                                                 <% var num = i*col+j+1  %>   
                                                                 <%   if(list[m].dept_name==Object.keys(dept_info)[dept] && list[m].seat_arrng==num){%>
-                                                                    <img src="<%= list[m].img_url %>" onerror="this.src='img/NoImage.jpeg'" class="mem-img" style="position:relative">
+                                                                    <img src="<%= list[m].img_url %>" onerror="this.src='../../img/NoImage.jpeg'" class="mem-img" style="position:relative">
                                                                     <%}%>
                                                                 <%}%>
                                                             </div>
