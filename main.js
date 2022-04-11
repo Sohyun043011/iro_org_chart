@@ -438,9 +438,9 @@ app.post('/detail',function(req,res){
 
 app.post('/addlist/:dept_name', function(req,res){ // 플러스 버튼 누를 때 가져올 유저리스트
 
-    if(!request.session.is_logined){
+    if(!req.session.is_logined){
         console.log('로그인 상태 아님');
-        res.json({error:"You are not logged in."});
+        res.status(401).json({error:"You are not logged in."});
     }else{
 
         conn=db_config.init();//db connection handler 가져오기
@@ -463,9 +463,9 @@ app.post('/addlist/:dept_name', function(req,res){ // 플러스 버튼 누를 �
 });
 
 app.post('/add/:emp_id/:seat_arrng', function(req, res){ // 추가할 사용자 리스트에서 하나 선택해서 그 자리에 배치
-    if(!request.session.is_logined){
+    if(!req.session.is_logined){
         console.log('로그인 상태 아님');
-        res.json({error:"You are not logged in."});
+        res.status(401).json({error:"You are not logged in."});
     }else{
         conn=db_config.init();//db connection handler 가져오기
         db_config.connect(conn);
@@ -486,9 +486,9 @@ app.post('/add/:emp_id/:seat_arrng', function(req, res){ // 추가할 사용자 
 });
 
 app.post('/delete/:emp_id', function(req, res){ // 배치된 사용자의 seat_arrng를 -1로 만들어 빼기
-    if(!request.session.is_logined){
+    if(!req.session.is_logined){
         console.log('로그인 상태 아님');
-        res.json({error:"You are not logged in."});
+        res.status(401).json({error:"You are not logged in."});
     }else{
         conn=db_config.init();//db connection handler 가져오기
         db_config.connect(conn);
@@ -504,6 +504,7 @@ app.post('/delete/:emp_id', function(req, res){ // 배치된 사용자의 seat_a
         });
 
         conn.end();
+        res.json({result:'성공'});
     }
 });
 

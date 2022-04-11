@@ -96,6 +96,7 @@
                                                         <span class="position-absolute btn-green translate-middle p-2 border border-light rounded-circle btn-l-<%=Object.values(dept_info)[dept]%>" id="" >
                                                         </span>
                                                         <% if(list[i].seat_arrng==0){%>
+                                                            <!-- 팀장일 때  -->
                                                             <img src="<%= list[i].img_url %>" onerror="this.src='img/NoImage.jpeg'" class="mem-img">
                                                             </div>
                                                             <div class="memInfo" style="position: relative;" id="team-leader">
@@ -103,10 +104,9 @@
                                                                 <span class="memPos fs-6" ><%= list[i].duty_name %> </span>
                                                             </div>
                                                         <%}else{ %>
+                                                            
                                                         </div>
                                                         <div class="memInfo" style="position: relative;" id="team-leader">
-                                                            <span class="memName fs-6"></span>
-                                                            <span class="memPos fs-6"></span>
                                                         </div>
                                                            
                                                         <%} %>

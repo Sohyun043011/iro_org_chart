@@ -97,17 +97,27 @@ $(document).ready(function(){
                     method:'POST',
                     url:`/delete/${data}`,
                     success:function(result){
+                        Swal.fire({
+                            heightAuto:false,
+                            title:'삭제되었습니다.',
+                            icon:'success',
+                        }).then(()=>{location.reload()});
                         
                     },
-                    error: function(result){
-                        alert('실패');
+                    error: function(e){
+                        // alert("error: "+e.responseText);
+                        Swal.fire({
+                            heightAuto:false,
+                            title:'로그인 상태가 아닙니다.\n 이전 페이지로 돌아갑니다.',
+                            icon:'warning',
+                        }).then(()=>{location.href='/';});
+                        
+                        // return;
                     }
                 });
-                Swal.fire({
-                    heightAuto:false,
-                    title:'삭제되었습니다.',
-                    icon:'success',
-                }).then(()=> {location.reload()}); 
+
+                
+               
                
             }
         });
@@ -163,7 +173,11 @@ $(document).ready(function(){
                             d.resolve(data);
                         },
                         error:function(e){
-                            alert("error: "+e.responseText);
+                            Swal.fire({
+                                heightAuto:false,
+                                title:'로그인 상태가 아닙니다.\n 이전 페이지로 돌아갑니다.',
+                                icon:'warning',
+                            }).then(()=>{location.href='/';});
                         }
                        
                     });
@@ -198,6 +212,7 @@ $(document).ready(function(){
                             },
                             error:function(e){
                                 alert("error: "+e.responseText);
+                                location.href='/';
                             }
                            
                         });
@@ -205,7 +220,7 @@ $(document).ready(function(){
                             heightAuto:false,
                             title:'승인되었습니다.',
                             icon:'success',
-                        }).then(()=> {location.reload()}); 
+                        }).then(()=> {location.reload();}); 
                     }
                 });
 
