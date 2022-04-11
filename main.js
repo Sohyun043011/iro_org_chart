@@ -83,7 +83,7 @@ app.post('/login',(req,res)=>{
             req.session.is_logined=true;
             if(url_link.pathname=='/'){
                 req.session.floor='16';
-            }else if(url_link.pathname=='/17F'){
+            }else if(url_link.pathname=='/17F/'){
                 req.session.floor='17';
             }else if(url_link.pathname=='/conv'){
                 req.session.floor='conv';
@@ -256,7 +256,7 @@ app.get('/17F',(request,response)=>{
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('query is not executed.');
         else {
-            response.render('index_17.ejs', {list:rows});
+            response.render('17F/index_17.ejs', {list:rows});
             // response.render('pr.ejs', {list:rows});
             
         }
@@ -325,7 +325,7 @@ app.get('/conv', (request,response)=>{
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('query is not executed.');
         else {
-            response.render('index_conv.ejs', {list:rows});
+            response.render('convensia/index_conv.ejs', {list:rows});
             // response.render('pr.ejs', {list:rows});
             
         }
@@ -385,12 +385,12 @@ app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접�
         if(err) console.log(err);
         else {
             if(request.session.floor=='16'){
-                response.render('edit.ejs', {list:rows});
+                response.render('16F/edit.ejs', {list:rows});
             }else if(request.session.floor=='17'){
-                response.render('edit_17.ejs', {list:rows});
+                response.render('17F/edit_17.ejs', {list:rows});
                 //여기다가 edit_17.js 넣어주세여!!
             }else if(request.session.floor=='conv'){
-                response.render('edit_conv.ejs', {list:rows});
+                response.render('convensia/edit_conv.ejs', {list:rows});
                 //여기다가 edit_17.js 넣어주세여!!
             }
             
