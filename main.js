@@ -38,6 +38,7 @@ app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname+'/css')));
 app.use(express.static(path.join(__dirname+'/node_modules')));
 app.use(express.static(path.join(__dirname+'/img')));
+app.use(express.static(path.join(__dirname+'/views')));
 
 var bodyParser = require('body-parser');
 const { json } = require('express/lib/response');
@@ -188,7 +189,7 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('query is not executed.');
         else {
-            response.render('index.ejs', {list:rows});
+            response.render('./views/16F/index.ejs', {list:rows});
             
         }
     })
