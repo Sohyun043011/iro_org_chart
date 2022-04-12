@@ -307,6 +307,6 @@ const login = async()=>{
 
 
 
-setTimeout(function(){ //600초(10분)에 한번씩 reload
+setTimeout(function(){ //3600초(60분)에 한번씩 reload
     location.reload();
-}, 600000);
+}, 3600000);
