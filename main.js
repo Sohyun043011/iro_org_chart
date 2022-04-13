@@ -44,6 +44,7 @@ var bodyParser = require('body-parser');
 const { json } = require('express/lib/response');
 const login_info = require('./login_info');
 const db_connect = require('./db_connect');
+const { sleep } = require('./db_connect');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json()); // for parsing application/json
 
@@ -104,7 +105,7 @@ app.post('/login',(req,res)=>{
         }
     });
     
-})
+});
 app.get('/logout', (req, res)=>{
     
     if(req.session.is_logined){
@@ -140,11 +141,21 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
         if(err) console.log('Truncate query is not executed.');
         else console.log('Truncate query executed successfully.');
     });
-
-    conn.query(db_connect.emp_info_sync_query, function(err, rows, fileds){
-        if(err) console.log(err);
-        else console.log('Insert query executed successfully.');
-    })
+    try{
+        conn.query(db_connect.emp_info_sync_query, function(err, rows, fileds){
+            if(err) {
+                console.log(err);
+                throw 'Insert query is not executed.';
+            }
+            else console.log('Insert query executed successfully.');
+        })
+    }catch{
+        sleep(3000);
+        conn.query(db_connect.emp_info_sync_query, function(err, rows, fileds){
+            if(err) console.log(err);
+            else console.log('Insert query executed successfully.');
+        })
+    }
 
     conn.query(db_connect.seat_info_sync_query_1, function(err, rows, fileds){
         if(err) console.log(err);
@@ -180,10 +191,21 @@ app.get('/17F',(request,response)=>{
         else console.log('Truncate query executed successfully.');
     });
 
-    conn.query(db_connect.emp_info_sync_query, function(err, rows, fileds){
-        if(err) console.log(err);
-        else console.log('Insert query executed successfully.');
-    })
+    try{
+        conn.query(db_connect.emp_info_sync_query, function(err, rows, fileds){
+            if(err) {
+                console.log(err);
+                throw 'Insert query is not executed.';
+            }
+            else console.log('Insert query executed successfully.');
+        })
+    }catch{
+        sleep(3000);
+        conn.query(db_connect.emp_info_sync_query, function(err, rows, fileds){
+            if(err) console.log(err);
+            else console.log('Insert query executed successfully.');
+        })
+    }
 
     conn.query(db_connect.seat_info_sync_query_1, function(err, rows, fileds){
         if(err) console.log(err);
@@ -218,10 +240,21 @@ app.get('/conv', (request,response)=>{
         else console.log('Truncate query executed successfully.');
     });
 
-    conn.query(db_connect.emp_info_sync_query, function(err, rows, fileds){
-        if(err) console.log(err);
-        else console.log('Insert query executed successfully.');
-    })
+    try{
+        conn.query(db_connect.emp_info_sync_query, function(err, rows, fileds){
+            if(err) {
+                console.log(err);
+                throw 'Insert query is not executed.';
+            }
+            else console.log('Insert query executed successfully.');
+        })
+    }catch{
+        sleep(3000);
+        conn.query(db_connect.emp_info_sync_query, function(err, rows, fileds){
+            if(err) console.log(err);
+            else console.log('Insert query executed successfully.');
+        })
+    }
 
     conn.query(db_connect.seat_info_sync_query_1, function(err, rows, fileds){
         if(err) console.log(err);
@@ -451,78 +484,11 @@ app.post('/status', function(req, res){
 
             }
             const newArray = serialized.map(({shift_cd, work_type,ymd,plan2,fix1,dayoff1_time, ...rest}) => rest);
-            // emp_id, status 제외하고 모두 삭제해주기
-            
-            // delete serialized["shift_cd"];
-            // delete serialized["work_type"];
-            // delete serialized["ymd"];
-            // delete serialized["plan2"];
-            // delete serialized["fix1"];
-            // delete serialized["dayoff1_time"];
             res.json(JSON.parse(JSON.stringify(newArray)));
         }
     });
     conn.end();
 })
-
-
-// app.post('/status', function(request, response){ // 사용자 사진 클릭 시 세부내용
-//     oracledb.getConnection({ //ehr database에서 정보 가져오기
-//         user : db_config.user, 
-//         password : db_config.password, 
-//         connectString : db_config.connectString 
-//     }, 
-//     function(err, connection) { 
-//         if (err) { 
-//             console.error(err.message); 
-//             return; 
-//         } 
-//         let query = `SELECT EMP_ID,SHIFT_CD,WORK_TYPE, YMD FROM EHR2011060.TAM5400_V 
-//         WHERE YMD =(SELECT TO_CHAR(SYSDATE, 'YYYYMMDD')AS YYYYMMDD FROM DUAL)`; 
-        
-//         connection.execute(query, [], function (err, result) { 
-//             if (err) { 
-//                 console.error(err.message); 
-//                 doRelease(connection); 
-//                 return; 
-//             } 
-//             // console.log(result.rows); // 데이터 
-//             doRelease(connection, result.rows); // Connection 해제 
-//         }); 
-//     }); // DB 연결 해제 
-//     function doRelease(connection, rowList) { 
-//         connection.release(function (err) { 
-//             if (err) { 
-//                 console.error(err.message); 
-//             } // DB종료까지 모두 완료되었을 시 응답 데이터 반환 
-//             console.log('list size: ' + rowList.length); 
-
-//             var rowList_json='['; //조회한 데이터 기반으로 상태값만 넘겨주도록 json 데이터 변경
-//             for (row=0;row<rowList.length;row++){ // serialize
-//                 rowList_json+='{';
-//                 rowList_json+='"emp_id":"'+rowList[row][0]+'",';
-//                 if(rowList[row][2]=="0270" ||rowList[row][2]=="0280" ||
-//                     rowList[row][2]=="0290" ||rowList[row][2]=="0300"){//work_type 재택근무 코드
-
-//                     rowList_json+='"status":"재택근무"';
-//                 }
-//                 else{
-//                     rowList_json+='"status":"근무 중"';
-//                 }
-//                 rowList_json+="},";
-
-//                 console.log(rowList[row][0], rowList[row][1], rowList[row][2], rowList[row][3]);
-//             }
-            
-//             if(rowList.length>1){
-//                 rowList_json=rowList_json.substring(0, rowList_json.length - 1);
-//             }
-//             rowList_json+="]";
-
-//             response.json(JSON.parse(JSON.stringify(rowList_json)));
-//         }); 
-//     } 
-// });
 
 app.use((request, response)=>{ //잘못된 url로 접근 시
     response.send(`<h1>Sorry, page not found.</h1>`);
