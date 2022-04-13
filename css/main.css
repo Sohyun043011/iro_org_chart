@@ -71,6 +71,7 @@ p,h4,h3,h2,h1,span{
     padding:10px;
     width:100%; 
     position:absolute;
+    z-index: 96;
     
 }
 #first-office{
@@ -138,7 +139,7 @@ p,h4,h3,h2,h1,span{
     pointer-events: none;
     top:0px;
     left:20%;
-    z-index: 4;
+    z-index: 97;
 }
 .header-0{
     border:1px solid blue;
@@ -242,7 +243,7 @@ p,h4,h3,h2,h1,span{
     background: rgba(0,0,0,0.5);
     position:fixed;
     /* position:fixed - 브라우저 화면에 딱 달라붙는 요소를 만들어낼 수 있습니다. */
-    z-index:6;
+    z-index:99;
     /* z-index는 position 속성이 들어간 요소들에 쓸 수 있는 속성이며 값이 클 수록 맨 앞으로 가져옵니다 */
     width:100%;
     height:100%;
@@ -397,3 +398,14 @@ p,h4,h3,h2,h1,span{
 
 /* 0px로 설정 */
 
+.footer{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f9fafb8f;
+    position:absolute;
+    bottom: 1%;
+    padding: 20px;
+
+}
