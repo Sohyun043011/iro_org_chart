@@ -24,5 +24,10 @@ module.exports={
     },
     user : process.env.NODE_ORACLEDB_USER || "silver", 
     password : process.env.NODE_ORACLEDB_PASSWOR || "silver", 
-    connectString : process.env.NODE_ORACLEDB_CONNECTIONSTRING || "192.168.20.13:1521/IDTCORA" 
+    connectString : process.env.NODE_ORACLEDB_CONNECTIONSTRING || "192.168.20.13:1521/IDTCORA",
+    sleep : function(ms){
+        const wakeUpTime = Date.now() + ms;
+        while (Date.now() < wakeUpTime) {}
+    } 
+
 }
