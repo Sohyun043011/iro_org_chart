@@ -42,6 +42,7 @@ app.use(express.static(path.join(__dirname+'/views')));
 
 var bodyParser = require('body-parser');
 const { json } = require('express/lib/response');
+const login_info = require('./login_info');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json()); // for parsing application/json
 
@@ -131,7 +132,7 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     conn=db_config.init();//db connection handler 가져오기
     db_config.connect(conn);
     console.log('connection success');
-    
+
     var sql="";
     /*good.emp_info 갱신 */
     sql=`truncate table good.emp_info`; //테이블 비우기
@@ -183,10 +184,9 @@ app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나�
     });
 
     /*갱신 종료 */
-
     sql=`select * from good.emp_info A left join good.seat_info B on A.emp_id=B.emp_id`;
     conn.query(sql, function(err, rows, fileds){
-        if(err) console.log('query is not executed.');
+        if(err) console.log(err);
         else {
             response.render('16F/index', {list:rows});
             
@@ -251,7 +251,6 @@ app.get('/17F',(request,response)=>{
     });
 
     /*갱신 종료 */
-
     sql=`select * from good.emp_info A left join good.seat_info B on A.emp_id=B.emp_id`;
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('query is not executed.');
@@ -320,7 +319,6 @@ app.get('/conv', (request,response)=>{
     });
 
     /*갱신 종료 */
-
     sql=`select * from good.emp_info A left join good.seat_info B on A.emp_id=B.emp_id`;
     conn.query(sql, function(err, rows, fileds){
         if(err) console.log('query is not executed.');
@@ -401,19 +399,19 @@ app.get('/edit', (request, response)=>{ // http://[host]:[port]/edit으로 접�
     conn.end();
 });
 
-app.get('/search', (request, response)=>{ //http://[host]:[port]/search으로 접속 시 나올 페이지 (사원 검색 페이지~)
-    conn=db_config.init();//db connection handler 가져오기
-    db_config.connect(conn);
-    var sql=`select * from connec.hr_info`;
-    conn.query(sql, function(err, rows, fileds){
-        if(err) console.log('query is not executed.');
-        else {
-            console.log(rows);
-            response.render('search.ejs', {list:rows});
-        }
-    })
-    conn.end();
-})
+// app.get('/search', (request, response)=>{ //http://[host]:[port]/search으로 접속 시 나올 페이지 (사원 검색 페이지~)
+//     conn=db_config.init();//db connection handler 가져오기
+//     db_config.connect(conn);
+//     var sql=`select * from connec.hr_info`;
+//     conn.query(sql, function(err, rows, fileds){
+//         if(err) console.log('query is not executed.');
+//         else {
+//             console.log(rows);
+//             response.render('search.ejs', {list:rows});
+//         }
+//     })
+//     conn.end();
+// })
 
 app.post('/detail',function(req,res){
     conn=db_config.init();//db connection handler 가져오기
@@ -421,7 +419,18 @@ app.post('/detail',function(req,res){
     // const _id = req.body._id;
     var id = req.body.id;
 
-    var sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,duty_name,roll_info,img_url FROM good.emp_info WHERE emp_id='${id}'`;
+    var ip=login_info.get_ip(req);
+
+    var sql=''
+
+    console.log(ip)
+    if(ip=='192.168.10.232'){ // 조직도 표출 tv로 접속 시 휴대폰 정보 None으로 수정
+        sql = `SELECT emp_name,emp_id,'None' as mobile_no,office_tel_no,dept_name,post_name,duty_name,roll_info,img_url 
+        FROM good.emp_info WHERE emp_id='${id}'`;
+    }else{
+        sql = `SELECT emp_name,emp_id,mobile_no,office_tel_no,dept_name,post_name,duty_name,roll_info,img_url 
+        FROM good.emp_info WHERE emp_id='${id}'`;
+    }
     conn.query(sql, function(err, info, fields){
         if(err) console.log('query is not executed.');
         else {
