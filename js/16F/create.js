@@ -301,7 +301,7 @@ const login = async()=>{
 
 setTimeout(function(){ //3600초마다 function() 실행 
     today = new Date();
-    if(today.getHours()>8 && today.getHours()<18)
+    if(today.getHours()>=8 && today.getHours()<18)
     {
         // 8시~18시 사이면 refresh
         location.reload();
