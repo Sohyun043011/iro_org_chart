@@ -136,6 +136,7 @@ $(document).ready(function(){
                             
                             // background.ejs에 받은 정보들 삽입
                             document.getElementById('img').innerHTML= `<img src="${img}" id="pic">`
+                            
                             document.getElementById('name_tag').innerHTML = `${name} ${position_tag}`;
                             document.getElementById('office_tag').innerHTML=office;
                             document.getElementById('phone_tag').innerHTML = mobile;
@@ -186,6 +187,13 @@ $(document).ready(function(){
 
                         // background.ejs에 받은 정보들 삽입
                         document.getElementById('img').innerHTML= `<img src="${img}" id="pic">`
+                        if(result[0].emp_id=='20214012'){
+                            position_tag = '매니저'
+                            
+                        }
+                        else if(result[0].emp_id=='20214015'){
+                            position_tag = '협력관'
+                        }
                         document.getElementById('name_tag').innerHTML = `${name} ${position_tag}`;
                         document.getElementById('office_tag').innerHTML=office;
                         document.getElementById('phone_tag').innerHTML = mobile;
