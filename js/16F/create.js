@@ -192,7 +192,7 @@ $(document).ready(function(){
                             
                         }
                         else if(result[0].emp_id=='20214015'){
-                            position_tag = '협력관'
+                            position_tag = '대외협력관'
                         }
                         document.getElementById('name_tag').innerHTML = `${name} ${position_tag}`;
                         document.getElementById('office_tag').innerHTML=office;
