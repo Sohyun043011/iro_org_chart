@@ -231,8 +231,28 @@ $(document).ready(function(){
                         $('.black-background').hide();
                     }
             });
+            
 
+            
+            // 이렇게 하면 18시 이후에는 페이지가 새로 고침이 되지 않아서 이 함수가 실행되지 않음
+            // 특정 시간에 이 함수를 다시 실행시키는 함수가 필요
+
+            setInterval(function(){ //3600초마다 function() 실행 
+                today = new Date();
+                if(today.getHours()>=8 && today.getHours()<18)
+                {
+                    // 8시~18시 사이면 refresh
+                    location.reload();
+                    
+                    // location.reload();
+                }
+                else{
+                    // 그 외 시간에는 setinterval 중지
+                    return;
+                }
+            }, 3600000);
     }  
+    
 );
 const login = async()=>{
     console.log('현재 페이지는 '+document.location.href+'입니다.');
@@ -305,17 +325,22 @@ const login = async()=>{
       
 }
 
+// 8~18시 사이 : setInterval (한시간마다 location.realod)
 
 
-setInterval(function(){ //3600초마다 function() 실행 
-    today = new Date();
-    if(today.getHours()>=8 && today.getHours()<18)
-    {
-        // 8시~18시 사이면 refresh
-        console.log(new Date())
-        location.reload();
-    }
-    else{
-        return;
-    }
-}, 3600000);
+
+
+
+// setInterval(function(){ //3600초마다 function() 실행 ->60초 
+//     today = new Date();
+//     if(today.getHours()>=8 && today.getHours()<18)
+//     {
+//         // 8시~18시 사이면 refresh
+//         location.reload();
+//     }
+//     else{
+//         // 그 외 시간에는 
+//         console.log(today)
+//         return;
+//     }
+// }, 3600000);
