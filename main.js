@@ -436,7 +436,7 @@ app.post('/status', function(req, res){
         return str.length >= width ? str:new Array(width-str.length+1).join('0')+str;//남는 길이만큼 0으로 채움
     }
 
-    var sql=`select emp_id, shift_cd, work_type, ymd, plan2, fix1, dayoff1_time, busi_trip1_time from good.ehr_cal_today`;
+    var sql=`select emp_id, shift_cd, work_type, ymd, plan1, fix1, dayoff1_time, busi_trip1_time from good.ehr_cal_today`;
 
     let today=new Date();
 
@@ -446,7 +446,6 @@ app.post('/status', function(req, res){
             let serialized=JSON.parse(JSON.stringify(info)); // 가져온 sql정보를 json parsing 후 변수에 저장
             for(line of serialized){
                 var work_type=line["work_type"]; //work_type 정보
-                var plan2=line["plan2"]; //plan2정보
                 var fix1=line["fix1"];//fix1정보
                 var dayoff=line["dayoff1_time"];//dayoff1_time 정보
                 var busi_trip=line["busi_trip1_time"];//busi_trip1_time 정보
@@ -457,7 +456,7 @@ app.post('/status', function(req, res){
                     line["status"]="재택근무";
                 }
 
-                if(plan2=="전일연차" || fix1=="기타휴가" || work_type=="0060"){ //하루종일 연차인 경우
+                if(work_type=="0060"){ //하루종일 연차인 경우
                     line["status"]="휴무";
                     continue;
                 }
@@ -483,7 +482,7 @@ app.post('/status', function(req, res){
                 }
 
             }
-            const newArray = serialized.map(({shift_cd, work_type,ymd,plan2,fix1,dayoff1_time, ...rest}) => rest);
+            const newArray = serialized.map(({shift_cd, work_type,ymd,fix1,dayoff1_time, ...rest}) => rest);
             res.json(JSON.parse(JSON.stringify(newArray)));
         }
     });
