@@ -117,7 +117,13 @@
                                                     <% var num = i*col+j+1  %>   
                                                     <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num && (!list[k].roll_info.includes('비서실'))){%>
                                                         <span class="memName fs-6" id = "<%= list[k].emp_id %>"><%= list[k].emp_name %></span>
-                                                        <span class="memPos fs-6"><%= list[k].post_name %></span>
+                                                        <% if(list[k].emp_id=='20214012'){%>
+                                                            <span class="memPos fs-6">매니저</span>
+                                                        <% }else if(list[k].emp_id=='20214015'){%>
+                                                            <span class="memPos fs-6">대외협력관</span>
+                                                        <% } else{ %>
+                                                            <span class="memPos fs-6"><%= list[k].post_name %></span>
+                                                        <% } %> 
                                                     <%}%>
                                                     <%}%>
                        

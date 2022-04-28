@@ -136,6 +136,7 @@ $(document).ready(function(){
                             
                             // background.ejs에 받은 정보들 삽입
                             document.getElementById('img').innerHTML= `<img src="${img}" id="pic">`
+                            
                             document.getElementById('name_tag').innerHTML = `${name} ${position_tag}`;
                             document.getElementById('office_tag').innerHTML=office;
                             document.getElementById('phone_tag').innerHTML = mobile;
@@ -186,6 +187,13 @@ $(document).ready(function(){
 
                         // background.ejs에 받은 정보들 삽입
                         document.getElementById('img').innerHTML= `<img src="${img}" id="pic">`
+                        if(result[0].emp_id=='20214012'){
+                            position_tag = '매니저'
+                            
+                        }
+                        else if(result[0].emp_id=='20214015'){
+                            position_tag = '대외협력관'
+                        }
                         document.getElementById('name_tag').innerHTML = `${name} ${position_tag}`;
                         document.getElementById('office_tag').innerHTML=office;
                         document.getElementById('phone_tag').innerHTML = mobile;
@@ -223,8 +231,28 @@ $(document).ready(function(){
                         $('.black-background').hide();
                     }
             });
+            
 
+            
+            // 이렇게 하면 18시 이후에는 페이지가 새로 고침이 되지 않아서 이 함수가 실행되지 않음
+            // 특정 시간에 이 함수를 다시 실행시키는 함수가 필요
+
+            setInterval(function(){ //3600초마다 function() 실행 
+                today = new Date();
+                if(today.getHours()>=8 && today.getHours()<18)
+                {
+                    // 8시~18시 사이면 refresh
+                    location.reload();
+                    
+                    // location.reload();
+                }
+                else{
+                    // 그 외 시간에는 setinterval 중지
+                    return;
+                }
+            }, 3600000);
     }  
+    
 );
 const login = async()=>{
     console.log('현재 페이지는 '+document.location.href+'입니다.');
@@ -297,16 +325,22 @@ const login = async()=>{
       
 }
 
+// 8~18시 사이 : setInterval (한시간마다 location.realod)
 
 
-setTimeout(function(){ //3600초마다 function() 실행 
-    today = new Date();
-    if(today.getHours()>=8 && today.getHours()<18)
-    {
-        // 8시~18시 사이면 refresh
-        location.reload();
-    }
-    else{
-        return;
-    }
-}, 3600000);
+
+
+
+// setInterval(function(){ //3600초마다 function() 실행 ->60초 
+//     today = new Date();
+//     if(today.getHours()>=8 && today.getHours()<18)
+//     {
+//         // 8시~18시 사이면 refresh
+//         location.reload();
+//     }
+//     else{
+//         // 그 외 시간에는 
+//         console.log(today)
+//         return;
+//     }
+// }, 3600000);
