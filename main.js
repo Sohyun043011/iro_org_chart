@@ -129,7 +129,6 @@ app.get('/logout', (req, res)=>{
         console.log('로그인 상태 아님');
         res.redirect('/');
     }
-    conn.end();
 });
 app.get('/', (request, response)=>{ // http://[host]:[port]/로 접속 시 나올 페이지
     conn=db_config.init();//db connection handler 가져오기
