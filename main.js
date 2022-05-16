@@ -448,6 +448,7 @@ app.post('/status', function(req, res){
             for(line of serialized){
                 var work_type=line["work_type"]; //work_type 정보
                 var fix1=line["fix1"];//fix1정보
+                var plan1=line["plan1"];
                 var dayoff=line["dayoff1_time"];//dayoff1_time 정보
                 var busi_trip=line["busi_trip1_time"];//busi_trip1_time 정보
 
@@ -458,7 +459,17 @@ app.post('/status', function(req, res){
                 }
 
                 if(work_type=="0060"){ //하루종일 연차인 경우
-                    line["status"]="휴무";
+                    if(plan1=='None'){
+                        line["status"]="휴무";
+                    }else{
+                        var sta_plan=plan1.substr(0,4);
+                        var end_plan=plan1.substr(5,4);
+                        var now=fillZero(2,today.getHours().toString())+fillZero(2,today.getMinutes().toString());
+
+                        if(now>=sta_plan && now<=end_plan){
+                            line["status"]="근무 중";
+                        }
+                    }
                     continue;
                 }
 
