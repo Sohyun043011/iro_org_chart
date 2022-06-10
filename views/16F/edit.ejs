@@ -24,6 +24,7 @@
         <%-include('../listBackground.ejs') %>
         <div class="top_banner">
            <img src="../img/logoFile.png" id="logo-img" style="padding: 10px;">
+           <!-- index.ejs와 동일 -->
            <div class="right-banner">
                 <div class="btn-detail" style="display:none;">
                     <div style="width:25%;">
@@ -43,14 +44,14 @@
                         <span class="circle-span">출장 및 교육</span>
                     </div>
                 </div>
-                <!-- 16F/17f/수정 버튼그룹 -->
+                <!-- 돌아가기 버튼 : 누르면 logout으로 라우팅됨 -->
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-outline-secondary" onclick="location.replace('/logout')">돌아가기</button>
                 </div>
            </div>
         </div>
         <div class="main">
-            <!-- 실 div -->
+            <!-- 실 div : index.ejs와 동일 -->
             <div class="office">
                     <% var office = ['관광마케팅실','기획조정실'] %> 
                     <% for(var off=0; off<office.length;off++){%>
@@ -63,19 +64,20 @@
                         </div>
                     <%}%>
             </div> 
-            <!-- dept div -->
+            <!-- dept div : 상태표시 버튼을 삭제 버튼으로 변경한 것 제외하고는 index.ejs와 동일 구조 -->
             <div class="dept-container">
                 <!-- 부서 table -->
                 <% var dept_info={'해외마케팅팀':2,'국내관광팀':2,'스마트관광팀':3,'MICE뷰로':2,'고객홍보팀':2,'전략기획팀':2,'경영지원팀':4}; %>
                 <% for(var dept=0;dept<Object.keys(dept_info).length;dept++){ %> 
                     <div class="department fs-5 fw-bold " >
                         <span class="dept-name"><%= Object.keys(dept_info)[dept] %></span>
-                        <div class="dept-table p-2" id="">
+                        <div class="dept-table p-2">
                              <div class="row " id="team-row" >
                                  <!-- 팀장 row -->
                                     <% for(var i=0;i<list.length;i++){ %>
                                     <% if(list[i].dept_name== Object.keys(dept_info)[dept] && list[i].duty_name=="팀장"){ %>
                                         <div class="border bg-light cell mr-0" id="0" style="position:relative" >
+                                            <!-- index.ejs에서는 상태표시였던 버튼을 delete 버튼(btn-del)으로 변경 -->
                                             <span class="position-absolute btn-close btn-danger translate-middle p-2 rounded-circle btn-l-<%=Object.values(dept_info)[dept]%> btn-del ">
                                             </span>
                                                 
@@ -102,7 +104,8 @@
                                             <% var col = Object.values(dept_info)[dept] %>
                                             <div class="col-<%= 12/col %> text-center mem" id="<%= i*col+j+1 %>" style="float: none; margin:100 auto;">
                                                 <div class="border bg-light cell mr-0" style="position:relative" >
-                                                    <span class="position-absolute btn-close translate-middle p-2 btn-danger rounded-circle btn-del" id="">
+                                                    <!-- index.ejs에서는 상태표시였던 버튼을 delete 버튼(btn-del)으로 변경 -->
+                                                    <span class="position-absolute btn-close translate-middle p-2 btn-danger rounded-circle btn-del" >
                                                     </span>
                                                     <% for(var m=0;m<list.length;m++){%>
                                                     <% var num = i*col+j+1  %>   
@@ -112,7 +115,6 @@
                                                     <%}%>
                                                 </div>
                                                 <div class="memInfo"  style="position: relative;">
-                                                    
                                                     <% for(var k=0;k<list.length;k++){%>
                                                     <% var num = i*col+j+1  %>   
                                                     <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num && (!list[k].roll_info.includes('비서실'))){%>
@@ -136,8 +138,8 @@
                         </div>
                     </div>
                 <%} %>
-            </div>
         </div>
+    </div>
 </div>
     
 </body>

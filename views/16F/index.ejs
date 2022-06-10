@@ -18,12 +18,14 @@
 </head>
 <body>
     <div id="container">
+        <!-- 모달창 숨겨둠 -->
         <%-include('../background.ejs') %>
+        <!-- 로고, 4가지 상태버튼, 페이지 이동 버튼 있는 banner -->
         <div class="top_banner">
            <img src="../../img/logoFile.png" id="logo-img" style="padding: 10px;">
            <div class="right-banner">
                 <div class="btn-detail">
-                    <!-- 버튼 관련 설명 (초록색 : 근무 중, 파란색 : 재택근무 중, 연차 : ) -->
+                    <!-- 버튼 관련 설명 (초록색 : 근무 중, 파란색 : 재택근무 중, 빨간색 : 휴무, 노란색 : 출장 및 교육) -->
                     <div class="buttonClass">
                         <div class="btn-blue rounded-circle border" style="width:25px; height:25px; display:inline-block"></div>
                         <span class="circle-span">재택근무</span>
@@ -41,8 +43,7 @@
                         <span class="circle-span">출장 및 교육</span>
                     </div>
                 </div>
-                <!-- 16F/17f/수정 버튼그룹 -->
-                <!-- 17F, edit 버튼 disable 설정 -->
+                <!-- 16F/17F/수정 버튼그룹 -->
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-16 btn-outline-secondary" onclick="location.href='/'">16F</button>
                     <button type="button" class="btn btn-17 btn-outline-secondary " onclick="location.href='/17F'">17F</button>
@@ -54,6 +55,7 @@
         
         <div class="main">
                 <!-- 실 div -->
+                <!-- [list]는 서버에서 보내주는 전직원 정보 , 각 실에 해당하는 정보만 추출하여 표출-->
                 <div class="office">
                         <% var office = ['관광마케팅실','기획조정실'] %> 
                         <% for(var off=0; off<office.length;off++){%>
@@ -73,13 +75,15 @@
                     <% for(var dept=0;dept<Object.keys(dept_info).length;dept++){ %> 
                         <div class="department fs-5 fw-bold " >
                             <span class="dept-name"><%= Object.keys(dept_info)[dept] %></span>
-                            <div class="dept-table p-2" id="">
+                            <div class="dept-table p-2">
                                  <div class="row " id="team-row" >
                                      <!-- 팀장 row -->
+                                     <!-- 서버가 보내준 전직원 정보 [list]에서 해당 팀의 팀장을 찾아서 표출 -->
+                                     <!-- 팀장의 seat_arrng는 0이어야 함. 아니라면 표출 X -->
                                         <% for(var i=0;i<list.length;i++){ %>
                                         <% if(list[i].dept_name== Object.keys(dept_info)[dept] && list[i].duty_name=="팀장"){ %>
                                             <div class="border bg-light cell mr-0" id="team-0" style="position:relative" >
-                                                <span class="position-absolute btn-green translate-middle p-2 border border-light rounded-circle btn-l-<%=Object.values(dept_info)[dept]%>" id="" >
+                                                <span class="position-absolute btn-green translate-middle p-2 border border-light rounded-circle btn-l-<%=Object.values(dept_info)[dept]%>"  >
                                                 </span>
                                                 <% if(list[i].seat_arrng==0){%>
                                                     <img src="<%= list[i].img_url %>" onerror="this.src='../../img/NoImage.jpeg'" class="mem-img">
@@ -98,8 +102,14 @@
                      
                                  </div>
                                  <div class="row " id="mem-row" style="float: none; margin:100 auto;">
-                                     <!-- 사원  row -->
-                                    <% for(var i=0;i<4;i++){%>
+                                    <!-- 사원  row -->
+                                    <!-- !! for문에서 i를 4번 돌리는 이유 : 최대 행을 (가로 줄) 4로 설정했기 때문. 가로줄 갯수를 바꾸고 싶으면 '4'-> 다른숫자로 바꾸면 됨 -->
+                                    <!-- Object.values(dept_info)[dept] : 각 팀의 열(세로 줄) 수  -->
+                                    <!-- col-12 : 한 칸 전체, col-6 : 2등분, col-4 : 3등분 , 따라서 만약 팀의 열 수 = 2 라면, col-(12/2) 가 되어야 함 ... -->
+                                    <!-- class mem의 id : 자리 번호(seat_arrng)=>전직원 정보에서 해당 팀의 직원을 불러오는데, 그 중 seat_arrng가 cell의 id와 같으면 표출해줌.  -->
+                                    <!-- 16층 ejs 이므로, 비서실 직원은 표출하면 안됨. 따라서 roll_info(업무 분담)에 '비서실'을 포함하고 있으면 제외시킴 -->
+                                    <!-- class memInfo(이름,직급)를 표출할 때, 매니저님과 대외협력관님은 예외처리한 후 표출 -->
+                                     <% for(var i=0;i<4;i++){%>
                                         <% for(var j=0;j<Object.values(dept_info)[dept];j++){%>
                                                 <% var col = Object.values(dept_info)[dept] %>
                                                 <div class="col-<%= 12/col %> text-center mem" id="<%= i*col+j+1 %>" style="float: none; margin:100 auto;">
@@ -114,7 +124,6 @@
                                                         <%}%>
                                                     </div>
                                                     <div class="memInfo"  style="position: relative;">
-                                                        
                                                         <% for(var k=0;k<list.length;k++){%>
                                                         <% var num = i*col+j+1  %>   
                                                         <%   if(list[k].dept_name==Object.keys(dept_info)[dept] && list[k].seat_arrng==num && (!list[k].roll_info.includes('비서실'))){%>

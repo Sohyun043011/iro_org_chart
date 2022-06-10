@@ -4,7 +4,7 @@ var org={
     '관광산업실':['축제이벤트팀','섬발전지원센터','관광인프라팀','관광기업지원센터'],
     '기타 부서':['안전감사팀','비서실']
 }
-var dept_info={'의료웰니스팀':2,'축제이벤트팀':2,'섬발전지원센터':2,'관광인프라팀':2,'관광기업지원센터':4,'안전감사팀':2,'비서실':1};
+var dept_info={'의료웰니스팀':2,'축제이벤트팀':3,'섬발전지원센터':2,'관광인프라팀':2,'관광기업지원센터':4,'안전감사팀':2,'비서실':1};
 var office = ['관광마케팅실','관광산업실','기타 부서'];
 
 $(document).ready(function(){
@@ -12,13 +12,13 @@ $(document).ready(function(){
     $('.cell').removeClass('border bg-light');                              //셀 안에 배경 색 제거 
     $('.mem-img').addClass('border');                                       //각 이미지에 선 추가
     $('.dept-table').last().css({'border-right':'none'});                   //마지막 팀 테두리 선 제거 
-    $('.header').css({'width':`${100/(office.length)}%`});
     
+
     // 실장실에 순서대로 클래스명 부착
     for(var off = 0; off<office.length; off++){
         $('.header').eq(off).addClass(`header-${off}`);
     }
-
+    //1. 각 실의 열수에 비례한 width 조정(16F/edit.js 와 동일 )
     // 전체 열 수 
     var sum=0;
     Object.values(dept_info).forEach(function(element){
@@ -35,10 +35,8 @@ $(document).ready(function(){
         // 각 부서를 돌면서. 
         var dept_name = $('.dept-name').eq(j).text();
         for(var k=0;k<Object.keys(org).length;k++){
-            // org[k]의 team안에 해당 dept가 있는지 
             var width_sum = 0;
             var dept = Object.values(org)[k];
-            // 배열
             for(var t=0;t<dept.length;t++){
                 if(dept_name==dept[t]){
                     $('.department').eq(j).addClass(`office-${k}`);
@@ -57,31 +55,20 @@ $(document).ready(function(){
         $('.header').eq(h).css({'width':`${width_sum}`});
     }
 
-    // $('.office-name').eq(0).removeClass('fs-4');
-    $('.office-head').eq(0).css({'display':'none'});
-    // 추가버튼 -  만약 빈 셀이면, X 표시 없애고 border를 점선으로 표시
+    //2. 추가버튼 구현-  만약 빈 셀이면, X 표시 없애고 border를 점선으로 표시(16F/edit.js 와 동일 )
     for(var mem=0;mem<$('.memInfo').length;mem++){
-        console.log($('.memInfo').eq(mem).children().length);
         if($('.memInfo').eq(mem).children().length==0)
         {
             // 빈 셀인 경우 버튼 제거
             $(".rounded-circle").eq(mem).css({'display':'none'});
-            // $('.cell').eq(mem).append(`<img src="img/none.PNG"  class="mem-img dahsed-border" style="">`)
             $('.memInfo').eq(mem).css({'height':'48px'});
-            // $('.cell').eq(mem).addClass('dashed-border');
-            //버튼 추가
+            // + 버튼 추가
             $('.cell').eq(mem).append(`<div class="dashed-border"><button type="button" class="btn btn-secondary btn-add">+</button></div>`);
-        }
-        else{
         }
     }
 
-
+    //3. 삭제버튼 - 해당 셀 삭제 버튼 누르는 경우, 셀의 사번을 ajax로 전송(16F/edit.js 와 동일 )
     $('.btn-del').on('click',function(e){
-        // 해당 셀 삭제 버튼 누르는 경우, 셀의 사번을 ajax로 전송
-        // 삭제 하시겠습니까?(confirm창)
-
-
         Swal.fire({
             title : '해당 사원을 삭제하시겠습니까?',
             icon:'warning',
@@ -94,7 +81,6 @@ $(document).ready(function(){
         }).then((result)=>{
             if(result.isConfirmed){
                 var data = e.target.parentElement.parentElement.children[1].children[0].getAttribute('id');
-                console.log("ajax started");
                 $.ajax({
                     method:'POST',
                     url:`/delete/${data}`,
@@ -107,14 +93,12 @@ $(document).ready(function(){
                         
                     },
                     error: function(e){
-                        // alert("error: "+e.responseText);
                         Swal.fire({
                             heightAuto:false,
                             title:'로그인 상태가 아닙니다.\n 이전 페이지로 돌아갑니다.',
                             icon:'warning',
                         }).then(()=>{location.href='/';});
                         
-                        // return;
                     }
                 });
                
@@ -124,19 +108,16 @@ $(document).ready(function(){
         
     });
 
-    // 추가 버튼 누르는 경우
+    // 4. 추가버튼 누른 경우,모달창 띄우면서 해당 팀의 추가할 수 있는 사원 리스트 불러옴
+    // 비서실의 경우만 제외하고, (16F/edit.js 와 동일 )와 동일함
     $('.btn-add').on('click',function(e){
-        
-
         var seat_arrng = e.target.parentElement.parentElement.getAttribute('id');       //팀장버튼인 경우
         if(seat_arrng!=0){
             seat_arrng = e.target.parentElement.parentElement.parentElement.getAttribute('id');
         }
-        // console.log(seat_arrng);
         $('.black-background').show().animate({marginTop:'0px'});  
         // 플러스 버튼 누르면 유저리스트 가져오기
-
-
+        
         $("#jsGrid").jsGrid({
             width: "100%",
             paging:false,
@@ -154,26 +135,18 @@ $(document).ready(function(){
                     var d = $.Deferred();
                     var dept_name = $(e.target).parents('.department').children('.dept-name').text();
                     if(dept_name=="비서실"){
-                        // 비서실인 경우 경영지원팀으로 변경 
+                        // !! 비서실인 경우, 팀 이름을 경영지원팀으로 변경 
                         dept_name="경영지원팀";
                     }
-                    console.log(dept_name);
-    
-                    
                     $.ajax({
                         method:'POST',
                         url:`/addlist/${dept_name}`,
                         dataType:"json",
                         success:function(data){
-                           
-                            // console.log(data);
-                            
-                            
                             for(var i=0;i<data.length;i++)
                             {
                                 data[i]["number"]=i+1;
                             }
-                            console.log(data);
                             d.resolve(data);
                         },
                         error:function(e){
@@ -183,18 +156,14 @@ $(document).ready(function(){
                                 icon:'warning',
                             }).then(()=>{location.href='/';});
                         }
-                       
                     });
                     return d.promise();
                 }
             },
            
             rowClick : function(args){
-                console.log(args);
-                console.log(args.event);
                 var getData = args.item;
                 var emp_id = getData['emp_id'];
-                var emp_name = getData['emp_name'];
                 
                 Swal.fire({
                     title : '해당 사원을 추가하시겠습니까?',
@@ -240,14 +209,14 @@ $(document).ready(function(){
         
     });
 
-    // 모달창 뒤 검은 배경 누르면 창 닫힘
+    // 5. 모달창 뒤 검은 배경 누르면 창 닫힘(16F/edit.js 와 동일 )
     $('.black-background').click(function(e){
         if(e.target==e.currentTarget){
           $('.black-background').hide();
         }
     });
 
-    // X 버튼 누르면 창 닫힘
+    // X 버튼 누르면 창 닫힘(16F/edit.js 와 동일 )
     $('.btn-close').click(function(e){
             //close button 눌렀을 때도 닫기 
             if(e.target==e.currentTarget){
@@ -255,8 +224,6 @@ $(document).ready(function(){
             }
     });
 });
-
-
 
 setTimeout(function(){ //300초(5분)뒤에 logout으로 
     location.replace('/logout');

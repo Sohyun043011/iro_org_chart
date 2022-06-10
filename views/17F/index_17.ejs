@@ -42,8 +42,7 @@
                         <span class="circle-span">출장 및 교육</span>
                     </div>
                 </div>
-                <!-- 16F/17f/수정 버튼그룹 -->
-                <!-- 17F, edit 버튼 disable 설정 -->
+                <!-- 16F/17F/수정 버튼그룹 -->
                 <div class="btn-group" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-16 btn-outline-secondary" onclick="location.href='/'">16F</button>
                     <button type="button" class="btn btn-17 btn-outline-secondary " onclick="location.href='/17f'">17F</button>
@@ -83,6 +82,7 @@
                             <div class="dept-table p-2" id="">
                                  <div class="row" id="team-row" >
                                      <!-- 팀장 row -->
+                                     <!-- 비서실인 경우, 팀장이 없으므로 예외처리(비워둠) -->
                                         <% if(Object.keys(dept_info)[dept]=='비서실'){ %>
                                             <div class="border bg-light cell mr-0 secretary" id="team-0" style="position:relative" >
                                                 <span class="position-absolute btn-green translate-middle p-2 border border-light rounded-circle btn-l-<%=Object.values(dept_info)[dept]%>" id="" >
@@ -90,6 +90,7 @@
                                             </div>
                                             <div class="memInfo" style="position: relative;" id="team-leader"></div>
                                         <% }else{ %>
+                                            <!---->
                                             <% for(var i=0;i<list.length;i++){ %>
                                                 <% if(list[i].dept_name== Object.keys(dept_info)[dept] && list[i].duty_name=="팀장"){ %>
                                                     <div class="border bg-light cell mr-0" id="team-0" style="position:relative" >
@@ -118,6 +119,7 @@
                                  </div>
                                  <div class="row " id="mem-row" style="float: none; margin:100 auto;">
                                      <!-- 사원  row -->
+                                     <!-- 구조 16F/index.ejs와 같음  -->
                                     <% for(var i=0;i<4;i++){%>
                                         <% for(var j=0;j<Object.values(dept_info)[dept];j++){%>
                                                 <% var col = Object.values(dept_info)[dept] %>
@@ -125,6 +127,8 @@
                                                     <div class="border bg-light cell mr-0" style="position:relative" >
                                                         <span class="position-absolute translate-middle p-2 btn-green border border-light rounded-circle"  id="status">
                                                         </span>
+                                                        
+                                                        <!-- 비서실 직원은 db에 소속이 경영지원팀으로 되어있으므로 예외처리  -->
                                                         <% if(Object.keys(dept_info)[dept]=='비서실'){%>
                                                             <% for(var m=0;m<list.length;m++){%>
                                                                 <% var num = i*col+j+1  %>   
@@ -144,7 +148,7 @@
                                                                     <%}%>
                                        
                                                                 </div>
-
+                                                                <!-- 비서실 아닌 경우 : 16F 페이지랑 동일한 구조 -->
                                                         <%}else{%>
                                                             <% for(var m=0;m<list.length;m++){%>
                                                                 <% var num = i*col+j+1  %>   
